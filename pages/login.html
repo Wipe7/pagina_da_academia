@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - FitLife Academia</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/responsive.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Estilos específicos para a página de login */
+        body {
+            background-color: var(--background-light);
+        }
+        
+        .login-section {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 120px 0 60px;
+        }
+        
+        .login-container {
+            max-width: 500px;
+            width: 100%;
+            background-color: var(--white);
+            border-radius: 10px;
+            box-shadow: var(--box-shadow);
+            padding: 40px;
+        }
+        
+        .login-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .login-header .logo {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        
+        .login-form-group {
+            margin-bottom: 20px;
+        }
+        
+        .login-form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+        
+        .login-form-group input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid var(--border-color);
+            border-radius: 5px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+        
+        .login-form-group input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 2px rgba(255, 69, 0, 0.2);
+        }
+        
+        .login-form-group input.error {
+            border-color: var(--danger-color);
+        }
+        
+        .login-options {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+        
+        .remember-me {
+            display: flex;
+            align-items: center;
+        }
+        
+        .remember-me input {
+            margin-right: 8px;
+        }
+        
+        .forgot-password {
+            color: var(--text-light);
+            font-size: 0.9rem;
+            transition: var(--transition);
+        }
+        
+        .forgot-password:hover {
+            color: var(--primary-color);
+        }
+        
+        .login-btn {
+            width: 100%;
+            background-color: var(--primary-color);
+            color: var(--white);
+            border: none;
+            border-radius: 5px;
+            padding: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .login-btn:hover {
+            background-color: var(--secondary-color);
+        }
+        
+        .login-separator {
+            display: flex;
+            align-items: center;
+            margin: 30px 0;
+        }
+        
+        .login-separator::before,
+        .login-separator::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background-color: var(--border-color);
+        }
+        
+        .login-separator span {
+            padding: 0 15px;
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+        
+        .social-login {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        
+        .social-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 10px;
+            border-radius: 5px;
+            font-weight: 500;
+            transition: var(--transition);
+        }
+        
+        .social-btn i {
+            margin-right: 10px;
+        }
+        
+        .google-btn {
+            background-color: #fff;
+            color: #555;
+            border: 1px solid #ddd;
+        }
+        
+        .google-btn:hover {
+            background-color: #f1f1f1;
+        }
+        
+        .facebook-btn {
+            background-color: #3b5998;
+            color: #fff;
+            border: 1px solid #3b5998;
+        }
+        
+        .facebook-btn:hover {
+            background-color: #2d4373;
+        }
+        
+        .register-link {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+        
+        .register-link a {
+            color: var(--primary-color);
+            font-weight: 600;
+            transition: var(--transition);
+        }
+        
+        .register-link a:hover {
+            text-decoration: underline;
+        }
+        
+        .success-message {
+            background-color: rgba(40, 167, 69, 0.1);
+            color: var(--success-color);
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 20px;
+            text-align: center;
+        }
+        
+        .error-message {
+            background-color: rgba(220, 53, 69, 0.1);
+            color: var(--danger-color);
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 20px;
+            text-align: center;
+        }
+        
+        /* Estilos responsivos */
+        @media only screen and (max-width: 576px) {
+            .login-container {
+                padding: 30px 20px;
+            }
+            
+            .social-login {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">
+                <a href="../index.html">
+                    <img src="../assets/images/logo.svg" alt="FitLife Academia">
+                    <span>FitLife</span>
+                </a>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="../index.html">Home</a></li>
+                    <li><a href="sobre.html">Sobre</a></li>
+                    <li><a href="modalidades.html">Modalidades</a></li>
+                    <li><a href="horarios.html">Horários</a></li>
+                    <li><a href="planos.html">Planos</a></li>
+                    <li><a href="blog.html">Blog</a></li>
+                    <li><a href="contato.html">Contato</a></li>
+                </ul>
+            </nav>
+            <div class="auth-buttons">
+                <a href="login.html" class="btn-login active">Login</a>
+                <a href="cadastro.html" class="btn-signup">Cadastre-se</a>
+            </div>
+            <button class="menu-toggle">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </header>
+
+    <section class="login-section">
+        <div class="container">
+            <div class="login-container">
+                <div class="login-header">
+                    <div class="logo">
+                        <img src="../assets/images/logo.svg" alt="FitLife Academia">
+                        <span>FitLife</span>
+                    </div>
+                    <h2>Acesse sua conta</h2>
+                    <p>Bem-vindo(a) de volta! Entre para acessar sua área exclusiva.</p>
+                </div>
+                
+                <form id="login-form">
+                    <div class="login-form-group">
+                        <label for="email">E-mail</label>
+                        <input type="email" id="email" name="email" placeholder="Seu e-mail" required>
+                    </div>
+                    
+                    <div class="login-form-group">
+                        <label for="password">Senha</label>
+                        <input type="password" id="password" name="password" placeholder="Sua senha" required>
+                    </div>
+                
+                    <div class="login-options">
+                        <div class="remember-me">
+                            <input type="checkbox" id="remember" name="remember">
+                            <label for="remember">Lembrar-me</label>
+                        </div>
+                        <a href="#" class="forgot-password">Esqueceu a senha?</a>
+                    </div>
+                    
+                    <button type="submit" class="login-btn">Entrar</button>
+                    
+                    <div id="login-messages"></div>
+                </form>
+                
+                <div class="login-separator">
+                    <span>ou entre com</span>
+                </div>
+                
+                <div class="social-login">
+                    <a href="#" class="social-btn google-btn">
+                        <i class="fab fa-google"></i> Google
+                    </a>
+                    <a href="#" class="social-btn facebook-btn">
+                        <i class="fab fa-facebook-f"></i> Facebook
+                    </a>
+                </div>
+                
+                <div class="register-link">
+                    Ainda não tem uma conta? <a href="cadastro.html">Cadastre-se</a>
+                </div>
+            </div>
+        </div>
+    </section>

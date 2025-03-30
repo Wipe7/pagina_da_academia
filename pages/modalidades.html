@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modalidades - FitLife Academia</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/responsive.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Estilos específicos para a página Modalidades */
+        .page-banner {
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('../assets/images/classes-banner.jpg') no-repeat center center/cover;
+            height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: var(--white);
+            margin-top: 80px;
+        }
+        
+        .page-banner h1 {
+            font-size: 3rem;
+            margin-bottom: 10px;
+        }
+        
+        .page-banner p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .classes-nav {
+            background-color: var(--white);
+            border-radius: 50px;
+            box-shadow: var(--box-shadow);
+            margin-top: -30px;
+            margin-bottom: 60px;
+            position: relative;
+            z-index: 10;
+        }
+        
+        .classes-nav ul {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            padding: 10px;
+        }
+        
+        .classes-nav ul li {
+            margin: 5px;
+        }
+        
+        .classes-nav ul li a {
+            padding: 10px 20px;
+            border-radius: 30px;
+            display: block;
+            color: var(--text-color);
+            font-weight: 500;
+            transition: var(--transition);
+        }
+        
+        .classes-nav ul li a:hover,
+        .classes-nav ul li a.active {
+            background-color: var(--primary-color);
+            color: var(--white);
+        }
+        
+        .class-detail {
+            padding: 80px 0;
+            scroll-margin-top: 150px;
+        }
+        
+        .class-detail:nth-child(even) {
+            background-color: var(--background-light);
+        }
+        
+        .class-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            align-items: center;
+        }
+        
+        .class-content.reverse {
+            direction: rtl;
+        }
+        
+        .class-content.reverse .class-text {
+            direction: ltr;
+        }
+        
+        .class-image {
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: var(--box-shadow);
+        }
+        
+        .class-image img {
+            width: 100%;
+            height: auto;
+            transition: var(--transition);
+        }
+        
+        .class-image:hover img {
+            transform: scale(1.05);
+        }
+        
+        .class-text h2 {
+            text-align: left;
+            margin-bottom: 20px;
+        }
+        
+        .class-text p {
+            margin-bottom: 20px;
+        }
+        
+        .class-info {
+            background-color: var(--white);
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: var(--box-shadow);
+            margin-bottom: 20px;
+        }
+        
+        .class-info h4 {
+            margin-bottom: 15px;
+            color: var(--primary-color);
+        }
+        
+        .info-list {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+        
+        .info-item {
+            display: flex;
+            align-items: center;
+        }
+        
+        .info-item i {
+            margin-right: 10px;
+            color: var(--primary-color);
+            font-size: 1.2rem;
+        }
+        
+        .info-item span {
+            font-weight: 500;
+        }
+        
+        @media (max-width: 992px) {
+            .class-content, .class-content.reverse {
+                grid-template-columns: 1fr;
+                direction: ltr;
+            }
+            
+            .info-list {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">
+                <a href="../index.html">
+                    <img src="../assets/images/logo.svg" alt="FitLife Academia">
+                    <span>FitLife</span>
+                </a>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="../index.html">Home</a></li>
+                    <li><a href="sobre.html">Sobre</a></li>
+                    <li><a href="modalidades.html" class="active">Modalidades</a></li>
+                    <li><a href="horarios.html">Horários</a></li>
+                    <li><a href="planos.html">Planos</a></li>
+                    <li><a href="blog.html">Blog</a></li>
+                    <li><a href="contato.html">Contato</a></li>
+                </ul>
+            </nav>
+            <div class="auth-buttons">
+                <a href="login.html" class="btn-login">Login</a>
+                <a href="cadastro.html" class="btn-signup">Cadastre-se</a>
+            </div>
+            <button class="menu-toggle">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </header>
+
+    <section class="page-banner">
+        <div class="container">
+            <h1>Nossas Modalidades</h1>
+            <p>Conheça todas as modalidades oferecidas pela FitLife Academia para ajudar você a alcançar seus objetivos.</p>
+        </div>
+    </section>
+
+    <div class="container">
+        <nav class="classes-nav">
+            <ul>
+                <li><a href="#musculacao" class="active">Musculação</a></li>
+                <li><a href="#spinning">Spinning</a></li>
+                <li><a href="#pilates">Pilates</a></li>
+                <li><a href="#funcional">Funcional</a></li>
+                <li><a href="#yoga">Yoga</a></li>
+                <li><a href="#zumba">Zumba</a></li>
+                <li><a href="#crossfit">CrossFit</a></li>
+            </ul>
+        </nav>
+    </div>
+
+    <section id="musculacao" class="class-detail">
+        <div class="container">
+            <div class="class-content">
+                <div class="class-image">
+                    <img src="../assets/images/class-musculacao-full.jpg" alt="Musculação na FitLife Academia">
+                </div>
+                <div class="class-text">
+                    <h2>Musculação</h2>
+                    <p>A musculação é um dos pilares do treinamento físico, promovendo o ganho de massa muscular, força, resistência e melhorando a saúde geral. Em nossa academia, você encontra equipamentos de última geração e profissionais especializados para orientar seu treino de acordo com seus objetivos.</p>
+                    <p>Seja para hipertrofia, emagrecimento, definição muscular ou qualidade de vida, nossos programas de musculação são personalizados e adaptados ao seu nível de condicionamento e necessidades específicas.</p>
+                    
+                    <div class="class-info">
+                        <h4>Informações da Modalidade</h4>
+                        <div class="info-list">
+                            <div class="info-item">
+                                <i class="fas fa-users"></i>
+                                <span>Treino individual</span>
+                            </div>
+                            <div class="info-item">
+                                <i class="fas fa-clock"></i>
+                                <span>Livre</span>
+                            </div>
+                            <div class="info-item">
+                                <i class="fas fa-fire"></i>
+                                <span>Intensidade ajustável</span>
+                            </div>
+                            <div class="info-item">
+                                <i class="fas fa-level-up-alt"></i>
+                                <span>Todos os níveis</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <a href="cadastro.html?modalidade=musculacao" class="btn-primary">Agendar Avaliação</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="spinning" class="class-detail">
+        <div class="container">
+            <div class="class-content reverse">
+                <div class="class-image">
+                    <img src="../assets/images/class-spinning-full.jpg" alt="Spinning na FitLife Academia">
+                </div>
+                <div class="class-text">
+                    <h2>Spinning</h2>
+                    <p>O Spinning é uma aula de ciclismo indoor, conduzida por um instrutor e acompanhada por música motivacional. Essa modalidade proporciona um excelente treino cardiovascular, fortalecimento de pernas e glúteos, além de ser altamente eficiente para queima calórica.</p>
+                    <p>Em nossas aulas, você vivencia diferentes terrenos e intensidades, simulando subidas, descidas, sprints e corridas. Tudo isso em um ambiente energético e motivador que faz o tempo passar rapidamente.</p>
+                    
+                    <div class="class-info">
+                        <h4>Informações da Modalidade</h4>
+                        <div class="info-list">
+                            <div class="info-item">
+                                <i class="fas fa-users"></i>
+                                <span>20 pessoas por turma</span>
+                            </div>
+                            <div class="info-item">
+                                <i class="fas fa-clock"></i>
+                                <span>45 minutos</span>
+                            </div>
+                            <div class="info-item">
+                                <i class="fas fa-fire"></i>
+                                <span>Alta intensidade</span>
+                            </div>
+                            <div class="info-item">
+                                <i class="fas fa-level-up-alt"></i>
+                                <span>Iniciante ao avançado</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <a href="horarios.html?modalidade=spinning" class="btn-primary">Ver Horários</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="pilates" class="class-detail">
+        <div class="container">
+            <div class="class-content">
+                <div class="class-image">
+                    <img src="../assets/images/class-pilates-full.jpg" alt="Pilates na FitLife Academia">
+                </div>
+                <div class="class-text">
+                    <h2>Pilates</h2>
+                    <p>O Pilates é um método de exercício que trabalha força, flexibilidade, consciência corporal e respiração. Desenvolvido por Joseph Pilates, essa modalidade se concentra no fortalecimento do core (abdômen, lombar e glúteos) e na melhoria da postura.</p>
+                    <p>Nossa academia oferece aulas de Pilates em aparelhos e no solo, com instrutores certificados que garantem a execução correta dos movimentos e adaptam os exercícios de acordo com suas necessidades e limitações.</p>
+                    
+                    <div class="class-info">
+                        <h4>Informações da Modalidade</h4>
+                        <div class="info-list">
+                            <div class="info-item">
+                                <i class="fas fa-users"></i>
+                                <span>12 pessoas por turma</span>
+                            </div>
+                            <div class="info-item">
+                                <i class="fas fa-clock"></i>
+                                <span>60 minutos</span>
+                            </div>
+                            <div class="info-item">
+                                <i class="fas fa-fire"></i>
+                                <span>Intensidade baixa a moderada</span>
+                            </div>
+                            <div class="info-item">
+                                <i class="fas fa-level-up-alt"></i>
+                                <span>Todos os níveis</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <a href="horarios.html?modalidade=pilates" class="btn-primary">Ver Horários</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="funcional" class="class-detail">
+        <div class="container">
+            <div class="class-content reverse">
+                <div class="class-image">
+                    <img src="../assets/images/class-funcional-full.jpg" alt="Treinamento Funcional na FitLife Academia">
+                </div>
+                <div class="class-text">
+                    <h2>Treinamento Funcional</h2>
+                    <p>O Treinamento Funcional é uma modalidade que trabalha movimentos multiarticulares e multidimensionais, simulando atividades do dia a dia e melhorando a funcionalidade do corpo como um todo. Utilizamos diversos equipamentos como TRX, kettlebells, cordas, caixas e medicine balls.</p>
+                    <p>Nossas aulas são dinâmicas e variadas, trabalhando força, equilíbrio, coordenação, flexibilidade e resistência, tudo em um só treino. O resultado é um corpo mais forte, ágil e menos suscetível a lesões.</p>
+                    
+                    <div class="class-info">
+                        <h4>Informações da Modalidade</h4>
+                        <div class="info-list">
+                            <div class="info-item">
+                                <i class="fas fa-users"></i>
+                                <span>15 pessoas por turma</span>
+                            </div>
+                            <div class="info-item">
+                                <i class="fas fa-clock"></i>
+                                <span>50 minutos</span>
+                            </div>
+                            <div class="info-item">
+                                <i class="fas fa-fire"></i>
+                                <span>Intensidade moderada a alta</span>
+                            </div>
+                            <div class="info-item">
+                                <i class="fas fa-level-up-alt"></i>
+                                <span>Iniciante ao avançado</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <a href="horarios.html?modalidade=funcional" class="btn-primary">Ver Horários</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta">
+        <div class="container">
+            <div class="cta-content">
+                <h2>Pronto para começar?</h2>
+                <p>Conheça nossas modalidades e escolha a que melhor se adapta a você e aos seus objetivos.</p>
+                <a href="cadastro.html" class="btn-primary">Fazer Matrícula</a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-info">
+                    <div class="footer-logo">
+                        <img src="../assets/images/logo.svg" alt="FitLife Academia">
+                        <span>FitLife</span>
+                    </div>
+                    <p>Transformando vidas através da atividade física desde 2010.</p>
+                    <div class="social-media">
+                        <a href="#" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" target="_blank"><i class="fab fa-instagram"></i></a>
+                        <a href="#" target="_blank"><i class="fab fa-youtube"></i></a>
+                        <a href="#" target="_blank"><i class="fab fa-whatsapp"></i></a>
+                    </div>
+                </div>
+                <div class="footer-links">
+                    <h4>Links Rápidos</h4>
+                    <ul>
+                        <li><a href="../index.html">Home</a></li>
+                        <li><a href="sobre.html">Sobre nós</a></li>
+                        <li><a href="modalidades.html">Modalidades</a></li>
+                        <li><a href="horarios.html">Horários</a></li>
+                        <li><a href="planos.html">Planos</a></li>
+                        <li><a href="blog.html">Blog</a></li>
+                        <li><a href="contato.html">Contato</a></li>
+                    </ul>
+                </div>
+                <div class="footer-contact">
+                    <h4>Contato</h4>
+                    <ul>
+                        <li><i class="fas fa-map-marker-alt"></i> Av. Principal, 1000 - Centro</li>
+                        <li><i class="fas fa-phone"></i> (11) 99999-9999</li>
+                        <li><i class="fas fa-envelope"></i> contato@fitlifeacademia.com.br</li>
+                    </ul>
+                    <div class="footer-hours">
+                        <h4>Horário de Funcionamento</h4>
+                        <p>Segunda a Sexta: 06h às 22h</p>
+                        <p>Sábado: 08h às 18h</p>
+                        <p>Domingo: 08h às 14h</p>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 FitLife Academia. Todos os direitos reservados.</p>
+                <div class="footer-terms">
+                    <a href="#">Termos de Uso</a>
+                    <a href="#">Política de Privacidade</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../assets/js/main.js"></script>
+    <script>
+        // Script para ativar o link atual do menu de classes
+        document.addEventListener('DOMContentLoaded', function() {
+            const classLinks = document.querySelectorAll('.classes-nav a');
+            
+            // Função para marcar o link ativo
+            function setActiveLink() {
+                const scrollPosition = window.scrollY;
+                
+                document.querySelectorAll('.class-detail').forEach(section => {
+                    const sectionTop = section.offsetTop - 200;
+                    const sectionHeight = section.offsetHeight;
+                    const sectionId = section.getAttribute('id');
+                    
+                    if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
+                        // Remover classe ativa de todos os links
+                        classLinks.forEach(link => {
+                            link.classList.remove('active');
+                        });
+                        
+                        // Adicionar classe ativa ao link correspondente à seção atual
+                        const activeLink = document.querySelector(`.classes-nav a[href="#${sectionId}"]`);
+                        if (activeLink) {
+                            activeLink.classList.add('active');
+                        }
+                    }
+                });
+            }
+            
+            // Adicionar evento de scroll para atualizar o link ativo
+            window.addEventListener('scroll', setActiveLink);
+            
+            // Adicionar evento de clique para rolagem suave
+            classLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    const targetId = this.getAttribute('href');
+                    const targetSection = document.querySelector(targetId);
+                    
+                    if (targetSection) {
+                        window.scrollTo({
+                            top: targetSection.offsetTop - 120,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+            
+            // Verificar a URL para destacar modalidade específica
+            const hash = window.location.hash;
+            if (hash) {
+                const targetLink = document.querySelector(`.classes-nav a[href="${hash}"]`);
+                if (targetLink) {
+                    // Remover classe ativa de todos os links
+                    classLinks.forEach(link => {
+                        link.classList.remove('active');
+                    });
+                    
+                    // Adicionar classe ativa ao link correspondente
+                    targetLink.classList.add('active');
+                    
+                    // Scrollar para a seção após um pequeno delay
+                    setTimeout(() => {
+                        const targetSection = document.querySelector(hash);
+                        if (targetSection) {
+                            window.scrollTo({
+                                top: targetSection.offsetTop - 120,
+                                behavior: 'smooth'
+                            });
+                        }
+                    }, 300);
+                }
+            }
+        });
+    </script>
+</body>
+</html>

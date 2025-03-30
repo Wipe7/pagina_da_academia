@@ -1,0 +1,827 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog - FitLife Academia</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/responsive.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Estilos específicos para a página de Blog */
+        .page-banner {
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('../assets/images/blog-banner.jpg') no-repeat center center/cover;
+            height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: var(--white);
+            margin-top: 80px;
+        }
+        
+        .page-banner h1 {
+            font-size: 3rem;
+            margin-bottom: 10px;
+        }
+        
+        .page-banner p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .blog-section {
+            padding: 80px 0;
+        }
+        
+        .blog-container {
+            display: grid;
+            grid-template-columns: 3fr 1fr;
+            gap: 40px;
+        }
+        
+        .blog-posts {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+        }
+        
+        .blog-card {
+            background-color: var(--white);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: var(--box-shadow);
+            transition: var(--transition);
+        }
+        
+        .blog-card:hover {
+            transform: translateY(-10px);
+        }
+        
+        .featured-post {
+            grid-column: span 2;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+        }
+        
+        .featured-post .blog-image {
+            height: 100%;
+        }
+        
+        .blog-image {
+            height: 220px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .blog-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+        
+        .blog-card:hover .blog-image img {
+            transform: scale(1.05);
+        }
+        
+        .blog-category {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background-color: var(--primary-color);
+            color: var(--white);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            z-index: 1;
+        }
+        
+        .blog-content {
+            padding: 25px;
+        }
+        
+        .blog-date {
+            color: var(--text-light);
+            font-size: 0.85rem;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .blog-date i {
+            margin-right: 5px;
+        }
+        
+        .blog-title {
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            line-height: 1.4;
+        }
+        
+        .featured-post .blog-title {
+            font-size: 1.6rem;
+        }
+        
+        .blog-excerpt {
+            color: var(--text-light);
+            margin-bottom: 20px;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        .blog-author {
+            display: flex;
+            align-items: center;
+            margin-top: 20px;
+        }
+        
+        .author-image {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            overflow: hidden;
+            margin-right: 10px;
+        }
+        
+        .author-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .author-name {
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+        
+        .sidebar {
+            position: sticky;
+            top: 120px;
+        }
+        
+        .sidebar-widget {
+            background-color: var(--white);
+            border-radius: 10px;
+            box-shadow: var(--box-shadow);
+            padding: 25px;
+            margin-bottom: 30px;
+        }
+        
+        .sidebar-widget:last-child {
+            margin-bottom: 0;
+        }
+        
+        .widget-title {
+            font-size: 1.25rem;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--border-color);
+            position: relative;
+        }
+        
+        .widget-title:after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 50px;
+            height: 2px;
+            background-color: var(--primary-color);
+        }
+        
+        .search-form {
+            display: flex;
+            position: relative;
+        }
+        
+        .search-input {
+            width: 100%;
+            padding: 12px 15px;
+            padding-right: 50px;
+            border: 1px solid var(--border-color);
+            border-radius: 5px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.9rem;
+            transition: var(--transition);
+        }
+        
+        .search-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 2px rgba(255, 69, 0, 0.1);
+        }
+        
+        .search-button {
+            position: absolute;
+            right: 5px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: var(--text-light);
+            font-size: 1.1rem;
+            cursor: pointer;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+        }
+        
+        .search-button:hover {
+            color: var(--primary-color);
+        }
+        
+        .categories-list {
+            list-style: none;
+        }
+        
+        .categories-list li {
+            margin-bottom: 10px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 10px;
+        }
+        
+        .categories-list li:last-child {
+            margin-bottom: 0;
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+        
+        .categories-list a {
+            display: flex;
+            justify-content: space-between;
+            color: var(--text-color);
+            transition: var(--transition);
+        }
+        
+        .categories-list a:hover {
+            color: var(--primary-color);
+            padding-left: 5px;
+        }
+        
+        .categories-list .category-count {
+            background-color: var(--background-light);
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: 600;
+            transition: var(--transition);
+        }
+        
+        .categories-list a:hover .category-count {
+            background-color: var(--primary-color);
+            color: var(--white);
+        }
+        
+        .recent-post {
+            display: flex;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .recent-post:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+        
+        .recent-post-image {
+            width: 80px;
+            height: 80px;
+            border-radius: 5px;
+            overflow: hidden;
+            margin-right: 15px;
+        }
+        
+        .recent-post-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .recent-post-content {
+            flex: 1;
+        }
+        
+        .recent-post-title {
+            font-size: 0.95rem;
+            font-weight: 600;
+            margin-bottom: 5px;
+            line-height: 1.4;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        .recent-post-date {
+            font-size: 0.8rem;
+            color: var(--text-light);
+        }
+        
+        .popular-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .tag {
+            display: inline-block;
+            padding: 5px 15px;
+            background-color: var(--background-light);
+            border-radius: 20px;
+            font-size: 0.8rem;
+            color: var(--text-color);
+            transition: var(--transition);
+        }
+        
+        .tag:hover {
+            background-color: var(--primary-color);
+            color: var(--white);
+        }
+        
+        .newsletter-form {
+            margin-top: 20px;
+        }
+        
+        .newsletter-input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid var(--border-color);
+            border-radius: 5px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+            transition: var(--transition);
+        }
+        
+        .newsletter-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 2px rgba(255, 69, 0, 0.1);
+        }
+        
+        .newsletter-button {
+            width: 100%;
+            padding: 12px;
+            background-color: var(--primary-color);
+            color: var(--white);
+            border: none;
+            border-radius: 5px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .newsletter-button:hover {
+            background-color: var(--secondary-color);
+        }
+        
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: 50px;
+        }
+        
+        .pagination ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        .pagination ul li {
+            margin: 0 5px;
+        }
+        
+        .pagination ul li a {
+            display: flex;
+            width: 40px;
+            height: 40px;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--white);
+            border-radius: 5px;
+            color: var(--text-color);
+            font-weight: 600;
+            transition: var(--transition);
+            box-shadow: var(--box-shadow);
+        }
+        
+        .pagination ul li a:hover,
+        .pagination ul li a.active {
+            background-color: var(--primary-color);
+            color: var(--white);
+        }
+        
+        .pagination ul li a.prev,
+        .pagination ul li a.next {
+            width: auto;
+            padding: 0 15px;
+        }
+        
+        .pagination ul li a.prev i,
+        .pagination ul li a.next i {
+            margin-right: 5px;
+        }
+        
+        .pagination ul li a.next i {
+            margin-right: 0;
+            margin-left: 5px;
+        }
+        
+        @media (max-width: 1200px) {
+            .blog-container {
+                grid-template-columns: 2fr 1fr;
+            }
+        }
+        
+        @media (max-width: 992px) {
+            .blog-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .featured-post {
+                grid-template-columns: 1fr;
+            }
+            
+            .featured-post .blog-image {
+                height: 300px;
+            }
+            
+            .sidebar {
+                position: static;
+                margin-top: 50px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .blog-posts {
+                grid-template-columns: 1fr;
+            }
+            
+            .featured-post {
+                grid-column: auto;
+            }
+            
+            .featured-post .blog-title {
+                font-size: 1.3rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">
+                <a href="../index.html">
+                    <img src="../assets/images/logo.svg" alt="FitLife Academia">
+                    <span>FitLife</span>
+                </a>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="../index.html">Home</a></li>
+                    <li><a href="sobre.html">Sobre</a></li>
+                    <li><a href="modalidades.html">Modalidades</a></li>
+                    <li><a href="horarios.html">Horários</a></li>
+                    <li><a href="planos.html">Planos</a></li>
+                    <li><a href="blog.html" class="active">Blog</a></li>
+                    <li><a href="contato.html">Contato</a></li>
+                </ul>
+            </nav>
+            <div class="auth-buttons">
+                <a href="login.html" class="btn-login">Login</a>
+                <a href="cadastro.html" class="btn-signup">Cadastre-se</a>
+            </div>
+            <button class="menu-toggle">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </header>
+
+    <section class="page-banner">
+        <div class="container">
+            <h1>Blog FitLife</h1>
+            <p>Acompanhe as últimas novidades, dicas e informações sobre fitness, saúde e bem-estar.</p>
+        </div>
+    </section>
+
+    <section class="blog-section">
+        <div class="container">
+            <div class="blog-container">
+                <div class="blog-main">
+                    <div class="blog-posts">
+                        <!-- Post em destaque -->
+                        <div class="blog-card featured-post">
+                            <div class="blog-image">
+                                <span class="blog-category">Destaque</span>
+                                <img src="../assets/images/blog/blog-featured.jpg" alt="5 Estratégias para Manter a Motivação nos Treinos">
+                            </div>
+                            <div class="blog-content">
+                                <div class="blog-date">
+                                    <i class="far fa-calendar-alt"></i> 27 março, 2025
+                                </div>
+                                <h2 class="blog-title">5 Estratégias Comprovadas para Manter a Motivação nos Treinos Durante Todo o Ano</h2>
+                                <p class="blog-excerpt">Manter a motivação para treinar regularmente é um desafio comum para muitas pessoas. Neste artigo, compartilhamos estratégias baseadas em evidências que ajudarão você a se manter consistente com seus treinos, mesmo quando a motivação inicial diminuir. Aprenda a estabelecer metas realistas, criar um ambiente favorável e desenvolver uma mentalidade positiva para alcançar resultados duradouros.</p>
+                                <a href="#" class="btn-tertiary">Continuar Lendo</a>
+                                <div class="blog-author">
+                                    <div class="author-image">
+                                        <img src="../assets/images/authors/author-1.jpg" alt="Ana Oliveira">
+                                    </div>
+                                    <div class="author-name">Ana Oliveira</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Post regular -->
+                        <div class="blog-card">
+                            <div class="blog-image">
+                                <span class="blog-category">Nutrição</span>
+                                <img src="../assets/images/blog/blog-1.jpg" alt="Alimentação Pré e Pós-Treino">
+                            </div>
+                            <div class="blog-content">
+                                <div class="blog-date">
+                                    <i class="far fa-calendar-alt"></i> 25 março, 2025
+                                </div>
+                                <h3 class="blog-title">Alimentação Pré e Pós-Treino: Otimize Seus Resultados</h3>
+                                <p class="blog-excerpt">A nutrição adequada antes e depois dos treinos é fundamental para maximizar os resultados. Descubra quais alimentos consumir, em que momento e por quê, para otimizar seu desempenho e recuperação muscular.</p>
+                                <a href="#" class="btn-tertiary">Continuar Lendo</a>
+                                <div class="blog-author">
+                                    <div class="author-image">
+                                        <img src="../assets/images/authors/author-2.jpg" alt="Ricardo Mendes">
+                                    </div>
+                                    <div class="author-name">Ricardo Mendes</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Post regular -->
+                        <div class="blog-card">
+                            <div class="blog-image">
+                                <span class="blog-category">Treino</span>
+                                <img src="../assets/images/blog/blog-2.jpg" alt="Treino HIIT">
+                            </div>
+                            <div class="blog-content">
+                                <div class="blog-date">
+                                    <i class="far fa-calendar-alt"></i> 22 março, 2025
+                                </div>
+                                <h3 class="blog-title">HIIT: Como Queimar Mais Calorias em Menos Tempo</h3>
+                                <p class="blog-excerpt">O Treinamento Intervalado de Alta Intensidade (HIIT) é uma estratégia eficiente para quem busca queimar calorias e melhorar o condicionamento em sessões curtas. Conheça diferentes protocolos de HIIT e descubra como incluí-los na sua rotina.</p>
+                                <a href="#" class="btn-tertiary">Continuar Lendo</a>
+                                <div class="blog-author">
+                                    <div class="author-image">
+                                        <img src="../assets/images/authors/author-3.jpg" alt="André Martins">
+                                    </div>
+                                    <div class="author-name">André Martins</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Post regular -->
+                        <div class="blog-card">
+                            <div class="blog-image">
+                                <span class="blog-category">Saúde</span>
+                                <img src="../assets/images/blog/blog-3.jpg" alt="Importância do Sono">
+                            </div>
+                            <div class="blog-content">
+                                <div class="blog-date">
+                                    <i class="far fa-calendar-alt"></i> 20 março, 2025
+                                </div>
+                                <h3 class="blog-title">A Importância do Sono na Recuperação Muscular e Performance</h3>
+                                <p class="blog-excerpt">Um sono de qualidade é essencial para a recuperação muscular, regulação hormonal e melhoria da performance física. Descubra como otimizar seu sono para potencializar seus resultados na academia e na saúde geral.</p>
+                                <a href="#" class="btn-tertiary">Continuar Lendo</a>
+                                <div class="blog-author">
+                                    <div class="author-image">
+                                        <img src="../assets/images/authors/author-4.jpg" alt="Carla Sousa">
+                                    </div>
+                                    <div class="author-name">Carla Sousa</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Post regular -->
+                        <div class="blog-card">
+                            <div class="blog-image">
+                                <span class="blog-category">Bem-estar</span>
+                                <img src="../assets/images/blog/blog-4.jpg" alt="Exercícios para Reduzir o Estresse">
+                            </div>
+                            <div class="blog-content">
+                                <div class="blog-date">
+                                    <i class="far fa-calendar-alt"></i> 18 março, 2025
+                                </div>
+                                <h3 class="blog-title">Top 7 Exercícios para Reduzir o Estresse e Melhorar o Bem-estar</h3>
+                                <p class="blog-excerpt">O exercício físico é uma poderosa ferramenta para combater o estresse e promover o bem-estar mental. Conheça os 7 melhores exercícios que podem ajudar a reduzir os níveis de cortisol e melhorar seu estado de ânimo.</p>
+                                <a href="#" class="btn-tertiary">Continuar Lendo</a>
+                                <div class="blog-author">
+                                    <div class="author-image">
+                                        <img src="../assets/images/authors/author-5.jpg" alt="Fernanda Lima">
+                                    </div>
+                                    <div class="author-name">Fernanda Lima</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Post regular -->
+                        <div class="blog-card">
+                            <div class="blog-image">
+                                <span class="blog-category">Musculação</span>
+                                <img src="../assets/images/blog/blog-5.jpg" alt="Mitos da Musculação">
+                            </div>
+                            <div class="blog-content">
+                                <div class="blog-date">
+                                    <i class="far fa-calendar-alt"></i> 15 março, 2025
+                                </div>
+                                <h3 class="blog-title">Os 10 Maiores Mitos da Musculação Desvendados</h3>
+                                <p class="blog-excerpt">A musculação é cercada de mitos e informações equivocadas que podem atrapalhar seu progresso. Baseado em evidências científicas, este artigo desmistifica as 10 crenças mais comuns e apresenta a verdade por trás de cada uma delas.</p>
+                                <a href="#" class="btn-tertiary">Continuar Lendo</a>
+                                <div class="blog-author">
+                                    <div class="author-image">
+                                        <img src="../assets/images/authors/author-1.jpg" alt="Ana Oliveira">
+                                    </div>
+                                    <div class="author-name">Ana Oliveira</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Paginação -->
+                    <div class="pagination">
+                        <ul>
+                            <li><a href="#" class="prev"><i class="fas fa-angle-left"></i> Anterior</a></li>
+                            <li><a href="#" class="active">1</a></li>
+                            <li><a href="#">2</a></li>
+                            <li><a href="#">3</a></li>
+                            <li><a href="#" class="next">Próximo <i class="fas fa-angle-right"></i></a></li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <!-- Sidebar -->
+                <div class="sidebar">
+                    <!-- Widget de Busca -->
+                    <div class="sidebar-widget">
+                        <h3 class="widget-title">Buscar</h3>
+                        <form class="search-form">
+                            <input type="text" class="search-input" placeholder="Buscar no blog...">
+                            <button type="submit" class="search-button"><i class="fas fa-search"></i></button>
+                        </form>
+                    </div>
+                    
+                    <!-- Widget de Categorias -->
+                    <div class="sidebar-widget">
+                        <h3 class="widget-title">Categorias</h3>
+                        <ul class="categories-list">
+                            <li><a href="#">Treino <span class="category-count">12</span></a></li>
+                            <li><a href="#">Nutrição <span class="category-count">9</span></a></li>
+                            <li><a href="#">Musculação <span class="category-count">8</span></a></li>
+                            <li><a href="#">Saúde <span class="category-count">7</span></a></li>
+                            <li><a href="#">Bem-estar <span class="category-count">5</span></a></li>
+                            <li><a href="#">Cardio <span class="category-count">4</span></a></li>
+                        </ul>
+                    </div>
+                    
+                    <!-- Widget de Posts Recentes -->
+                    <div class="sidebar-widget">
+                        <h3 class="widget-title">Posts Recentes</h3>
+                        <div class="recent-posts">
+                            <div class="recent-post">
+                                <div class="recent-post-image">
+                                    <img src="../assets/images/blog/recent-1.jpg" alt="Post Recente">
+                                </div>
+                                <div class="recent-post-content">
+                                    <h4 class="recent-post-title"><a href="#">Como Escolher o Suplemento Ideal para Seus Objetivos</a></h4>
+                                    <span class="recent-post-date">12 março, 2025</span>
+                                </div>
+                            </div>
+                            <div class="recent-post">
+                                <div class="recent-post-image">
+                                    <img src="../assets/images/blog/recent-2.jpg" alt="Post Recente">
+                                </div>
+                                <div class="recent-post-content">
+                                    <h4 class="recent-post-title"><a href="#">Guia Completo: Alongamentos Essenciais para Evitar Lesões</a></h4>
+                                    <span class="recent-post-date">10 março, 2025</span>
+                                </div>
+                            </div>
+                            <div class="recent-post">
+                                <div class="recent-post-image">
+                                    <img src="../assets/images/blog/recent-3.jpg" alt="Post Recente">
+                                </div>
+                                <div class="recent-post-content">
+                                    <h4 class="recent-post-title"><a href="#">Yoga para Atletas: Benefícios para Flexibilidade e Recuperação</a></h4>
+                                    <span class="recent-post-date">8 março, 2025</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Widget de Tags Populares -->
+                    <div class="sidebar-widget">
+                        <h3 class="widget-title">Tags Populares</h3>
+                        <div class="popular-tags">
+                            <a href="#" class="tag">Musculação</a>
+                            <a href="#" class="tag">Nutrição</a>
+                            <a href="#" class="tag">Emagrecimento</a>
+                            <a href="#" class="tag">Hipertrofia</a>
+                            <a href="#" class="tag">Cardio</a>
+                            <a href="#" class="tag">Saúde</a>
+                            <a href="#" class="tag">Suplementação</a>
+                            <a href="#" class="tag">Treino</a>
+                            <a href="#" class="tag">Bem-estar</a>
+                            <a href="#" class="tag">Fitness</a>
+                        </div>
+                    </div>
+                    
+                    <!-- Widget de Newsletter -->
+                    <div class="sidebar-widget">
+                        <h3 class="widget-title">Newsletter</h3>
+                        <p>Inscreva-se para receber as últimas dicas, novidades e promoções exclusivas.</p>
+                        <form class="newsletter-form">
+                            <input type="email" class="newsletter-input" placeholder="Seu melhor e-mail">
+                            <button type="submit" class="newsletter-button">Inscrever-se</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta">
+        <div class="container">
+            <div class="cta-content">
+                <h2>Quer transformar seu corpo e sua saúde?</h2>
+                <p>Junte-se à comunidade FitLife e comece sua jornada de transformação hoje mesmo.</p>
+                <a href="cadastro.html" class="btn-primary">Começar Agora</a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-info">
+                    <div class="footer-logo">
+                        <img src="../assets/images/logo.svg" alt="FitLife Academia">
+                        <span>FitLife</span>
+                    </div>
+                    <p>Transformando vidas através da atividade física desde 2010.</p>
+                    <div class="social-media">
+                        <a href="#" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" target="_blank"><i class="fab fa-instagram"></i></a>
+                        <a href="#" target="_blank"><i class="fab fa-youtube"></i></a>
+                        <a href="#" target="_blank"><i class="fab fa-whatsapp"></i></a>
+                    </div>
+                </div>
+                <div class="footer-links">
+                    <h4>Links Rápidos</h4>
+                    <ul>
+                        <li><a href="../index.html">Home</a></li>
+                        <li><a href="sobre.html">Sobre nós</a></li>
+                        <li><a href="modalidades.html">Modalidades</a></li>
+                        <li><a href="horarios.html">Horários</a></li>
+                        <li><a href="planos.html">Planos</a></li>
+                        <li><a href="blog.html">Blog</a></li>
+                        <li><a href="contato.html">Contato</a></li>
+                    </ul>
+                </div>
+                <div class="footer-contact">
+                    <h4>Contato</h4>
+                    <ul>
+                        <li><i class="fas fa-map-marker-alt"></i> Av. Principal, 1000 - Centro</li>
+                        <li><i class="fas fa-phone"></i> (11) 99999-9999</li>
+                        <li><i class="fas fa-envelope"></i> contato@fitlifeacademia.com.br</li>
+                    </ul>
+                    <div class="footer-hours">
+                        <h4>Horário de Funcionamento</h4>
+                        <p>Segunda a Sexta: 06h às 22h</p>
+                        <p>Sábado: 08h às 18h</p>
+                        <p>Domingo: 08h às 14h</p>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 FitLife Academia. Todos os direitos reservados.</p>
+                <div class="footer-terms">
+                    <a href="#">Termos de Uso</a>
+                    <a href="#">Política de Privacidade</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../assets/js/main.js"></script>
+</body>
+</html>

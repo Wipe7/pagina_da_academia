@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Painel Administrativo FitLife Academia - Gerencie membros, aulas, instrutores e finanças">
+    <title>Dashboard - FitLife Academia</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/responsive.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+    <div class="admin-container">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <img src="../assets/images/logo.svg" alt="FitLife Academia">
+                <span>FitLife</span>
+            </div>
+            
+            <div class="sidebar-menu">
+                <div class="menu-label">Menu Principal</div>
+                <ul>
+                    <li>
+                        <a href="dashboard.html" class="active" aria-current="page">
+                            <i class="fas fa-tachometer-alt" aria-hidden="true"></i> 
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="membros.html">
+                            <i class="fas fa-users" aria-hidden="true"></i> 
+                            <span>Membros</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="aulas.html">
+                            <i class="fas fa-dumbbell" aria-hidden="true"></i> 
+                            <span>Aulas</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="instrutores.html">
+                            <i class="fas fa-user-tie" aria-hidden="true"></i> 
+                            <span>Instrutores</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="financeiro.html">
+                            <i class="fas fa-money-bill-wave" aria-hidden="true"></i> 
+                            <span>Financeiro</span>
+                        </a>
+                    </li>
+                </ul>
+                
+                <div class="menu-label">Configurações</div>
+                <ul>
+                    <li>
+                        <a href="perfil.html">
+                            <i class="fas fa-user-circle" aria-hidden="true"></i> 
+                            <span>Perfil</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="configuracoes.html">
+                            <i class="fas fa-cog" aria-hidden="true"></i> 
+                            <span>Configurações</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="../index.html">
+                            <i class="fas fa-sign-out-alt" aria-hidden="true"></i> 
+                            <span>Sair</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </aside>
+        <!-- Main Content -->
+        <div class="main-content" id="main-content">
+            <!-- Admin Header -->
+            <header class="admin-header">
+                <button class="toggle-sidebar" id="toggle-sidebar" aria-label="Alternar menu lateral">
+                    <i class="fas fa-bars" aria-hidden="true"></i>
+                </button>
+                
+                <div class="header-search">
+                    <i class="fas fa-search" aria-hidden="true"></i>
+                    <input type="text" id="search-input" placeholder="Buscar membros, aulas..." aria-label="Buscar no sistema">
+                    <div class="search-results" id="search-results" role="listbox" hidden></div>
+                </div>
+                
+                <div class="header-user">
+                    <div class="notifications">
+                        <button class="notification-btn" id="notification-btn" aria-label="Notificações">
+                            <i class="fas fa-bell" aria-hidden="true"></i>
+                            <span class="badge">3</span>
+                        </button>
+                        <div class="notification-dropdown" id="notification-dropdown" hidden>
+                            <div class="notification-header">
+                                <h3>Notificações</h3>
+                                <button class="mark-all-read" aria-label="Marcar todas como lidas">Marcar todas como lidas</button>
+                            </div>
+                            <ul class="notification-list">
+                                <li class="notification-item unread">
+                                    <div class="notification-icon user">
+                                        <i class="fas fa-user-plus" aria-hidden="true"></i>
+                                    </div>
+                                    <div class="notification-content">
+                                        <p>Novo membro cadastrado: <strong>Marina Oliveira</strong></p>
+                                        <span class="notification-time">Há 2 horas</span>
+                                    </div>
+                                </li>
+                                <li class="notification-item unread">
+                                    <div class="notification-icon alert">
+                                        <i class="fas fa-exclamation-circle" aria-hidden="true"></i>
+                                    </div>
+                                    <div class="notification-content">
+                                        <p>Aula de <strong>Yoga</strong> está com capacidade máxima</p>
+                                        <span class="notification-time">Há 3 horas</span>
+                                    </div>
+                                </li>
+                            </ul>
+                            <div class="notification-footer">
+                                <a href="notificacoes.html">Ver todas as notificações</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="user-profile" id="user-profile">
+                        <img src="../assets/images/admin-avatar.jpg" alt="Foto de perfil do administrador">
+                        <div class="user-info">
+                            <div class="user-name">Carlos Silva</div>
+                            <div class="user-role">Administrador</div>
+                        </div>
+                        <i class="fas fa-chevron-down" aria-hidden="true"></i>
+                    </div>
+                </div>
+            </header>
+            
+            <!-- Dashboard Content -->
+            <div class="dashboard-content">
+                <div class="page-title">
+                    <h1>Dashboard</h1>
+                    <p>Bem-vindo ao painel administrativo da FitLife Academia.</p>
+
+                    <div class="date-filter">
+                        <div class="date-range">
+                            <label for="date-range-select">Período:</label>
+                            <select id="date-range-select" aria-label="Selecionar período">
+                                <option value="today">Hoje</option>
+                                <option value="yesterday">Ontem</option>
+                                <option value="week" selected>Esta semana</option>
+                                <option value="month">Este mês</option>
+                                <option value="year">Este ano</option>
+                                <option value="custom">Personalizado</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <!-- Stat Cards -->
+                <div class="stat-cards">
+                    <div class="stat-card" tabindex="0" aria-label="Membros ativos: 358, crescimento de 12%">
+                        <div class="stat-icon users">
+                            <i class="fas fa-users" aria-hidden="true"></i>
+                        </div>
+                        <div class="stat-info">
+                            <div class="stat-value">358</div>
+                            <div class="stat-label">Membros Ativos <span class="stat-trend up">+12%</span></div>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card" tabindex="0" aria-label="Receita mensal: 42.589 reais, crescimento de 8%">
+                        <div class="stat-icon revenue">
+                            <i class="fas fa-money-bill-wave" aria-hidden="true"></i>
+                        </div>
+                        <div class="stat-info">
+                            <div class="stat-value">R$ 42.589</div>
+                            <div class="stat-label">Receita Mensal <span class="stat-trend up">+8%</span></div>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card" tabindex="0" aria-label="Aulas semanais: 24, crescimento de 4%">
+                        <div class="stat-icon classes">
+                            <i class="fas fa-dumbbell" aria-hidden="true"></i>
+                        </div>
+                        <div class="stat-info">
+                            <div class="stat-value">24</div>
+                            <div class="stat-label">Aulas Semanais <span class="stat-trend up">+4%</span></div>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card" tabindex="0" aria-label="Taxa de frequência: 82%, queda de 3%">
+                        <div class="stat-icon attendance">
+                            <i class="fas fa-chart-bar" aria-hidden="true"></i>
+                        </div>
+                        <div class="stat-info">
+                            <div class="stat-value">82%</div>
+                            <div class="stat-label">Taxa de Frequência <span class="stat-trend down">-3%</span></div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Charts Row -->
+                <div class="chart-row">
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <div class="chart-title">Análise de Frequência</div>
+                            <div class="chart-actions">
+                                <button class="chart-period" data-period="day" aria-label="Ver dados diários">Dia</button>
+                                <button class="chart-period active" data-period="week" aria-label="Ver dados semanais">Semana</button>
+                                <button class="chart-period" data-period="month" aria-label="Ver dados mensais">Mês</button>
+                                <button class="chart-options" aria-label="Opções do gráfico">
+                                    <i class="fas fa-ellipsis-v" aria-hidden="true"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="chart-container" id="attendance-chart">
+                            <canvas id="frequencyChart" aria-label="Gráfico de frequência" role="img"></canvas>
+                        </div>
+                    </div>
+                    
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <div class="chart-title">Distribuição de Planos</div>
+                            <div class="chart-actions">
+                                <button class="chart-options" aria-label="Opções do gráfico">
+                                    <i class="fas fa-ellipsis-v" aria-hidden="true"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="chart-container" id="plans-chart">
+                            <canvas id="plansChart" aria-label="Gráfico de distribuição de planos" role="img"></canvas>
+                        </div>
+                        <div class="chart-legend" id="plans-legend">
+                            <div class="legend-item">
+                                <span class="legend-color" style="background-color: rgba(0, 191, 255, 1)"></span>
+                                <span class="legend-label">Básico: </span>
+                                <span class="legend-value">120 (33.5%)</span>
+                            </div>
+                            <div class="legend-item">
+                                <span class="legend-color" style="background-color: rgba(255, 69, 0, 1)"></span>
+                                <span class="legend-label">Premium: </span>
+                                <span class="legend-value">180 (50.3%)</span>
+                            </div>
+                            <div class="legend-item">
+                                <span class="legend-color" style="background-color: rgba(40, 167, 69, 1)"></span>
+                                <span class="legend-label">Master: </span>
+                                <span class="legend-value">58 (16.2%)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Membros Recentes -->
+                <div class="table-card">
+                    <div class="table-header">
+                        <div class="table-title">Membros Recentes</div>
+                        <div class="table-actions">
+                            <div class="table-filter">
+                                <select aria-label="Filtrar por status">
+                                    <option value="all">Todos os status</option>
+                                    <option value="active">Ativos</option>
+                                    <option value="pending">Pendentes</option>
+                                    <option value="inactive">Inativos</option>
+                                </select>
+                            </div>
+                            <a href="membros.html" class="view-all">Ver Todos</a>
+                        </div>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="data-table" aria-label="Tabela de membros recentes">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Nome</th>
+                                    <th scope="col">Email</th>
+                                    <th scope="col">Plano</th>
+                                    <th scope="col">Status</th>
+                                    <th scope="col">Inscrição</th>
+                                    <th scope="col">Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td data-label="Nome">Ana Carolina Silva</td>
+                                    <td data-label="Email">ana.silva@email.com</td>
+                                    <td data-label="Plano">Premium</td>
+                                    <td data-label="Status"><span class="status active">Ativo</span></td>
+                                    <td data-label="Inscrição">15/03/2025</td>
+                                    <td data-label="Ações">
+                                        <button class="action-btn" aria-label="Ver detalhes de Ana Carolina Silva">
+                                            <i class="fas fa-eye" aria-hidden="true"></i>
+                                        </button>
+                                        <button class="action-btn" aria-label="Editar dados de Ana Carolina Silva">
+                                            <i class="fas fa-edit" aria-hidden="true"></i>
+                                        </button>
+                                        <div class="action-menu">
+                                            <button class="action-btn menu-toggle" aria-label="Mais opções">
+                                                <i class="fas fa-ellipsis-v" aria-hidden="true"></i>
+                                            </button>
+                                            <div class="action-dropdown" hidden>
+                                                <a href="#enviar-email">Enviar e-mail</a>
+                                                <a href="#pausar">Pausar matrícula</a>
+                                                <a href="#cancelar" class="text-danger">Cancelar matrícula</a>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td data-label="Nome">Pedro Henrique Santos</td>
+                                    <td data-label="Email">pedro.santos@email.com</td>
+                                    <td data-label="Plano">Básico</td>
+                                    <td data-label="Status"><span class="status pending">Pendente</span></td>
+                                    <td data-label="Inscrição">18/03/2025</td>
+                                    <td data-label="Ações">
+                                        <button class="action-btn" aria-label="Ver detalhes de Pedro Henrique Santos">
+                                            <i class="fas fa-eye" aria-hidden="true"></i>
+                                        </button>
+                                        <button class="action-btn" aria-label="Editar dados de Pedro Henrique Santos">
+                                            <i class="fas fa-edit" aria-hidden="true"></i>
+                                        </button>
+                                        <div class="action-menu">
+                                            <button class="action-btn menu-toggle" aria-label="Mais opções">
+                                                <i class="fas fa-ellipsis-v" aria-hidden="true"></i>
+                                            </button>
+                                            <div class="action-dropdown" hidden>
+                                                <a href="#enviar-email">Enviar e-mail</a>
+                                                <a href="#pausar">Pausar matrícula</a>
+                                                <a href="#cancelar" class="text-danger">Cancelar matrícula</a>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="table-pagination">
+                        <div class="pagination-info">Mostrando 1-5 de 42 registros</div>
+                        <div class="pagination-controls">
+                            <button class="pagination-btn" disabled aria-label="Página anterior">
+                                <i class="fas fa-chevron-left" aria-hidden="true"></i>
+                            </button>
+                            <button class="pagination-btn active" aria-label="Página 1">1</button>
+                            <button class="pagination-btn" aria-label="Página 2">2</button>
+                            <button class="pagination-btn" aria-label="Página 3">3</button>
+                            <span class="pagination-ellipsis">...</span>
+                            <button class="pagination-btn" aria-label="Página 9">9</button>
+                            <button class="pagination-btn" aria-label="Próxima página">
+                                <i class="fas fa-chevron-right" aria-hidden="true"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <!-- Próximas Aulas -->
+                <div class="table-card">
+                    <div class="table-header">
+                        <div class="table-title">Próximas Aulas</div>
+                        <div class="table-actions">
+                            <div class="table-filter">
+                                <select aria-label="Filtrar por modalidade">
+                                    <option value="all">Todas as modalidades</option>
+                                    <option value="spinning">Spinning</option>
+                                    <option value="pilates">Pilates</option>
+                                    <option value="funcional">Funcional</option>
+                                    <option value="yoga">Yoga</option>
+                                    <option value="musculacao">Musculação</option>
+                                </select>
+                            </div>
+                            <a href="aulas.html" class="view-all">Ver Todas</a>
+                        </div>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="data-table" aria-label="Tabela de próximas aulas">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Aula</th>
+                                    <th scope="col">Instrutor</th>
+                                    <th scope="col">Horário</th>
+                                    <th scope="col">Duração</th>
+                                    <th scope="col">Inscritos</th>
+                                    <th scope="col">Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td data-label="Aula">Spinning</td>
+                                    <td data-label="Instrutor">Rodrigo Almeida</td>
+                                    <td data-label="Horário">29/03 - 08:00</td>
+                                    <td data-label="Duração">45 min</td>
+                                    <td data-label="Inscritos">
+                                        <div class="progress-bar">
+                                            <div class="progress" style="width: 75%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+                                            <span>15/20</span>
+                                        </div>
+                                    </td>
+                                    <td data-label="Ações">
+                                        <button class="action-btn" aria-label="Ver detalhes da aula de Spinning">
+                                            <i class="fas fa-eye" aria-hidden="true"></i>
+                                        </button>
+                                        <button class="action-btn" aria-label="Editar aula de Spinning">
+                                            <i class="fas fa-edit" aria-hidden="true"></i>
+                                        </button>
+                                        <div class="action-menu">
+                                            <button class="action-btn menu-toggle" aria-label="Mais opções">
+                                                <i class="fas fa-ellipsis-v" aria-hidden="true"></i>
+                                            </button>
+                                            <div class="action-dropdown" hidden>
+                                                <a href="#lista">Ver lista de alunos</a>
+                                                <a href="#notificar">Notificar alunos</a>
+                                                <a href="#cancelar-aula" class="text-danger">Cancelar aula</a>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td data-label="Aula">Pilates</td>
+                                    <td data-label="Instrutor">Carla Sousa</td>
+                                    <td data-label="Horário">29/03 - 09:30</td>
+                                    <td data-label="Duração">60 min</td>
+                                    <td data-label="Inscritos">
+                                        <div class="progress-bar">
+                                            <div class="progress" style="width: 67%" aria-valuenow="67" aria-valuemin="0" aria-valuemax="100"></div>
+                                            <span>8/12</span>
+                                        </div>
+                                    </td>
+                                    <td data-label="Ações">
+                                        <button class="action-btn" aria-label="Ver detalhes da aula de Pilates">
+                                            <i class="fas fa-eye" aria-hidden="true"></i>
+                                        </button>
+                                        <button class="action-btn" aria-label="Editar aula de Pilates">
+                                            <i class="fas fa-edit" aria-hidden="true"></i>
+                                        </button>
+                                        <div class="action-menu">
+                                            <button class="action-btn menu-toggle" aria-label="Mais opções">
+                                                <i class="fas fa-ellipsis-v" aria-hidden="true"></i>
+                                            </button>
+                                            <div class="action-dropdown" hidden>
+                                                <a href="#lista">Ver lista de alunos</a>
+                                                <a href="#notificar">Notificar alunos</a>
+                                                <a href="#cancelar-aula" class="text-danger">Cancelar aula</a>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>

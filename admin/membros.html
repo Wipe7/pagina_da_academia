@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Gerenciamento de membros da FitLife Academia">
+    <title>Membros - FitLife Academia</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/responsive.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+    <div class="admin-container">
+        <!-- Sidebar (igual em todas as páginas) -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <img src="../assets/images/logo.svg" alt="FitLife Academia">
+                <span>FitLife</span>
+            </div>
+            
+            <div class="sidebar-menu">
+                <div class="menu-label">Menu Principal</div>
+                <ul>
+                    <li>
+                        <a href="dashboard.html">
+                            <i class="fas fa-tachometer-alt" aria-hidden="true"></i> 
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="membros.html" class="active" aria-current="page">
+                            <i class="fas fa-users" aria-hidden="true"></i> 
+                            <span>Membros</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="aulas.html">
+                            <i class="fas fa-dumbbell" aria-hidden="true"></i> 
+                            <span>Aulas</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="instrutores.html">
+                            <i class="fas fa-user-tie" aria-hidden="true"></i> 
+                            <span>Instrutores</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="financeiro.html">
+                            <i class="fas fa-money-bill-wave" aria-hidden="true"></i> 
+                            <span>Financeiro</span>
+                        </a>
+                    </li>
+                </ul>
+                
+                <div class="menu-label">Configurações</div>
+                <ul>
+                    <li>
+                        <a href="perfil.html">
+                            <i class="fas fa-user-circle" aria-hidden="true"></i> 
+                            <span>Perfil</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="configuracoes.html">
+                            <i class="fas fa-cog" aria-hidden="true"></i> 
+                            <span>Configurações</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="../index.html">
+                            <i class="fas fa-sign-out-alt" aria-hidden="true"></i> 
+                            <span>Sair</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </aside>
+        <!-- Main Content -->
+        <div class="main-content" id="main-content">
+            <!-- Admin Header (igual em todas as páginas) -->
+            <header class="admin-header">
+                <button class="toggle-sidebar" id="toggle-sidebar" aria-label="Alternar menu lateral">
+                    <i class="fas fa-bars" aria-hidden="true"></i>
+                </button>
+                
+                <div class="header-search">
+                    <i class="fas fa-search" aria-hidden="true"></i>
+                    <input type="text" id="search-input" placeholder="Buscar membros..." aria-label="Buscar no sistema">
+                    <div class="search-results" id="search-results" role="listbox" hidden></div>
+                </div>
+                
+                <div class="header-user">
+                    <div class="notifications">
+                        <button class="notification-btn" id="notification-btn" aria-label="Notificações">
+                            <i class="fas fa-bell" aria-hidden="true"></i>
+                            <span class="badge">3</span>
+                        </button>
+                        <div class="notification-dropdown" id="notification-dropdown" hidden>
+                            <!-- Conteúdo do dropdown de notificações -->
+                        </div>
+                    </div>
+                    
+                    <div class="user-profile" id="user-profile">
+                        <img src="../assets/images/admin-avatar.jpg" alt="Foto de perfil do administrador">
+                        <div class="user-info">
+                            <div class="user-name">Carlos Silva</div>
+                            <div class="user-role">Administrador</div>
+                        </div>
+                        <i class="fas fa-chevron-down" aria-hidden="true"></i>
+                        
+                        <div class="user-dropdown" id="user-dropdown" hidden>
+                            <!-- Conteúdo do dropdown de usuário -->
+                        </div>
+                    </div>
+                </div>
+            </header>
+            
+            <!-- Conteúdo da página de membros -->
+            <div class="page-content">
+                <div class="page-header">
+                    <div class="page-title">
+                        <h1>Membros</h1>
+                        <p>Gerencie todos os membros da academia.</p>
+                    </div>
+                    
+                    <div class="page-actions">
+                        <button class="btn-export" aria-label="Exportar dados">
+                            <i class="fas fa-file-export" aria-hidden="true"></i>
+                            <span>Exportar</span>
+                        </button>
+                        <button class="btn-import" aria-label="Importar dados">
+                            <i class="fas fa-file-import" aria-hidden="true"></i>
+                            <span>Importar</span>
+                        </button>
+                        <button class="btn-primary" id="add-member-btn" data-modal="add-member-modal">
+                            <i class="fas fa-plus" aria-hidden="true"></i>
+                            <span>Novo Membro</span>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Barra de filtros -->
+                <div class="filter-bar">
+                    <div class="filter-group">
+                        <label for="status-filter">Status:</label>
+                        <select id="status-filter">
+                            <option value="all">Todos</option>
+                            <option value="active">Ativo</option>
+                            <option value="pending">Pendente</option>
+                            <option value="inactive">Inativo</option>
+                        </select>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label for="plan-filter">Plano:</label>
+                        <select id="plan-filter">
+                            <option value="all">Todos</option>
+                            <option value="basic">Básico</option>
+                            <option value="premium">Premium</option>
+                            <option value="master">Master</option>
+                        </select>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label for="date-filter">Data de inscrição:</label>
+                        <select id="date-filter">
+                            <option value="all">Todos os períodos</option>
+                            <option value="this-month">Este mês</option>
+                            <option value="last-month">Mês passado</option>
+                            <option value="this-year">Este ano</option>
+                            <option value="custom">Personalizado</option>
+                        </select>
+                    </div>
+                    
+                    <div class="filter-group filter-search">
+                        <input type="text" placeholder="Buscar por nome, email..." aria-label="Buscar membros">
+                        <button aria-label="Buscar">
+                            <i class="fas fa-search" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                </div>
+                <!-- Tabela de membros -->
+                <div class="table-card">
+                    <div class="table-options">
+                        <div class="table-length">
+                            <label for="table-length-select">Mostrar:</label>
+                            <select id="table-length-select">
+                                <option value="10">10</option>
+                                <option value="25" selected>25</option>
+                                <option value="50">50</option>
+                                <option value="100">100</option>
+                            </select>
+                            <span>registros</span>
+                        </div>
+                        
+                        <div class="bulk-actions">
+                            <select id="bulk-action-select" disabled>
+                                <option value="">Ações em massa</option>
+                                <option value="activate">Ativar</option>
+                                <option value="deactivate">Desativar</option>
+                                <option value="delete">Excluir</option>
+                                <option value="export">Exportar selecionados</option>
+                                <option value="email">Enviar e-mail</option>
+                            </select>
+                            <button class="btn-apply" disabled>Aplicar</button>
+                        </div>
+                    </div>
+                    
+                    <div class="table-responsive">
+                        <table class="data-table members-table" aria-label="Tabela de membros">
+                            <thead>
+                                <tr>
+                                    <th scope="col" class="checkbox-column">
+                                        <input type="checkbox" id="select-all" aria-label="Selecionar todos os membros">
+                                    </th>
+                                    <th scope="col" class="sortable" data-sort="name">Nome <i class="fas fa-sort"></i></th>
+                                    <th scope="col" class="sortable" data-sort="email">Email <i class="fas fa-sort"></i></th>
+                                    <th scope="col" class="sortable" data-sort="phone">Telefone <i class="fas fa-sort"></i></th>
+                                    <th scope="col" class="sortable" data-sort="plan">Plano <i class="fas fa-sort"></i></th>
+                                    <th scope="col" class="sortable" data-sort="status">Status <i class="fas fa-sort"></i></th>
+                                    <th scope="col" class="sortable" data-sort="inscription">Inscrição <i class="fas fa-sort"></i></th>
+                                    <th scope="col" class="sortable" data-sort="last_visit">Última Visita <i class="fas fa-sort"></i></th>
+                                    <th scope="col">Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Linha 1 -->
+                                <tr>
+                                    <td class="checkbox-column">
+                                        <input type="checkbox" class="row-checkbox" aria-label="Selecionar Ana Carolina Silva">
+                                    </td>
+                                    <td data-label="Nome">
+                                        <div class="member-info">
+                                            <img src="../assets/images/member-1.jpg" alt="" class="member-avatar">
+                                            <span>Ana Carolina Silva</span>
+                                        </div>
+                                    </td>
+                                    <td data-label="Email">ana.silva@email.com</td>
+                                    <td data-label="Telefone">(11) 98765-4321</td>
+                                    <td data-label="Plano">
+                                        <span class="badge badge-premium">Premium</span>
+                                    </td>
+                                    <td data-label="Status">
+                                        <span class="status active">Ativo</span>
+                                    </td>
+                                    <td data-label="Inscrição">15/03/2025</td>
+                                    <td data-label="Última Visita">Hoje, 09:45</td>
+                                    <td data-label="Ações" class="actions-column">
+                                        <button class="action-btn" aria-label="Ver detalhes de Ana Carolina Silva" data-member-id="1" data-action="view">
+                                            <i class="fas fa-eye" aria-hidden="true"></i>
+                                        </button>
+                                        <button class="action-btn" aria-label="Editar dados de Ana Carolina Silva" data-member-id="1" data-action="edit">
+                                            <i class="fas fa-edit" aria-hidden="true"></i>
+                                        </button>
+                                        <div class="action-menu">
+                                            <button class="action-btn menu-toggle" aria-label="Mais opções">
+                                                <i class="fas fa-ellipsis-v" aria-hidden="true"></i>
+                                            </button>
+                                            <div class="action-dropdown" hidden>
+                                                <a href="#enviar-email" data-member-id="1" data-action="email">
+                                                    <i class="fas fa-envelope" aria-hidden="true"></i> Enviar e-mail
+                                                </a>
+                                                <a href="#renovar" data-member-id="1" data-action="renew">
+                                                    <i class="fas fa-sync-alt" aria-hidden="true"></i> Renovar plano
+                                                </a>
+                                                <a href="#pausar" data-member-id="1" data-action="pause">
+                                                    <i class="fas fa-pause" aria-hidden="true"></i> Pausar matrícula
+                                                </a>
+                                                <a href="#cancelar" class="text-danger" data-member-id="1" data-action="cancel">
+                                                    <i class="fas fa-ban" aria-hidden="true"></i> Cancelar matrícula
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                
+                                <!-- Linha 2 -->
+                                <tr>
+                                    <td class="checkbox-column">
+                                        <input type="checkbox" class="row-checkbox" aria-label="Selecionar Pedro Henrique Santos">
+                                    </td>
+                                    <td data-label="Nome">
+                                        <div class="member-info">
+                                            <img src="../assets/images/member-2.jpg" alt="" class="member-avatar">
+                                            <span>Pedro Henrique Santos</span>
+                                        </div>
+                                    </td>
+                                    <td data-label="Email">pedro.santos@email.com</td>
+                                    <td data-label="Telefone">(11) 97654-3210</td>
+                                    <td data-label="Plano">
+                                        <span class="badge badge-basic">Básico</span>
+                                    </td>
+                                    <td data-label="Status">
+                                        <span class="status pending">Pendente</span>
+                                    </td>
+                                    <td data-label="Inscrição">18/03/2025</td>
+                                    <td data-label="Última Visita">Nunca</td>
+                                    <td data-label="Ações" class="actions-column">
+                                        <!-- Botões de ação, similares ao primeiro membro -->
+                                    </td>
+                                </tr>
+                                <!-- Linha 3 -->
+                                <tr>
+                                    <td class="checkbox-column">
+                                        <input type="checkbox" class="row-checkbox" aria-label="Selecionar Mariana Oliveira">
+                                    </td>
+                                    <td data-label="Nome">
+                                        <div class="member-info">
+                                            <img src="../assets/images/member-3.jpg" alt="" class="member-avatar">
+                                            <span>Mariana Oliveira</span>
+                                        </div>
+                                    </td>
+                                    <td data-label="Email">mariana.oliveira@email.com</td>
+                                    <td data-label="Telefone">(11) 96543-2109</td>
+                                    <td data-label="Plano">
+                                        <span class="badge badge-master">Master</span>
+                                    </td>
+                                    <td data-label="Status">
+                                        <span class="status active">Ativo</span>
+                                    </td>
+                                    <td data-label="Inscrição">20/03/2025</td>
+                                    <td data-label="Última Visita">Ontem, 18:30</td>
+                                    <td data-label="Ações" class="actions-column">
+                                        <!-- Botões de ação -->
+                                    </td>
+                                </tr>
+                                
+                                <!-- Linha 4 -->
+                                <tr>
+                                    <td class="checkbox-column">
+                                        <input type="checkbox" class="row-checkbox" aria-label="Selecionar Lucas Ferreira">
+                                    </td>
+                                    <td data-label="Nome">
+                                        <div class="member-info">
+                                            <img src="../assets/images/member-4.jpg" alt="" class="member-avatar">
+                                            <span>Lucas Ferreira</span>
+                                        </div>
+                                    </td>
+                                    <td data-label="Email">lucas.ferreira@email.com</td>
+                                    <td data-label="Telefone">(11) 95432-1098</td>
+                                    <td data-label="Plano">
+                                        <span class="badge badge-premium">Premium</span>
+                                    </td>
+                                    <td data-label="Status">
+                                        <span class="status inactive">Inativo</span>
+                                    </td>
+                                    <td data-label="Inscrição">12/03/2025</td>
+                                    <td data-label="Última Visita">10/03/2025</td>
+                                    <td data-label="Ações" class="actions-column">
+                                        <!-- Botões de ação -->
+                                    </td>
+                                </tr>
+                                
+                                <!-- Linha 5 -->
+                                <tr>
+                                    <td class="checkbox-column">
+                                        <input type="checkbox" class="row-checkbox" aria-label="Selecionar Juliana Costa">
+                                    </td>
+                                    <td data-label="Nome">
+                                        <div class="member-info">
+                                            <img src="../assets/images/member-5.jpg" alt="" class="member-avatar">
+                                            <span>Juliana Costa</span>
+                                        </div>
+                                    </td>
+                                    <td data-label="Email">juliana.costa@email.com</td>
+                                    <td data-label="Telefone">(11) 94321-0987</td>
+                                    <td data-label="Plano">
+                                        <span class="badge badge-basic">Básico</span>
+                                    </td>
+                                    <td data-label="Status">
+                                        <span class="status active">Ativo</span>
+                                    </td>
+                                    <td data-label="Inscrição">22/03/2025</td>
+                                    <td data-label="Última Visita">Hoje, 07:15</td>
+                                    <td data-label="Ações" class="actions-column">
+                                        <!-- Botões de ação -->
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <!-- Paginação -->
+                    <div class="table-footer">
+                        <div class="table-info">
+                            Mostrando 1 a 5 de 42 registros
+                        </div>
+                        <div class="pagination">
+                            <button class="pagination-btn" disabled aria-label="Página anterior">
+                                <i class="fas fa-chevron-left" aria-hidden="true"></i>
+                            </button>
+                            <button class="pagination-btn active" aria-label="Página 1">1</button>
+                            <button class="pagination-btn" aria-label="Página 2">2</button>
+                            <button class="pagination-btn" aria-label="Página 3">3</button>
+                            <span class="pagination-ellipsis">...</span>
+                            <button class="pagination-btn" aria-label="Página 9">9</button>
+                            <button class="pagination-btn" aria-label="Próxima página">
+                                <i class="fas fa-chevron-right" aria-hidden="true"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal para adicionar novo membro -->
+    <div class="modal" id="add-member-modal">
+        <div class="modal-backdrop"></div>
+        <div class="modal-container">
+            <div class="modal-header">
+                <h2>Adicionar Novo Membro</h2>
+                <button class="modal-close" aria-label="Fechar modal">
+                    <i class="fas fa-times" aria-hidden="true"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="add-member-form">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="member-name">Nome Completo*</label>
+                            <input type="text" id="member-name" name="name" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="member-email">Email*</label>
+                            <input type="email" id="member-email" name="email" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="member-phone">Telefone*</label>
+                            <input type="tel" id="member-phone" name="phone" placeholder="(00) 00000-0000" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="member-birth">Data de Nascimento*</label>
+                            <input type="date" id="member-birth" name="birth" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="member-cpf">CPF*</label>
+                            <input type="text" id="member-cpf" name="cpf" placeholder="000.000.000-00" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="member-gender">Gênero</label>
+                            <select id="member-gender" name="gender">
+                                <option value="">Selecione</option>
+                                <option value="male">Masculino</option>
+                                <option value="female">Feminino</option>
+                                <option value="other">Outro</option>
+                                <option value="not-inform">Prefiro não informar</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="member-plan">Plano*</label>
+                            <select id="member-plan" name="plan" required>
+                                <option value="">Selecione um plano</option>
+                                <option value="basic">Básico - R$ 89/mês</option>
+                                <option value="premium">Premium - R$ 129/mês</option>
+                                <option value="master">Master - R$ 179/mês</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="member-status">Status*</label>
+                            <select id="member-status" name="status" required>
+                                <option value="active">Ativo</option>
+                                <option value="pending">Pendente</option>
+                                <option value="inactive">Inativo</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group span-2">
+                            <label for="member-address">Endereço</label>
+                            <input type="text" id="member-address" name="address" placeholder="Rua, número, complemento">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="member-city">Cidade</label>
+                            <input type="text" id="member-city" name="city">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="member-state">Estado</label>
+                            <select id="member-state" name="state">
+                                <option value="">Selecione</option>
+                                <option value="AC">AC</option>
+                                <option value="AL">AL</option>
+                                <!-- Outros estados -->
+                                <option value="SP">SP</option>
+                                <!-- Restante dos estados -->
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="member-zipcode">CEP</label>
+                            <input type="text" id="member-zipcode" name="zipcode" placeholder="00000-000">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="member-password">Senha*</label>
+                            <input type="password" id="member-password" name="password" required>
+                        </div>
+                        
+                        <div class="form-group span-2">
+                            <label for="member-notes">Observações</label>
+                            <textarea id="member-notes" name="notes" rows="3"></textarea>
+                        </div>
+                    </div>
+                    
+                    <div class="form-footer">
+                        <button type="button" class="btn-cancel" id="cancel-add-member">Cancelar</button>
+                        <button type="submit" class="btn-primary">Salvar Membro</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Modal de visualização do membro -->
+    <div class="modal" id="view-member-modal">
+        <!-- Conteúdo será carregado dinamicamente via JavaScript -->
+    </div>
+    
+    <!-- Scripts -->
+    <script src="js/admin.js"></script>
+    <script src="js/members.js"></script>
+</body>
+</html>

@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Planos e Preços - FitLife Academia</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/responsive.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Estilos específicos para a página de Planos */
+        .page-banner {
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('../assets/images/pricing-banner.jpg') no-repeat center center/cover;
+            height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: var(--white);
+            margin-top: 80px;
+        }
+        
+        .page-banner h1 {
+            font-size: 3rem;
+            margin-bottom: 10px;
+        }
+        
+        .page-banner p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .pricing-section {
+            padding: 80px 0;
+        }
+        
+        .switch-container {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        
+        .plan-switch {
+            display: inline-flex;
+            background-color: var(--background-light);
+            border-radius: 30px;
+            padding: 5px;
+            margin-top: 20px;
+        }
+        
+        .switch-option {
+            padding: 10px 20px;
+            border-radius: 30px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .switch-option.active {
+            background-color: var(--primary-color);
+            color: var(--white);
+        }
+        
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .pricing-card {
+            background-color: var(--white);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: var(--box-shadow);
+            transition: var(--transition);
+            position: relative;
+        }
+        
+        .pricing-card:hover {
+            transform: translateY(-10px);
+        }
+        
+        .pricing-card.featured {
+            transform: scale(1.05);
+            border: 2px solid var(--primary-color);
+            z-index: 1;
+        }
+        
+        .pricing-card.featured:hover {
+            transform: scale(1.05) translateY(-10px);
+        }
+        
+        .price-badge {
+            position: absolute;
+            top: 20px;
+            right: -30px;
+            background-color: var(--primary-color);
+            color: var(--white);
+            font-size: 0.8rem;
+            font-weight: 600;
+            padding: 5px 30px;
+            transform: rotate(45deg);
+        }
+        
+        .price-header {
+            background-color: var(--secondary-color);
+            color: var(--white);
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .price-header h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+        }
+        
+        .price {
+            font-size: 2.5rem;
+            font-weight: 700;
+        }
+        
+        .currency {
+            font-size: 1.5rem;
+            vertical-align: super;
+            margin-right: 5px;
+        }
+        
+        .period {
+            font-size: 1rem;
+            font-weight: 400;
+            opacity: 0.8;
+        }
+        
+        .annual-price {
+            display: none;
+        }
+        
+        .price-features {
+            padding: 30px;
+        }
+        
+        .price-features ul li {
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .price-features ul li i {
+            margin-right: 10px;
+            font-size: 1rem;
+        }
+        
+        .price-features ul li i.fa-check {
+            color: var(--success-color);
+        }
+        
+        .price-features ul li i.fa-times {
+            color: var(--danger-color);
+        }
+        
+        .price-cta {
+            text-align: center;
+            padding: 0 30px 30px;
+        }
+        
+        .comparison-section {
+            padding: 80px 0;
+            background-color: var(--background-light);
+        }
+        
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 50px;
+            background-color: var(--white);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: var(--box-shadow);
+        }
+        
+        .comparison-table th {
+            padding: 20px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+            font-weight: 600;
+        }
+        
+        .comparison-table th:first-child {
+            width: 30%;
+        }
+        
+        .comparison-table th:not(:first-child) {
+            text-align: center;
+        }
+        
+        .comparison-table td {
+            padding: 15px 20px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .comparison-table tr:last-child td {
+            border-bottom: none;
+        }
+        
+        .comparison-table td:not(:first-child) {
+            text-align: center;
+        }
+        
+        .comparison-table .feature-name {
+            font-weight: 500;
+        }
+        
+        .feature-highlight {
+            display: block;
+            font-size: 0.8rem;
+            color: var(--text-light);
+            margin-top: 3px;
+        }
+        
+        .faq-section {
+            padding: 80px 0;
+        }
+        
+        .faq-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+            margin-top: 50px;
+        }
+        
+        .faq-item {
+            background-color: var(--white);
+            border-radius: 10px;
+            box-shadow: var(--box-shadow);
+            padding: 20px;
+            transition: var(--transition);
+        }
+        
+        .faq-item:hover {
+            transform: translateY(-5px);
+        }
+        
+        .faq-question {
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+        }
+        
+        .faq-question i {
+            transition: var(--transition);
+        }
+        
+        .faq-item.active .faq-question i {
+            transform: rotate(180deg);
+        }
+        
+        .faq-answer {
+            display: none;
+            padding-top: 10px;
+            border-top: 1px solid var(--border-color);
+            margin-top: 10px;
+        }
+        
+        .faq-item.active .faq-answer {
+            display: block;
+        }
+        
+        @media (max-width: 992px) {
+            .pricing-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .pricing-card.featured {
+                grid-column: span 2;
+            }
+            
+            .faq-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .pricing-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .pricing-card.featured {
+                grid-column: auto;
+                transform: none;
+            }
+            
+            .pricing-card.featured:hover {
+                transform: translateY(-10px);
+            }
+            
+            .comparison-table {
+                display: block;
+                overflow-x: auto;
+                white-space: nowrap;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">
+                <a href="../index.html">
+                    <img src="../assets/images/logo.svg" alt="FitLife Academia">
+                    <span>FitLife</span>
+                </a>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="../index.html">Home</a></li>
+                    <li><a href="sobre.html">Sobre</a></li>
+                    <li><a href="modalidades.html">Modalidades</a></li>
+                    <li><a href="horarios.html">Horários</a></li>
+                    <li><a href="planos.html" class="active">Planos</a></li>
+                    <li><a href="blog.html">Blog</a></li>
+                    <li><a href="contato.html">Contato</a></li>
+                </ul>
+            </nav>
+            <div class="auth-buttons">
+                <a href="login.html" class="btn-login">Login</a>
+                <a href="cadastro.html" class="btn-signup">Cadastre-se</a>
+            </div>
+            <button class="menu-toggle">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </header>
+
+    <section class="page-banner">
+        <div class="container">
+            <h1>Planos e Preços</h1>
+            <p>Escolha o plano ideal para seus objetivos e comece sua transformação hoje mesmo.</p>
+        </div>
+    </section>
+
+    <section class="pricing-section">
+        <div class="container">
+            <h2>Nossos Planos</h2>
+            <p class="text-center">Oferecemos diferentes opções para atender suas necessidades</p>
+            
+            <div class="switch-container">
+                <div class="plan-switch">
+                    <div class="switch-option monthly active" data-period="monthly">Mensal</div>
+                    <div class="switch-option annual" data-period="annual">Anual</div>
+                </div>
+                <p class="annual-discount">Economize 20% no plano anual</p>
+            </div>
+            
+            <div class="pricing-grid">
+                <div class="pricing-card">
+                    <div class="price-header">
+                        <h3>Plano Básico</h3>
+                        <div class="price monthly-price">
+                            <span class="currency">R$</span>
+                            <span class="amount">89</span>
+                            <span class="period">/mês</span>
+                        </div>
+                        <div class="price annual-price">
+                            <span class="currency">R$</span>
+                            <span class="amount">71</span>
+                            <span class="period">/mês</span>
+                        </div>
+                    </div>
+                    <div class="price-features">
+                        <ul>
+                            <li><i class="fas fa-check"></i> Acesso à musculação</li>
+                            <li><i class="fas fa-check"></i> Horário das 06h às 22h</li>
+                            <li><i class="fas fa-check"></i> Avaliação física mensal</li>
+                            <li><i class="fas fa-times"></i> Aulas coletivas</li>
+                            <li><i class="fas fa-times"></i> Treino personalizado</li>
+                            <li><i class="fas fa-times"></i> Nutricionista</li>
+                            <li><i class="fas fa-times"></i> Acesso a outras unidades</li>
+                        </ul>
+                    </div>
+                    <div class="price-cta">
+                        <a href="cadastro.html?plano=basico" class="btn-primary">Começar Agora</a>
+                    </div>
+                </div>
+                
+                <div class="pricing-card featured">
+                    <div class="price-badge">Mais Popular</div>
+                    <div class="price-header">
+                        <h3>Plano Premium</h3>
+                        <div class="price monthly-price">
+                            <span class="currency">R$</span>
+                            <span class="amount">129</span>
+                            <span class="period">/mês</span>
+                        </div>
+                        <div class="price annual-price">
+                            <span class="currency">R$</span>
+                            <span class="amount">103</span>
+                            <span class="period">/mês</span>
+                        </div>
+                    </div>
+                    <div class="price-features">
+                        <ul>
+                            <li><i class="fas fa-check"></i> Acesso à musculação</li>
+                            <li><i class="fas fa-check"></i> Horário das 06h às 22h</li>
+                            <li><i class="fas fa-check"></i> Avaliação física mensal</li>
+                            <li><i class="fas fa-check"></i> Aulas coletivas</li>
+                            <li><i class="fas fa-check"></i> 2 sessões de treino personalizado/mês</li>
+                            <li><i class="fas fa-times"></i> Nutricionista</li>
+                            <li><i class="fas fa-times"></i> Acesso a outras unidades</li>
+                        </ul>
+                    </div>
+                    <div class="price-cta">
+                        <a href="cadastro.html?plano=premium" class="btn-primary">Começar Agora</a>
+                    </div>
+                </div>
+                
+                <div class="pricing-card">
+                    <div class="price-header">
+                        <h3>Plano Master</h3>
+                        <div class="price monthly-price">
+                            <span class="currency">R$</span>
+                            <span class="amount">179</span>
+                            <span class="period">/mês</span>
+                        </div>
+                        <div class="price annual-price">
+                            <span class="currency">R$</span>
+                            <span class="amount">143</span>
+                            <span class="period">/mês</span>
+                        </div>
+                    </div>
+                    <div class="price-features">
+                        <ul>
+                            <li><i class="fas fa-check"></i> Acesso à musculação</li>
+                            <li><i class="fas fa-check"></i> Horário das 06h às 22h</li>
+                            <li><i class="fas fa-check"></i> Avaliação física mensal</li>
+                            <li><i class="fas fa-check"></i> Aulas coletivas</li>
+                            <li><i class="fas fa-check"></i> 4 sessões de treino personalizado/mês</li>
+                            <li><i class="fas fa-check"></i> Consulta com nutricionista mensal</li>
+                            <li><i class="fas fa-check"></i> Acesso a todas as unidades</li>
+                        </ul>
+                    </div>
+                    <div class="price-cta">
+                        <a href="cadastro.html?plano=master" class="btn-primary">Começar Agora</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="comparison-section">
+        <div class="container">
+            <h2>Comparativo de Planos</h2>
+            <p class="text-center">Confira em detalhes as diferenças entre nossos planos e escolha o que melhor se adapta às suas necessidades</p>
+            
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Recursos</th>
+                        <th>Básico</th>
+                        <th>Premium</th>
+                        <th>Master</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="feature-name">Acesso à musculação<span class="feature-highlight">Equipamentos de última geração</span></td>
+                        <td><i class="fas fa-check" style="color: var(--success-color);"></i></td>
+                        <td><i class="fas fa-check" style="color: var(--success-color);"></i></td>
+                        <td><i class="fas fa-check" style="color: var(--success-color);"></i></td>
+                    </tr>
+                    <tr>
+                        <td class="feature-name">Horário de funcionamento</td>
+                        <td>06h às 22h</td>
+                        <td>06h às 22h</td>
+                        <td>06h às 22h</td>
+                    </tr>
+                    <tr>
+                        <td class="feature-name">Avaliação física<span class="feature-highlight">Com profissionais especializados</span></td>
+                        <td>Mensal</td>
+                        <td>Mensal</td>
+                        <td>Mensal</td>
+                    </tr>
+                    <tr>
+                        <td class="feature-name">Aulas coletivas<span class="feature-highlight">Spinning, Pilates, Funcional, Yoga, Zumba</span></td>
+                        <td><i class="fas fa-times" style="color: var(--danger-color);"></i></td>
+                        <td>Ilimitadas</td>
+                        <td>Ilimitadas</td>
+                    </tr>
+                    <tr>
+                        <td class="feature-name">Treino personalizado<span class="feature-highlight">Sessões individuais com personal trainer</span></td>
+                        <td><i class="fas fa-times" style="color: var(--danger-color);"></i></td>
+                        <td>2/mês</td>
+                        <td>4/mês</td>
+                    </tr>
+                    <tr>
+                        <td class="feature-name">Consulta com nutricionista<span class="feature-highlight">Plano alimentar personalizado</span></td>
+                        <td><i class="fas fa-times" style="color: var(--danger-color);"></i></td>
+                        <td><i class="fas fa-times" style="color: var(--danger-color);"></i></td>
+                        <td>Mensal</td>
+                    </tr>
+                    <tr>
+                        <td class="feature-name">Acesso a outras unidades<span class="feature-highlight">Treine em qualquer unidade da rede</span></td>
+                        <td><i class="fas fa-times" style="color: var(--danger-color);"></i></td>
+                        <td><i class="fas fa-times" style="color: var(--danger-color);"></i></td>
+                        <td><i class="fas fa-check" style="color: var(--success-color);"></i></td>
+                    </tr>
+                    <tr>
+                        <td class="feature-name">Taxa de matrícula</td>
+                        <td>R$ 99</td>
+                        <td>R$ 99</td>
+                        <td><i class="fas fa-times" style="color: var(--danger-color);"></i></td>
+                    </tr>
+                    <tr>
+                        <td class="feature-name">Período de fidelidade</td>
+                        <td>3 meses</td>
+                        <td>3 meses</td>
+                        <td>Não há</td>
+                    </tr>
+                    <tr>
+                        <td class="feature-name">App exclusivo<span class="feature-highlight">Acompanhe treinos e evolução</span></td>
+                        <td><i class="fas fa-check" style="color: var(--success-color);"></i></td>
+                        <td><i class="fas fa-check" style="color: var(--success-color);"></i></td>
+                        <td><i class="fas fa-check" style="color: var(--success-color);"></i></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td><a href="cadastro.html?plano=basico" class="btn-tertiary">Escolher Básico</a></td>
+                        <td><a href="cadastro.html?plano=premium" class="btn-tertiary">Escolher Premium</a></td>
+                        <td><a href="cadastro.html?plano=master" class="btn-tertiary">Escolher Master</a></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <section class="faq-section">
+        <div class="container">
+            <h2>Perguntas Frequentes</h2>
+            <p class="text-center">Tire suas dúvidas sobre nossos planos e serviços</p>
+            
+            <div class="faq-grid">
+                <div class="faq-item active">
+                    <div class="faq-question">
+                        Como funciona o período de testes gratuito? <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Oferecemos um dia de testes gratuito para que você possa conhecer nossas instalações, equipamentos e aulas. Durante esse dia, você terá acesso a todas as áreas da academia e poderá participar das aulas coletivas disponíveis no horário da sua visita.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        Posso cancelar meu plano a qualquer momento? <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Os planos Básico e Premium possuem um período de fidelidade de 3 meses. Após esse período, você pode cancelar a qualquer momento com aviso prévio de 30 dias. Já o plano Master não possui período de fidelidade, podendo ser cancelado a qualquer momento com o mesmo aviso prévio.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        É possível congelar a mensalidade durante viagens? <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Sim, oferecemos a possibilidade de congelar sua mensalidade por até 30 dias por ano (consecutivos ou não). Para os planos Premium e Master, esse serviço é gratuito. Para o plano Básico, há uma taxa administrativa de R$ 30 por solicitação de congelamento.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        Como funcionam as sessões de treino personalizado? <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>As sessões de treino personalizado são realizadas individualmente com um de nossos personal trainers. Cada sessão tem duração de 50 minutos e deve ser agendada com antecedência através do nosso aplicativo ou na recepção. As sessões não utilizadas no mês não acumulam para o mês seguinte.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        Preciso agendar para participar das aulas coletivas? <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Sim, é necessário fazer o agendamento prévio para todas as aulas coletivas. O agendamento pode ser feito através do nosso aplicativo ou diretamente na recepção da academia, com até 24 horas de antecedência. Em caso de desistência, pedimos que cancele sua reserva com pelo menos 2 horas de antecedência.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        Quais são as formas de pagamento aceitas? <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Aceitamos pagamento via cartão de crédito, débito em conta e boleto bancário. Para os planos anuais, oferecemos a possibilidade de parcelamento em até 12x no cartão de crédito sem juros.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta">
+        <div class="container">
+            <div class="cta-content">
+                <h2>Pronto para começar sua transformação?</h2>
+                <p>Venha conhecer nossas instalações e experimente um dia de treino gratuito.</p>
+                <a href="cadastro.html" class="btn-primary">Agendar Visita Gratuita</a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-info">
+                    <div class="footer-logo">
+                        <img src="../assets/images/logo.svg" alt="FitLife Academia">
+                        <span>FitLife</span>
+                    </div>
+                    <p>Transformando vidas através da atividade física desde 2010.</p>
+                    <div class="social-media">
+                        <a href="#" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" target="_blank"><i class="fab fa-instagram"></i></a>
+                        <a href="#" target="_blank"><i class="fab fa-youtube"></i></a>
+                        <a href="#" target="_blank"><i class="fab fa-whatsapp"></i></a>
+                    </div>
+                </div>
+                <div class="footer-links">
+                    <h4>Links Rápidos</h4>
+                    <ul>
+                        <li><a href="../index.html">Home</a></li>
+                        <li><a href="sobre.html">Sobre nós</a></li>
+                        <li><a href="modalidades.html">Modalidades</a></li>
+                        <li><a href="horarios.html">Horários</a></li>
+                        <li><a href="planos.html">Planos</a></li>
+                        <li><a href="blog.html">Blog</a></li>
+                        <li><a href="contato.html">Contato</a></li>
+                    </ul>
+                </div>
+                <div class="footer-contact">
+                    <h4>Contato</h4>
+                    <ul>
+                        <li><i class="fas fa-map-marker-alt"></i> Av. Principal, 1000 - Centro</li>
+                        <li><i class="fas fa-phone"></i> (11) 99999-9999</li>
+                        <li><i class="fas fa-envelope"></i> contato@fitlifeacademia.com.br</li>
+                    </ul>
+                    <div class="footer-hours">
+                        <h4>Horário de Funcionamento</h4>
+                        <p>Segunda a Sexta: 06h às 22h</p>
+                        <p>Sábado: 08h às 18h</p>
+                        <p>Domingo: 08h às 14h</p>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 FitLife Academia. Todos os direitos reservados.</p>
+                <div class="footer-terms">
+                    <a href="#">Termos de Uso</a>
+                    <a href="#">Política de Privacidade</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../assets/js/main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Alternar entre planos mensais e anuais
+            const switchOptions = document.querySelectorAll('.switch-option');
+            const monthlyPrices = document.querySelectorAll('.monthly-price');
+            const annualPrices = document.querySelectorAll('.annual-price');
+            
+            switchOptions.forEach(option => {
+                option.addEventListener('click', () => {
+                    // Remover classe ativa de todas as opções
+                    switchOptions.forEach(opt => opt.classList.remove('active'));
+                    
+                    // Adicionar classe ativa à opção clicada
+                    option.classList.add('active');
+                    
+                    // Mostrar preços correspondentes
+                    const period = option.getAttribute('data-period');
+                    if (period === 'monthly') {
+                        monthlyPrices.forEach(price => price.style.display = 'block');
+                        annualPrices.forEach(price => price.style.display = 'none');
+                    } else {
+                        monthlyPrices.forEach(price => price.style.display = 'none');
+                        annualPrices.forEach(price => price.style.display = 'block');
+                    }
+                });
+            });
+            
+            // FAQ accordion
+            const faqItems = document.querySelectorAll('.faq-item');
+            
+            faqItems.forEach(item => {
+                const question = item.querySelector('.faq-question');
+                
+                question.addEventListener('click', () => {
+                    // Verificar se o item já está ativo
+                    const isActive = item.classList.contains('active');
+                    
+                    // Fechar todos os itens ativos
+                    faqItems.forEach(faqItem => {
+                        faqItem.classList.remove('active');
+                    });
+                    
+                    // Se o item clicado não estava ativo, abri-lo
+                    if (!isActive) {
+                        item.classList.add('active');
+                    }
+                });
+            });
+            
+            // Verificar parâmetros da URL para pré-selecionar plano
+            const urlParams = new URLSearchParams(window.location.search);
+            const plano = urlParams.get('plano');
+            
+            if (plano) {
+                // Rolar até a seção de preços
+                const pricingSection = document.querySelector('.pricing-section');
+                if (pricingSection) {
+                    window.scrollTo({
+                        top: pricingSection.offsetTop - 100,
+                        behavior: 'smooth'
+                    });
+                    
+                    // Destacar o plano selecionado
+                    const selectedCard = document.querySelector(`.pricing-card:has(a[href*="plano=${plano}"])`);
+                    if (selectedCard) {
+                        setTimeout(() => {
+                            selectedCard.classList.add('highlight');
+                        }, 1000);
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

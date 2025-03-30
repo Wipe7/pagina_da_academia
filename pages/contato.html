@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contato - FitLife Academia</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/responsive.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Estilos específicos para a página de Contato */
+        .page-banner {
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('../assets/images/contact-banner.jpg') no-repeat center center/cover;
+            height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: var(--white);
+            margin-top: 80px;
+        }
+        
+        .page-banner h1 {
+            font-size: 3rem;
+            margin-bottom: 10px;
+        }
+        
+        .page-banner p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .contact-section {
+            padding: 80px 0;
+        }
+        
+        .contact-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+        }
+        
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .contact-heading {
+            margin-bottom: 30px;
+        }
+        
+        .contact-heading h2 {
+            text-align: left;
+            margin-bottom: 20px;
+        }
+        
+        .contact-heading p {
+            color: var(--text-light);
+        }
+        
+        .info-item {
+            display: flex;
+            margin-bottom: 30px;
+        }
+        
+        .info-icon {
+            width: 60px;
+            height: 60px;
+            background-color: rgba(255, 69, 0, 0.1);
+            color: var(--primary-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-right: 20px;
+            transition: var(--transition);
+        }
+        
+        .info-item:hover .info-icon {
+            background-color: var(--primary-color);
+            color: var(--white);
+        }
+        
+        .info-content {
+            flex: 1;
+        }
+        
+        .info-content h3 {
+            font-size: 1.25rem;
+            margin-bottom: 5px;
+        }
+        
+        .info-content p {
+            color: var(--text-light);
+        }
+        
+        .info-content a {
+            color: var(--text-light);
+            transition: var(--transition);
+        }
+        
+        .info-content a:hover {
+            color: var(--primary-color);
+        }
+        
+        .social-links {
+            display: flex;
+            margin-top: 20px;
+        }
+        
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background-color: rgba(255, 69, 0, 0.1);
+            color: var(--primary-color);
+            border-radius: 50%;
+            margin-right: 10px;
+            font-size: 1.1rem;
+            transition: var(--transition);
+        }
+        
+        .social-links a:hover {
+            background-color: var(--primary-color);
+            color: var(--white);
+            transform: translateY(-3px);
+        }
+        
+        .contact-form-container {
+            background-color: var(--white);
+            border-radius: 10px;
+            box-shadow: var(--box-shadow);
+            padding: 40px;
+        }
+        
+        .contact-form-heading {
+            margin-bottom: 30px;
+        }
+        
+        .contact-form-heading h3 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .contact-form-heading p {
+            color: var(--text-light);
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid var(--border-color);
+            border-radius: 5px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 2px rgba(255, 69, 0, 0.1);
+        }
+        
+        textarea.form-control {
+            height: 150px;
+            resize: vertical;
+        }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        
+        .form-check {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 20px;
+        }
+        
+        .form-check input {
+            margin-right: 10px;
+            margin-top: 5px;
+        }
+        
+        .form-check label {
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+        
+        .form-check label a {
+            color: var(--primary-color);
+            font-weight: 500;
+        }
+        
+        .submit-btn {
+            background-color: var(--primary-color);
+            color: var(--white);
+            border: none;
+            border-radius: 5px;
+            padding: 12px 30px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .submit-btn:hover {
+            background-color: var(--secondary-color);
+        }
+        
+        .map-section {
+            padding-bottom: 80px;
+        }
+        
+        .map-container {
+            height: 450px;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: var(--box-shadow);
+        }
+        
+        .map-container iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        
+        .faq-section {
+            padding: 80px 0;
+            background-color: var(--background-light);
+        }
+        
+        .faq-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .accordion {
+            margin-top: 50px;
+        }
+        
+        .accordion-item {
+            background-color: var(--white);
+            border-radius: 10px;
+            box-shadow: var(--box-shadow);
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+        
+        .accordion-header {
+            padding: 20px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            transition: var(--transition);
+        }
+        
+        .accordion-header:hover {
+            color: var(--primary-color);
+        }
+        
+        .accordion-header i {
+            transition: var(--transition);
+        }
+        
+        .accordion-item.active .accordion-header i {
+            transform: rotate(180deg);
+        }
+        
+        .accordion-content {
+            padding: 0 20px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+        }
+        
+        .accordion-item.active .accordion-content {
+            padding: 0 20px 20px;
+            max-height: 500px;
+            transition: max-height 0.5s ease-in;
+        }
+        
+        .accordion-divider {
+            height: 1px;
+            background-color: var(--border-color);
+            margin: 0 20px 20px;
+            display: none;
+        }
+        
+        .accordion-item.active .accordion-divider {
+            display: block;
+        }
+        
+        @media (max-width: 992px) {
+            .contact-container {
+                grid-template-columns: 1fr;
+                gap: 50px;
+            }
+            
+            .contact-info {
+                order: 2;
+            }
+            
+            .contact-form-container {
+                order: 1;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .form-row {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">
+                <a href="../index.html">
+                    <img src="../assets/images/logo.svg" alt="FitLife Academia">
+                    <span>FitLife</span>
+                </a>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="../index.html">Home</a></li>
+                    <li><a href="sobre.html">Sobre</a></li>
+                    <li><a href="modalidades.html">Modalidades</a></li>
+                    <li><a href="horarios.html">Horários</a></li>
+                    <li><a href="planos.html">Planos</a></li>
+                    <li><a href="blog.html">Blog</a></li>
+                    <li><a href="contato.html" class="active">Contato</a></li>
+                </ul>
+            </nav>
+            <div class="auth-buttons">
+                <a href="login.html" class="btn-login">Login</a>
+                <a href="cadastro.html" class="btn-signup">Cadastre-se</a>
+            </div>
+            <button class="menu-toggle">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </header>
+
+    <section class="page-banner">
+        <div class="container">
+            <h1>Entre em Contato</h1>
+            <p>Estamos à disposição para responder suas dúvidas e ajudar você a iniciar sua jornada fitness.</p>
+        </div>
+    </section>
+
+    <section class="contact-section">
+        <div class="container">
+            <div class="contact-container">
+                <div class="contact-info">
+                    <div class="contact-heading">
+                        <h2>Informações de Contato</h2>
+                        <p>Entre em contato conosco por um dos canais abaixo ou preencha o formulário para nos enviar uma mensagem.</p>
+                    </div>
+                    
+                    <div class="info-item">
+                        <div class="info-icon">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <div class="info-content">
+                            <h3>Endereço</h3>
+                            <p>Av. Principal, 1000 - Centro<br>São Paulo, SP - CEP: 01000-000</p>
+                        </div>
+                    </div>
+                    
+                    <div class="info-item">
+                        <div class="info-icon">
+                            <i class="fas fa-phone-alt"></i>
+                        </div>
+                        <div class="info-content">
+                            <h3>Telefone</h3>
+                            <p><a href="tel:+551199999999">(11) 99999-9999</a></p>
+                            <p><a href="tel:+551122222222">(11) 2222-2222</a></p>
+                        </div>
+                    </div>
+                    
+                    <div class="info-item">
+                        <div class="info-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <div class="info-content">
+                            <h3>E-mail</h3>
+                            <p><a href="mailto:contato@fitlifeacademia.com.br">contato@fitlifeacademia.com.br</a></p>
+                            <p><a href="mailto:suporte@fitlifeacademia.com.br">suporte@fitlifeacademia.com.br</a></p>
+                        </div>
+                    </div>
+                    
+                    <div class="info-item">
+                        <div class="info-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="info-content">
+                            <h3>Horário de Funcionamento</h3>
+                            <p>Segunda a Sexta: 06h às 22h</p>
+                            <p>Sábado: 08h às 18h</p>
+                            <p>Domingo: 08h às 14h</p>
+                        </div>
+                    </div>
+                    
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                        <a href="#"><i class="fab fa-whatsapp"></i></a>
+                    </div>
+                </div>
+                
+                <div class="contact-form-container">
+                    <div class="contact-form-heading">
+                        <h3>Envie-nos uma Mensagem</h3>
+                        <p>Preencha o formulário abaixo e nossa equipe entrará em contato o mais breve possível.</p>
+                    </div>
+                    
+                    <form id="contact-form" class="contact-form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="name" class="form-label">Nome Completo*</label>
+                                <input type="text" id="name" name="name" class="form-control" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="email" class="form-label">E-mail*</label>
+                                <input type="email" id="email" name="email" class="form-control" required>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="phone" class="form-label">Telefone</label>
+                                <input type="tel" id="phone" name="phone" class="form-control">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="subject" class="form-label">Assunto*</label>
+                                <select id="subject" name="subject" class="form-control" required>
+                                    <option value="">Selecione um assunto</option>
+                                    <option value="info">Informações sobre planos</option>
+                                    <option value="trial">Aula experimental</option>
+                                    <option value="feedback">Feedback</option>
+                                    <option value="partnership">Parcerias</option>
+                                    <option value="other">Outro</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="message" class="form-label">Mensagem*</label>
+                            <textarea id="message" name="message" class="form-control" required></textarea>
+                        </div>
+                        
+                        <div class="form-check">
+                            <input type="checkbox" id="privacy" name="privacy" required>
+                            <label for="privacy">Concordo com a <a href="#">Política de Privacidade</a> e autorizo o uso dos meus dados para contato.</label>
+                        </div>
+                        
+                        <button type="submit" class="submit-btn">Enviar Mensagem</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="map-section">
+        <div class="container">
+            <div class="map-container">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3657.1975904782894!2d-46.6522118!3d-23.5636533!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94ce59c7f481fd9f%3A0x9982bfde4df54830!2sAv.%20Paulista%2C%201000%20-%20Bela%20Vista%2C%20S%C3%A3o%20Paulo%20-%20SP!5e0!3m2!1spt-BR!2sbr!4v1616791223085!5m2!1spt-BR!2sbr" allowfullscreen="" loading="lazy"></iframe>
+            </div>
+        </div>
+    </section>
+
+    <section class="faq-section">
+        <div class="container">
+            <div class="faq-container">
+                <h2>Perguntas Frequentes</h2>
+                <p class="text-center">Confira as respostas para as dúvidas mais comuns sobre a FitLife Academia</p>
+                
+                <div class="accordion">
+                    <div class="accordion-item active">
+                        <div class="accordion-header">
+                            Como faço para agendar uma visita à academia? <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="accordion-divider"></div>
+                        <div class="accordion-content">
+                            <p>Você pode agendar uma visita através do nosso site, clicando no botão "Agendar Visita" e preenchendo o formulário, ou entrando em contato por telefone, WhatsApp ou e-mail. Durante a visita, você conhecerá nossas instalações, terá uma aula experimental gratuita e receberá uma avaliação física inicial.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="accordion-item">
+                        <div class="accordion-header">
+                            Qual é a política de cancelamento de matrícula? <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="accordion-divider"></div>
+                        <div class="accordion-content">
+                            <p>Para cancelar sua matrícula, você deve enviar uma solicitação com 30 dias de antecedência. Os planos Básico e Premium possuem um período de fidelidade de 3 meses, enquanto o plano Master não possui período de fidelidade. Em caso de problemas de saúde que impossibilitem a prática de atividades físicas, apresentando atestado médico, o cancelamento pode ser imediato sem multa.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="accordion-item">
+                        <div class="accordion-header">
+                            É necessário trazer toalha para os treinos? <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="accordion-divider"></div>
+                        <div class="accordion-content">
+                            <p>Sim, o uso de toalha é obrigatório durante os treinos para manter a higiene dos equipamentos. Você pode trazer sua própria toalha ou alugar uma na recepção por uma taxa adicional. Também solicitamos que os alunos higienizem os equipamentos após o uso com os sprays e papéis disponibilizados em pontos estratégicos da academia.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="accordion-item">
+                        <div class="accordion-header">
+                            Posso congelar minha matrícula durante viagens? <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="accordion-divider"></div>
+                        <div class="accordion-content">
+                            <p>Sim, oferecemos a possibilidade de congelar sua matrícula por até 30 dias por ano (consecutivos ou não) para o plano Premium e Master, sem custo adicional. Para o plano Básico, há uma taxa administrativa de R$ 30 por solicitação de congelamento. O congelamento deve ser solicitado com antecedência mínima de 5 dias úteis, através da recepção ou área do aluno no aplicativo.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="accordion-item">
+                        <div class="accordion-header">
+                            Como funciona o estacionamento? <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="accordion-divider"></div>
+                        <div class="accordion-content">
+                            <p>A academia possui estacionamento próprio para uso exclusivo dos alunos durante o período de treino. Os planos Premium e Master incluem 2 horas gratuitas de estacionamento por dia. Para o plano Básico, o estacionamento tem um custo de R$ 10 por período de até 3 horas. O estacionamento funciona no mesmo horário da academia.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta">
+        <div class="container">
+            <div class="cta-content">
+                <h2>Pronto para começar?</h2>
+                <p>Agende uma visita e conheça nossa estrutura ou matricule-se online e comece a treinar hoje mesmo.</p>
+                <a href="cadastro.html" class="btn-primary">Fazer Matrícula</a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-info">
+                    <div class="footer-logo">
+                        <img src="../assets/images/logo.svg" alt="FitLife Academia">
+                        <span>FitLife</span>
+                    </div>
+                    <p>Transformando vidas através da atividade física desde 2010.</p>
+                    <div class="social-media">
+                        <a href="#" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" target="_blank"><i class="fab fa-instagram"></i></a>
+                        <a href="#" target="_blank"><i class="fab fa-youtube"></i></a>
+                        <a href="#" target="_blank"><i class="fab fa-whatsapp"></i></a>
+                    </div>
+                </div>
+                <div class="footer-links">
+                    <h4>Links Rápidos</h4>
+                    <ul>
+                        <li><a href="../index.html">Home</a></li>
+                        <li><a href="sobre.html">Sobre nós</a></li>
+                        <li><a href="modalidades.html">Modalidades</a></li>
+                        <li><a href="horarios.html">Horários</a></li>
+                        <li><a href="planos.html">Planos</a></li>
+                        <li><a href="blog.html">Blog</a></li>
+                        <li><a href="contato.html">Contato</a></li>
+                    </ul>
+                </div>
+                <div class="footer-contact">
+                    <h4>Contato</h4>
+                    <ul>
+                        <li><i class="fas fa-map-marker-alt"></i> Av. Principal, 1000 - Centro</li>
+                        <li><i class="fas fa-phone"></i> (11) 99999-9999</li>
+                        <li><i class="fas fa-envelope"></i> contato@fitlifeacademia.com.br</li>
+                    </ul>
+                    <div class="footer-hours">
+                        <h4>Horário de Funcionamento</h4>
+                        <p>Segunda a Sexta: 06h às 22h</p>
+                        <p>Sábado: 08h às 18h</p>
+                        <p>Domingo: 08h às 14h</p>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 FitLife Academia. Todos os direitos reservados.</p>
+                <div class="footer-terms">
+                    <a href="#">Termos de Uso</a>
+                    <a href="#">Política de Privacidade</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../assets/js/main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Validação do formulário
+            const contactForm = document.getElementById('contact-form');
+            
+            contactForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Simulação de envio do formulário
+                const submitBtn = contactForm.querySelector('.submit-btn');
+                const originalText = submitBtn.textContent;
+                
+                submitBtn.textContent = 'Enviando...';
+                submitBtn.disabled = true;
+                
+                // Simular tempo de processamento
+                setTimeout(function() {
+                    // Exibir mensagem de sucesso
+                    const formFields = contactForm.querySelectorAll('input, textarea, select');
+                    formFields.forEach(field => field.disabled = true);
+                    
+                    const successMessage = document.createElement('div');
+                    successMessage.className = 'success-message';
+                    successMessage.style.backgroundColor = 'rgba(40, 167, 69, 0.1)';
+                    successMessage.style.color = '#28a745';
+                    successMessage.style.padding = '15px';
+                    successMessage.style.borderRadius = '5px';
+                    successMessage.style.marginTop = '20px';
+                    successMessage.style.textAlign = 'center';
+                    successMessage.innerHTML = '<i class="fas fa-check-circle" style="margin-right: 10px;"></i> Sua mensagem foi enviada com sucesso! Nossa equipe entrará em contato em breve.';
+                    
+                    contactForm.appendChild(successMessage);
+                    submitBtn.textContent = 'Enviado';
+                    
+                    // Rolar para a mensagem
+                    successMessage.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    
+                    // Resetar formulário após 5 segundos
+                    setTimeout(function() {
+                        contactForm.reset();
+                        formFields.forEach(field => field.disabled = false);
+                        submitBtn.textContent = originalText;
+                        submitBtn.disabled = false;
+                        successMessage.remove();
+                    }, 5000);
+                }, 2000);
+            });
+            
+            // Accordion para FAQs
+            const accordionItems = document.querySelectorAll('.accordion-item');
+            
+            accordionItems.forEach(item => {
+                const header = item.querySelector('.accordion-header');
+                
+                header.addEventListener('click', () => {
+                    // Verificar se o item já está ativo
+                    const isActive = item.classList.contains('active');
+                    
+                    // Fechar todos os itens
+                    accordionItems.forEach(accItem => {
+                        accItem.classList.remove('active');
+                    });
+                    
+                    // Se o item clicado não estava ativo, abri-lo
+                    if (!isActive) {
+                        item.classList.add('active');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

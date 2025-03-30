@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sobre Nós - FitLife Academia</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/responsive.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Estilos específicos para a página Sobre */
+        .page-banner {
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('../assets/images/about-banner.jpg') no-repeat center center/cover;
+            height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: var(--white);
+            margin-top: 80px;
+        }
+        
+        .page-banner h1 {
+            font-size: 3rem;
+            margin-bottom: 10px;
+        }
+        
+        .page-banner p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .about-section {
+            padding: 80px 0;
+        }
+        
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            align-items: center;
+        }
+        
+        .about-image {
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: var(--box-shadow);
+        }
+        
+        .about-text h2 {
+            text-align: left;
+            margin-bottom: 30px;
+        }
+        
+        .about-text p {
+            margin-bottom: 20px;
+        }
+        
+        .mission-values {
+            background-color: var(--background-light);
+            padding: 80px 0;
+        }
+        
+        .mission-values-content {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+        
+        .mission-card {
+            background-color: var(--white);
+            padding: 40px 30px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: var(--box-shadow);
+        }
+        
+        .mission-card i {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+        }
+        
+        .team-section {
+            padding: 80px 0;
+        }
+        
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 30px;
+        }
+        
+        .team-card {
+            background-color: var(--white);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: var(--box-shadow);
+            text-align: center;
+            transition: var(--transition);
+        }
+        
+        .team-card:hover {
+            transform: translateY(-10px);
+        }
+        
+        .team-image {
+            height: 250px;
+            overflow: hidden;
+        }
+        
+        .team-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+        
+        .team-card:hover .team-image img {
+            transform: scale(1.1);
+        }
+        
+        .team-info {
+            padding: 20px;
+        }
+        
+        .team-info h3 {
+            margin-bottom: 5px;
+        }
+        
+        .team-info span {
+            color: var(--text-light);
+            font-size: 0.9rem;
+            display: block;
+            margin-bottom: 15px;
+        }
+        
+        .team-social {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .team-social a {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            background-color: var(--background-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-color);
+            transition: var(--transition);
+        }
+        
+        .team-social a:hover {
+            background-color: var(--primary-color);
+            color: var(--white);
+        }
+        
+        @media (max-width: 992px) {
+            .about-content, .mission-values-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .team-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .team-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">
+                <a href="../index.html">
+                    <img src="../assets/images/logo.svg" alt="FitLife Academia">
+                    <span>FitLife</span>
+                </a>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="../index.html">Home</a></li>
+                    <li><a href="sobre.html" class="active">Sobre</a></li>
+                    <li><a href="modalidades.html">Modalidades</a></li>
+                    <li><a href="horarios.html">Horários</a></li>
+                    <li><a href="planos.html">Planos</a></li>
+                    <li><a href="blog.html">Blog</a></li>
+                    <li><a href="contato.html">Contato</a></li>
+                </ul>
+            </nav>
+            <div class="auth-buttons">
+                <a href="login.html" class="btn-login">Login</a>
+                <a href="cadastro.html" class="btn-signup">Cadastre-se</a>
+            </div>
+            <button class="menu-toggle">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </header>
+
+    <section class="page-banner">
+        <div class="container">
+            <h1>Sobre Nós</h1>
+            <p>Conheça nossa história, nossos valores e a equipe que faz a FitLife Academia acontecer todos os dias.</p>
+        </div>
+    </section>
+
+    <section class="about-section">
+        <div class="container">
+            <div class="about-content">
+                <div class="about-image">
+                    <img src="../assets/images/about-image.jpg" alt="FitLife Academia">
+                </div>
+                <div class="about-text">
+                    <h2>Nossa História</h2>
+                    <p>Fundada em 2010, a FitLife Academia nasceu do sonho de criar um espaço onde as pessoas pudessem transformar suas vidas através da atividade física e bem-estar. O que começou como uma pequena sala com alguns equipamentos se transformou em uma das academias mais completas e acolhedoras da cidade.</p>
+                    <p>Com uma filosofia centrada no cliente, sempre investimos em equipamentos de última geração, profissionais qualificados e métodos inovadores para garantir que nossos alunos alcancem seus objetivos de forma eficiente e segura.</p>
+                    <p>Ao longo desses anos, já ajudamos mais de 10.000 pessoas a transformarem seus corpos e suas vidas. Cada história de sucesso nos motiva a continuar evoluindo e oferecendo o melhor em saúde e fitness para nossa comunidade.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="mission-values">
+        <div class="container">
+            <h2>Missão, Visão e Valores</h2>
+            <div class="mission-values-content">
+                <div class="mission-card">
+                    <i class="fas fa-bullseye"></i>
+                    <h3>Missão</h3>
+                    <p>Promover a transformação da saúde e qualidade de vida das pessoas através da atividade física, nutrição adequada e bem-estar, criando uma comunidade forte e motivada.</p>
+                </div>
+                <div class="mission-card">
+                    <i class="fas fa-eye"></i>
+                    <h3>Visão</h3>
+                    <p>Ser reconhecida como a academia referência em resultados e atendimento personalizado, expandindo nossa metodologia para outras regiões e impactando positivamente a vida de milhares de pessoas.</p>
+                </div>
+                <div class="mission-card">
+                    <i class="fas fa-heart"></i>
+                    <h3>Valores</h3>
+                    <p>Comprometimento, respeito, inovação, excelência, empatia e paixão pelo que fazemos. Acreditamos que a verdadeira transformação vem de dentro para fora.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="team-section">
+        <div class="container">
+            <h2>Nossa Equipe</h2>
+            <div class="team-grid">
+                <div class="team-card">
+                    <div class="team-image">
+                        <img src="../assets/images/team-1.jpg" alt="Carlos Silva">
+                    </div>
+                    <div class="team-info">
+                        <h3>Carlos Silva</h3>
+                        <span>Fundador e Diretor</span>
+                        <div class="team-social">
+                            <a href="#"><i class="fab fa-facebook-f"></i></a>
+                            <a href="#"><i class="fab fa-instagram"></i></a>
+                            <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="team-card">
+                    <div class="team-image">
+                        <img src="../assets/images/team-2.jpg" alt="Ana Oliveira">
+                    </div>
+                    <div class="team-info">
+                        <h3>Ana Oliveira</h3>
+                        <span>Coordenadora de Musculação</span>
+                        <div class="team-social">
+                            <a href="#"><i class="fab fa-facebook-f"></i></a>
+                            <a href="#"><i class="fab fa-instagram"></i></a>
+                            <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="team-card">
+                    <div class="team-image">
+                        <img src="../assets/images/team-3.jpg" alt="Rodrigo Almeida">
+                    </div>
+                    <div class="team-info">
+                        <h3>Rodrigo Almeida</h3>
+                        <span>Instrutor de Spinning</span>
+                        <div class="team-social">
+                            <a href="#"><i class="fab fa-facebook-f"></i></a>
+                            <a href="#"><i class="fab fa-instagram"></i></a>
+                            <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="team-card">
+                    <div class="team-image">
+                        <img src="../assets/images/team-4.jpg" alt="Carla Sousa">
+                    </div>
+                    <div class="team-info">
+                        <h3>Carla Sousa</h3>
+                        <span>Instrutora de Pilates</span>
+                        <div class="team-social">
+                            <a href="#"><i class="fab fa-facebook-f"></i></a>
+                            <a href="#"><i class="fab fa-instagram"></i></a>
+                            <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta">
+        <div class="container">
+            <div class="cta-content">
+                <h2>Faça parte da nossa história</h2>
+                <p>Venha conhecer nossas instalações e começar sua transformação hoje mesmo.</p>
+                <a href="cadastro.html" class="btn-primary">Agendar Visita</a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-info">
+                    <div class="footer-logo">
+                        <img src="../assets/images/logo.svg" alt="FitLife Academia">
+                        <span>FitLife</span>
+                    </div>
+                    <p>Transformando vidas através da atividade física desde 2010.</p>
+                    <div class="social-media">
+                        <a href="#" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" target="_blank"><i class="fab fa-instagram"></i></a>
+                        <a href="#" target="_blank"><i class="fab fa-youtube"></i></a>
+                        <a href="#" target="_blank"><i class="fab fa-whatsapp"></i></a>
+                    </div>
+                </div>
+                <div class="footer-links">
+                    <h4>Links Rápidos</h4>
+                    <ul>
+                        <li><a href="../index.html">Home</a></li>
+                        <li><a href="sobre.html">Sobre nós</a></li>
+                        <li><a href="modalidades.html">Modalidades</a></li>
+                        <li><a href="horarios.html">Horários</a></li>
+                        <li><a href="planos.html">Planos</a></li>
+                        <li><a href="blog.html">Blog</a></li>
+                        <li><a href="contato.html">Contato</a></li>
+                    </ul>
+                </div>
+                <div class="footer-contact">
+                    <h4>Contato</h4>
+                    <ul>
+                        <li><i class="fas fa-map-marker-alt"></i> Av. Principal, 1000 - Centro</li>
+                        <li><i class="fas fa-phone"></i> (11) 99999-9999</li>
+                        <li><i class="fas fa-envelope"></i> contato@fitlifeacademia.com.br</li>
+                    </ul>
+                    <div class="footer-hours">
+                        <h4>Horário de Funcionamento</h4>
+                        <p>Segunda a Sexta: 06h às 22h</p>
+                        <p>Sábado: 08h às 18h</p>
+                        <p>Domingo: 08h às 14h</p>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 FitLife Academia. Todos os direitos reservados.</p>
+                <div class="footer-terms">
+                    <a href="#">Termos de Uso</a>
+                    <a href="#">Política de Privacidade</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../assets/js/main.js"></script>
+</body>
+</html>
