@@ -1,0 +1,952 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meus Treinos - Área do Aluno | FitLife Academia</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/responsive.css">
+    <link rel="stylesheet" href="../assets/css/admin.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Estilos específicos para a página de treinos */
+        .workout-tabs {
+            display: flex;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: var(--box-shadow);
+            margin-bottom: 30px;
+            overflow: hidden;
+        }
+        
+        .workout-tab {
+            flex: 1;
+            text-align: center;
+            padding: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-bottom: 3px solid transparent;
+            font-weight: 500;
+        }
+        
+        .workout-tab:hover {
+            background-color: var(--background-light);
+        }
+        
+        .workout-tab.active {
+            background-color: var(--background-light);
+            border-bottom: 3px solid var(--primary-color);
+            color: var(--primary-color);
+        }
+        
+        .workout-content {
+            display: none;
+        }
+        
+        .workout-content.active {
+            display: block;
+        }
+        
+        .workout-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        
+        .workout-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+        }
+        
+        .workout-title i {
+            margin-right: 10px;
+            color: var(--primary-color);
+        }
+        
+        .workout-info {
+            background-color: var(--background-light);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .workout-info-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
+        
+        .info-item {
+            text-align: center;
+        }
+        
+        .info-label {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            margin-bottom: 5px;
+        }
+        
+        .info-value {
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-container">
+        <!-- Sidebar -->
+        <div class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <img src="../assets/images/logo.svg" alt="FitLife">
+                <span>FitLife</span>
+            </div>
+            <div class="sidebar-menu">
+                <div class="menu-label">MENU PRINCIPAL</div>
+                <ul>
+                    <li><a href="dashboard.html"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                    <li><a href="treino.html" class="active"><i class="fas fa-dumbbell"></i> Meus Treinos</a></li>
+                    <li><a href="aulas.html"><i class="fas fa-calendar-alt"></i> Aulas</a></li>
+                    <li><a href="evolucao.html"><i class="fas fa-chart-line"></i> Evolução</a></li>
+                    <li><a href="avaliacao.html"><i class="fas fa-clipboard-list"></i> Avaliações</a></li>
+                    <li><a href="pagamentos.html"><i class="fas fa-credit-card"></i> Pagamentos</a></li>
+                </ul>
+                
+                <div class="menu-label">CONTA</div>
+                <ul>
+                    <li><a href="perfil.html"><i class="fas fa-user"></i> Meu Perfil</a></li>
+                    <li><a href="../pages/login.html"><i class="fas fa-sign-out-alt"></i> Sair</a></li>
+                </ul>
+            </div>
+        </div>
+    
+        <!-- Main Content -->
+        <div class="main-content" id="main-content">
+            <!-- Header -->
+            <div class="admin-header">
+                <button id="toggle-sidebar" class="toggle-sidebar">
+                    <i class="fas fa-bars"></i>
+                </button>
+                
+                <div class="header-search">
+                    <input type="text" placeholder="Buscar...">
+                    <i class="fas fa-search"></i>
+                </div>
+                
+                <div class="header-user">
+                    <div class="notifications">
+                        <button class="notification-btn" id="notification-btn">
+                            <i class="far fa-bell"></i>
+                            <div class="badge">3</div>
+                        </button>
+                        <div class="notification-dropdown" id="notification-dropdown" hidden>
+                            <div class="notification-header">
+                                <h3>Notificações</h3>
+                                <button class="mark-all-read">Marcar todas como lidas</button>
+                            </div>
+                            <ul class="notification-list">
+                                <li class="notification-item unread">
+                                    <div class="notification-icon alert">
+                                        <i class="fas fa-calendar-alt"></i>
+                                    </div>
+                                    <div class="notification-content">
+                                        <p><strong>Aula de Spinning</strong> - Amanhã às 07:00</p>
+                                        <span class="notification-time">Há 10 minutos</span>
+                                    </div>
+                                </li>
+                                <li class="notification-item unread">
+                                    <div class="notification-icon payment">
+                                        <i class="fas fa-credit-card"></i>
+                                    </div>
+                                    <div class="notification-content">
+                                        <p>Seu pagamento de maio foi confirmado</p>
+                                        <span class="notification-time">Há 3 horas</span>
+                                    </div>
+                                </li>
+                                <li class="notification-item unread">
+                                    <div class="notification-icon user">
+                                        <i class="fas fa-dumbbell"></i>
+                                    </div>
+                                    <div class="notification-content">
+                                        <p>Novo treino disponível! Confira seu treino A</p>
+                                        <span class="notification-time">Há 1 dia</span>
+                                    </div>
+                                </li>
+                            </ul>
+                            <div class="notification-footer">
+                                <a href="#">Ver todas notificações</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="user-profile" id="user-profile">
+                        <img src="../assets/images/user-avatar.jpg" alt="Foto de perfil">
+                        <div class="user-info">
+                            <div class="user-name">João Silva</div>
+                            <div class="user-role">Aluno Premium</div>
+                        </div>
+                        <i class="fas fa-chevron-down"></i>
+                        
+                        <div class="user-dropdown" id="user-dropdown" hidden>
+                            <ul>
+                                <li><a href="perfil.html"><i class="fas fa-user"></i> Meu Perfil</a></li>
+                                <li><a href="#"><i class="fas fa-cog"></i> Configurações</a></li>
+                                <li><a href="../pages/login.html"><i class="fas fa-sign-out-alt"></i> Sair</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Workout Content -->
+        <div class="dashboard-content">
+            <div class="page-title">
+                <div>
+                    <h1>Meus Treinos</h1>
+                    <p>Acompanhe seus treinos e progresso nos exercícios.</p>
+                </div>
+                <div class="date-filter">
+                    <button class="btn-primary"><i class="fas fa-print"></i> Imprimir Treino</button>
+                </div>
+            </div>
+
+            <!-- Workout Tabs -->
+            <div class="workout-tabs">
+                <div class="workout-tab active" data-tab="treino-a">Treino A</div>
+                <div class="workout-tab" data-tab="treino-b">Treino B</div>
+                <div class="workout-tab" data-tab="treino-c">Treino C</div>
+                <div class="workout-tab" data-tab="cardio">Cardio</div>
+                <div class="workout-tab" data-tab="historico">Histórico</div>
+            </div>
+
+            <!-- Workout Overview -->
+            <div class="table-card">
+                <div class="table-header">
+                    <div class="table-title">Informações do Treino</div>
+                </div>
+                <div class="workout-info">
+                    <div class="workout-info-grid">
+                        <div class="info-item">
+                            <div class="info-label">Data de Início</div>
+                            <div class="info-value">15/03/2025</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Data de Renovação</div>
+                            <div class="info-value">15/05/2025</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Objetivo</div>
+                            <div class="info-value">Hipertrofia</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Instrutor</div>
+                            <div class="info-value">André Martins</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="workout-instructions">
+                    <p><strong>Dicas:</strong> Realize o aquecimento antes de iniciar o treino. Beba água durante o treino. Mantenha a execução correta dos movimentos. Em caso de dúvidas, consulte um instrutor.</p>
+                </div>
+            </div>
+
+            <!-- Workout Content - Treino A -->
+            <div class="workout-content active" id="treino-a">
+                <div class="workout-header">
+                    <div class="workout-title">
+                        <i class="fas fa-dumbbell"></i> Treino A - Peito e Tríceps
+                    </div>
+                    <div class="workout-actions">
+                        <span class="workout-badge">Dia: Segunda e Quinta</span>
+                    </div>
+                </div>
+
+                <div class="table-card">
+                    <div class="table-responsive">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Exercício</th>
+                                    <th>Séries</th>
+                                    <th>Repetições</th>
+                                    <th>Carga (kg)</th>
+                                    <th>Descanso</th>
+                                    <th>Vídeo</th>
+                                    <th>Última Execução</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Supino Reto com Barra</td>
+                                    <td>4</td>
+                                    <td>12, 10, 8, 8</td>
+                                    <td>
+                                        <div class="weight-input">
+                                            <input type="number" value="20" min="0" step="2.5">
+                                            <button class="weight-up"><i class="fas fa-chevron-up"></i></button>
+                                            <button class="weight-down"><i class="fas fa-chevron-down"></i></button>
+                                        </div>
+                                    </td>
+                                    <td>60s</td>
+                                    <td><button class="video-btn"><i class="fas fa-play-circle"></i></button></td>
+                                    <td>29/03/2025 <br><span class="last-weight">20kg</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Crucifixo com Halteres</td>
+                                    <td>3</td>
+                                    <td>12</td>
+                                    <td>
+                                        <div class="weight-input">
+                                            <input type="number" value="10" min="0" step="1">
+                                            <button class="weight-up"><i class="fas fa-chevron-up"></i></button>
+                                            <button class="weight-down"><i class="fas fa-chevron-down"></i></button>
+                                        </div>
+                                    </td>
+                                    <td>45s</td>
+                                    <td><button class="video-btn"><i class="fas fa-play-circle"></i></button></td>
+                                    <td>29/03/2025 <br><span class="last-weight">10kg</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Supino Inclinado</td>
+                                    <td>3</td>
+                                    <td>10</td>
+                                    <td>
+                                        <div class="weight-input">
+                                            <input type="number" value="15" min="0" step="2.5">
+                                            <button class="weight-up"><i class="fas fa-chevron-up"></i></button>
+                                            <button class="weight-down"><i class="fas fa-chevron-down"></i></button>
+                                        </div>
+                                    </td>
+                                    <td>60s</td>
+                                    <td><button class="video-btn"><i class="fas fa-play-circle"></i></button></td>
+                                    <td>29/03/2025 <br><span class="last-weight">15kg</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Tríceps Corda</td>
+                                    <td>3</td>
+                                    <td>15</td>
+                                    <td>
+                                        <div class="weight-input">
+                                            <input type="number" value="25" min="0" step="5">
+                                            <button class="weight-up"><i class="fas fa-chevron-up"></i></button>
+                                            <button class="weight-down"><i class="fas fa-chevron-down"></i></button>
+                                        </div>
+                                    </td>
+                                    <td>45s</td>
+                                    <td><button class="video-btn"><i class="fas fa-play-circle"></i></button></td>
+                                    <td>29/03/2025 <br><span class="last-weight">25kg</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Tríceps Francês</td>
+                                    <td>3</td>
+                                    <td>12</td>
+                                    <td>
+                                        <div class="weight-input">
+                                            <input type="number" value="10" min="0" step="1">
+                                            <button class="weight-up"><i class="fas fa-chevron-up"></i></button>
+                                            <button class="weight-down"><i class="fas fa-chevron-down"></i></button>
+                                        </div>
+                                    </td>
+                                    <td>45s</td>
+                                    <td><button class="video-btn"><i class="fas fa-play-circle"></i></button></td>
+                                    <td>29/03/2025 <br><span class="last-weight">10kg</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Flexão de Braços</td>
+                                    <td>3</td>
+                                    <td>Até a falha</td>
+                                    <td>-</td>
+                                    <td>60s</td>
+                                    <td><button class="video-btn"><i class="fas fa-play-circle"></i></button></td>
+                                    <td>29/03/2025 <br><span class="last-weight">15 reps</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="table-footer">
+                        <button class="btn-primary"><i class="fas fa-check-circle"></i> Finalizar Treino</button>
+                        <button class="btn-secondary"><i class="far fa-comments"></i> Enviar Feedback</button>
+                    </div>
+                </div>
+
+                <div class="workout-notes">
+                    <h3><i class="fas fa-sticky-note"></i> Notas do Instrutor</h3>
+                    <div class="notes-content">
+                        <p>Foco na contração do peito durante o supino. Mantenha os cotovelos em ângulo de 45° e não force os ombros. No tríceps corda, mantenha os cotovelos junto ao corpo.</p>
+                        <p>Para progressão, aumente o peso em 2,5kg quando conseguir completar todas as repetições com boa técnica.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Workout Content - Treino B -->
+            <div class="workout-content" id="treino-b">
+                <div class="workout-header">
+                    <div class="workout-title">
+                        <i class="fas fa-dumbbell"></i> Treino B - Costas e Bíceps
+                    </div>
+                    <div class="workout-actions">
+                        <span class="workout-badge">Dia: Terça e Sexta</span>
+                    </div>
+                </div>
+
+                <div class="table-card">
+                    <div class="table-responsive">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Exercício</th>
+                                    <th>Séries</th>
+                                    <th>Repetições</th>
+                                    <th>Carga (kg)</th>
+                                    <th>Descanso</th>
+                                    <th>Vídeo</th>
+                                    <th>Última Execução</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Puxada Frontal</td>
+                                    <td>4</td>
+                                    <td>12, 10, 8, 8</td>
+                                    <td>
+                                        <div class="weight-input">
+                                            <input type="number" value="40" min="0" step="5">
+                                            <button class="weight-up"><i class="fas fa-chevron-up"></i></button>
+                                            <button class="weight-down"><i class="fas fa-chevron-down"></i></button>
+                                        </div>
+                                    </td>
+                                    <td>60s</td>
+                                    <td><button class="video-btn"><i class="fas fa-play-circle"></i></button></td>
+                                    <td>28/03/2025 <br><span class="last-weight">40kg</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Remada Curvada</td>
+                                    <td>3</td>
+                                    <td>12</td>
+                                    <td>
+                                        <div class="weight-input">
+                                            <input type="number" value="30" min="0" step="2.5">
+                                            <button class="weight-up"><i class="fas fa-chevron-up"></i></button>
+                                            <button class="weight-down"><i class="fas fa-chevron-down"></i></button>
+                                        </div>
+                                    </td>
+                                    <td>60s</td>
+                                    <td><button class="video-btn"><i class="fas fa-play-circle"></i></button></td>
+                                    <td>28/03/2025 <br><span class="last-weight">30kg</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Remada Unilateral</td>
+                                    <td>3</td>
+                                    <td>10 (cada lado)</td>
+                                    <td>
+                                        <div class="weight-input">
+                                            <input type="number" value="15" min="0" step="2.5">
+                                            <button class="weight-up"><i class="fas fa-chevron-up"></i></button>
+                                            <button class="weight-down"><i class="fas fa-chevron-down"></i></button>
+                                        </div>
+                                    </td>
+                                    <td>45s</td>
+                                    <td><button class="video-btn"><i class="fas fa-play-circle"></i></button></td>
+                                    <td>28/03/2025 <br><span class="last-weight">15kg</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Rosca Direta</td>
+                                    <td>3</td>
+                                    <td>12</td>
+                                    <td>
+                                        <div class="weight-input">
+                                            <input type="number" value="15" min="0" step="2.5">
+                                            <button class="weight-up"><i class="fas fa-chevron-up"></i></button>
+                                            <button class="weight-down"><i class="fas fa-chevron-down"></i></button>
+                                        </div>
+                                    </td>
+                                    <td>45s</td>
+                                    <td><button class="video-btn"><i class="fas fa-play-circle"></i></button></td>
+                                    <td>28/03/2025 <br><span class="last-weight">15kg</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Rosca Alternada</td>
+                                    <td>3</td>
+                                    <td>10 (cada braço)</td>
+                                    <td>
+                                        <div class="weight-input">
+                                            <input type="number" value="10" min="0" step="1">
+                                            <button class="weight-up"><i class="fas fa-chevron-up"></i></button>
+                                            <button class="weight-down"><i class="fas fa-chevron-down"></i></button>
+                                        </div>
+                                    </td>
+                                    <td>45s</td>
+                                    <td><button class="video-btn"><i class="fas fa-play-circle"></i></button></td>
+                                    <td>28/03/2025 <br><span class="last-weight">10kg</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="table-footer">
+                        <button class="btn-primary"><i class="fas fa-check-circle"></i> Finalizar Treino</button>
+                        <button class="btn-secondary"><i class="far fa-comments"></i> Enviar Feedback</button>
+                    </div>
+                </div>
+
+                <div class="workout-notes">
+                    <h3><i class="fas fa-sticky-note"></i> Notas do Instrutor</h3>
+                    <div class="notes-content">
+                        <p>Na puxada frontal, mantenha o peito aberto e puxe a barra até o queixo. Nas remadas, foque em contrair as costas e manter a coluna neutra.</p>
+                        <p>Nos exercícios de bíceps, evite usar momento ou balançar o corpo. Controle o movimento tanto na subida quanto na descida.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Os conteúdos para Treino C, Cardio e Histórico seriam similares -->
+            <div class="workout-content" id="treino-c">
+                <!-- Conteúdo do Treino C seria adicionado aqui -->
+                <div class="workout-placeholder">
+                    <div class="placeholder-content">
+                        <i class="fas fa-dumbbell"></i>
+                        <h3>Treino C - Pernas e Ombros</h3>
+                        <p>Para visualizar este treino, clique no botão abaixo.</p>
+                        <button class="btn-primary">Carregar Treino C</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="workout-content" id="cardio">
+                <!-- Conteúdo do treino Cardio seria adicionado aqui -->
+                <div class="workout-placeholder">
+                    <div class="placeholder-content">
+                        <i class="fas fa-running"></i>
+                        <h3>Treino Cardiovascular</h3>
+                        <p>Para visualizar este treino, clique no botão abaixo.</p>
+                        <button class="btn-primary">Carregar Treino Cardio</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="workout-content" id="historico">
+                <!-- Conteúdo do Histórico seria adicionado aqui -->
+                <div class="workout-placeholder">
+                    <div class="placeholder-content">
+                        <i class="fas fa-history"></i>
+                        <h3>Histórico de Treinos</h3>
+                        <p>Para visualizar seu histórico, clique no botão abaixo.</p>
+                        <button class="btn-primary">Carregar Histórico</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal para Vídeo de Exercício -->
+<div class="modal" id="exercise-video-modal">
+    <div class="modal-backdrop"></div>
+    <div class="modal-container">
+        <div class="modal-header">
+            <h3>Supino Reto com Barra</h3>
+            <button class="modal-close"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="modal-body">
+            <div class="video-container">
+                <video controls>
+                    <source src="../assets/videos/supino-reto.mp4" type="video/mp4">
+                    Seu navegador não suporta vídeos.
+                </video>
+            </div>
+            <div class="exercise-instructions">
+                <h4>Instruções</h4>
+                <ol>
+                    <li>Deite-se no banco com os pés apoiados no chão</li>
+                    <li>Segure a barra com as mãos um pouco mais afastadas que a largura dos ombros</li>
+                    <li>Desça a barra controladamente até tocar levemente o peito</li>
+                    <li>Empurre a barra para cima até que os braços estejam estendidos</li>
+                    <li>Repita o movimento mantendo sempre a tensão nos músculos peitorais</li>
+                </ol>
+                <div class="exercise-tips">
+                    <h4>Dicas</h4>
+                    <ul>
+                        <li>Mantenha os ombros para trás e o peito aberto</li>
+                        <li>Não arqueje excessivamente a coluna lombar</li>
+                        <li>Mantenha os cotovelos em um ângulo de aproximadamente 45° em relação ao corpo</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Toggle Sidebar
+        const toggleSidebar = document.getElementById('toggle-sidebar');
+        const sidebar = document.getElementById('sidebar');
+        const mainContent = document.getElementById('main-content');
+        
+        if (toggleSidebar) {
+            toggleSidebar.addEventListener('click', function() {
+                sidebar.classList.toggle('active');
+                mainContent.classList.toggle('full-width');
+            });
+        }
+        
+        // Toggle Dropdowns
+        const userProfile = document.getElementById('user-profile');
+        const userDropdown = document.getElementById('user-dropdown');
+        
+        if (userProfile && userDropdown) {
+            userProfile.addEventListener('click', function(event) {
+                event.stopPropagation();
+                userDropdown.hidden = !userDropdown.hidden;
+                
+                // Fechar outros dropdowns
+                if (notificationDropdown) {
+                    notificationDropdown.hidden = true;
+                }
+            });
+        }
+        
+        const notificationBtn = document.getElementById('notification-btn');
+        const notificationDropdown = document.getElementById('notification-dropdown');
+        
+        if (notificationBtn && notificationDropdown) {
+            notificationBtn.addEventListener('click', function(event) {
+                event.stopPropagation();
+                notificationDropdown.hidden = !notificationDropdown.hidden;
+                
+                // Fechar outros dropdowns
+                if (userDropdown) {
+                    userDropdown.hidden = true;
+                }
+            });
+        }
+        
+        // Fechar dropdowns ao clicar fora
+        document.addEventListener('click', function() {
+            if (userDropdown) userDropdown.hidden = true;
+            if (notificationDropdown) notificationDropdown.hidden = true;
+        });
+        
+        // Abas de treino
+        const workoutTabs = document.querySelectorAll('.workout-tab');
+        const workoutContents = document.querySelectorAll('.workout-content');
+        
+        workoutTabs.forEach(tab => {
+            tab.addEventListener('click', function() {
+                // Remover classe ativa de todas as abas
+                workoutTabs.forEach(t => t.classList.remove('active'));
+                workoutContents.forEach(c => c.classList.remove('active'));
+                
+                // Adicionar classe ativa à aba clicada
+                this.classList.add('active');
+                
+                // Mostrar conteúdo correspondente
+                const tabId = this.getAttribute('data-tab');
+                document.getElementById(tabId).classList.add('active');
+            });
+        });
+        
+        // Controles de peso
+        const weightUpButtons = document.querySelectorAll('.weight-up');
+        const weightDownButtons = document.querySelectorAll('.weight-down');
+        
+        weightUpButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const input = this.parentElement.querySelector('input');
+                const step = parseFloat(input.getAttribute('step'));
+                input.value = (parseFloat(input.value) + step).toString();
+            });
+        });
+        
+        weightDownButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const input = this.parentElement.querySelector('input');
+                const step = parseFloat(input.getAttribute('step'));
+                const newValue = parseFloat(input.value) - step;
+                
+                if (newValue >= 0) {
+                    input.value = newValue.toString();
+                }
+            });
+        });
+        
+        // Abrir modal de vídeo
+        const videoBtns = document.querySelectorAll('.video-btn');
+        const videoModal = document.getElementById('exercise-video-modal');
+        
+        if (videoBtns.length > 0 && videoModal) {
+            videoBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    videoModal.classList.add('active');
+                    document.body.style.overflow = 'hidden';
+                });
+            });
+            
+            // Fechar modal
+            const closeBtn = videoModal.querySelector('.modal-close');
+            const backdrop = videoModal.querySelector('.modal-backdrop');
+            
+            if (closeBtn && backdrop) {
+                closeBtn.addEventListener('click', closeVideoModal);
+                backdrop.addEventListener('click', closeVideoModal);
+            }
+            
+            function closeVideoModal() {
+                videoModal.classList.remove('active');
+                document.body.style.overflow = '';
+                
+                // Pausar o vídeo
+                const video = videoModal.querySelector('video');
+                if (video) {
+                    video.pause();
+                }
+            }
+        }
+    });
+</script>
+
+<style>
+    /* Estilos adicionais específicos para a página de treinos */
+    .weight-input {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        width: 80px;
+        margin: 0 auto;
+    }
+    
+    .weight-input input {
+        width: 60px;
+        text-align: center;
+        padding: 5px;
+        border: 1px solid var(--border-color);
+        border-radius: 4px;
+    }
+    
+    .weight-input button {
+        position: absolute;
+        background: none;
+        border: none;
+        font-size: 12px;
+        cursor: pointer;
+        color: var(--text-light);
+    }
+    
+    .weight-input .weight-up {
+        top: 0;
+        right: 0;
+    }
+    
+    .weight-input .weight-down {
+        bottom: 0;
+        right: 0;
+    }
+    
+    .last-weight {
+        font-size: 0.85rem;
+        color: var(--text-light);
+    }
+    
+    .workout-notes {
+        background-color: var(--background-light);
+        border-radius: 10px;
+        padding: 20px;
+        margin-top: 30px;
+    }
+    
+    .workout-notes h3 {
+        display: flex;
+        align-items: center;
+        color: var(--primary-color);
+        font-size: 1.2rem;
+        margin-top: 0;
+    }
+    
+    .workout-notes h3 i {
+        margin-right: 10px;
+    }
+    
+    .workout-notes .notes-content {
+        margin-top: 15px;
+    }
+    
+    .workout-notes .notes-content p:last-child {
+        margin-bottom: 0;
+    }
+    
+    .workout-badge {
+        background-color: var(--primary-color);
+        color: white;
+        padding: 5px 15px;
+        border-radius: 20px;
+        font-size: 0.85rem;
+        font-weight: 600;
+    }
+    
+    .table-footer {
+        display: flex;
+        gap: 15px;
+        padding: 20px;
+        border-top: 1px solid var(--border-color);
+    }
+    
+    .video-btn {
+        background: none;
+        border: none;
+        color: var(--primary-color);
+        font-size: 1.2rem;
+        cursor: pointer;
+        transition: var(--transition);
+    }
+    
+    .video-btn:hover {
+        color: var(--secondary-color);
+        transform: scale(1.1);
+    }
+    
+    .workout-placeholder {
+        background-color: var(--background-light);
+        border-radius: 10px;
+        padding: 40px;
+        text-align: center;
+    }
+    
+    .placeholder-content {
+        max-width: 400px;
+        margin: 0 auto;
+    }
+    
+    .placeholder-content i {
+        font-size: 3rem;
+        color: var(--primary-color);
+        margin-bottom: 20px;
+    }
+    
+    .placeholder-content h3 {
+        margin-bottom: 15px;
+    }
+    
+    .placeholder-content p {
+        margin-bottom: 25px;
+        color: var(--text-light);
+    }
+    
+    /* Estilos do modal */
+    .modal {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 1000;
+        display: none;
+    }
+    
+    .modal.active {
+        display: block;
+    }
+    
+    .modal-backdrop {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+    }
+    
+    .modal-container {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: white;
+        border-radius: 10px;
+        width: 90%;
+        max-width: 800px;
+        max-height: 90vh;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .modal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px;
+        border-bottom: 1px solid var(--border-color);
+    }
+    
+    .modal-header h3 {
+        margin: 0;
+    }
+    
+    .modal-close {
+        background: none;
+        border: none;
+        font-size: 1.2rem;
+        cursor: pointer;
+        color: var(--text-light);
+    }
+    
+    .modal-body {
+        padding: 20px;
+        overflow-y: auto;
+    }
+    
+    .video-container {
+        margin-bottom: 20px;
+    }
+    
+    .video-container video {
+        width: 100%;
+        border-radius: 5px;
+    }
+    
+    .exercise-instructions h4 {
+        color: var(--primary-color);
+        margin-top: 20px;
+        margin-bottom: 10px;
+    }
+    
+    .exercise-instructions ol, 
+    .exercise-instructions ul {
+        padding-left: 20px;
+    }
+    
+    .exercise-instructions li {
+        margin-bottom: 5px;
+    }
+    
+    @media (max-width: 768px) {
+        .workout-tabs {
+            flex-wrap: wrap;
+        }
+        
+        .workout-tab {
+            flex: 1 0 33.333%;
+        }
+        
+        .workout-info-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+    
+    @media (max-width: 576px) {
+        .workout-tab {
+            flex: 1 0 50%;
+        }
+        
+        .workout-info-grid {
+            grid-template-columns: 1fr;
+        }
+        
+        .data-table {
+            min-width: 700px;
+        }
+    }
+</style>
+</body>
+</html>

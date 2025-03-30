@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Área do Aluno | FitLife Academia</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/responsive.css">
+    <link rel="stylesheet" href="../assets/css/admin.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Estilos específicos para a área do aluno */
+        .dashboard-stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .stat-card {
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            display: flex;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        .stat-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            font-size: 1.5rem;
+            color: white;
+        }
+        
+        .stat-icon.checkins {
+            background-color: #FF4500; /* Primary color */
+        }
+        
+        .stat-icon.streak {
+            background-color: #00BFFF; /* Secondary color */
+        }
+        
+        .stat-icon.next-class {
+            background-color: #28A745; /* Success color */
+        }
+        
+        .stat-icon.payment {
+            background-color: #FFC107; /* Warning color */
+        }
+        
+        .stat-info {
+            flex: 1;
+        }
+        
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+        
+        .stat-label {
+            font-size: 0.85rem;
+            color: #6c757d;
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-container">
+        <!-- Sidebar -->
+        <div class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <img src="../assets/images/logo.svg" alt="FitLife">
+                <span>FitLife</span>
+            </div>
+            <div class="sidebar-menu">
+                <div class="menu-label">MENU PRINCIPAL</div>
+                <ul>
+                    <li><a href="dashboard.html" class="active"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                    <li><a href="treino.html"><i class="fas fa-dumbbell"></i> Meus Treinos</a></li>
+                    <li><a href="aulas.html"><i class="fas fa-calendar-alt"></i> Aulas</a></li>
+                    <li><a href="evolucao.html"><i class="fas fa-chart-line"></i> Evolução</a></li>
+                    <li><a href="avaliacao.html"><i class="fas fa-clipboard-list"></i> Avaliações</a></li>
+                    <li><a href="pagamentos.html"><i class="fas fa-credit-card"></i> Pagamentos</a></li>
+                </ul>
+                
+                <div class="menu-label">CONTA</div>
+                <ul>
+                    <li><a href="perfil.html"><i class="fas fa-user"></i> Meu Perfil</a></li>
+                    <li><a href="../pages/login.html"><i class="fas fa-sign-out-alt"></i> Sair</a></li>
+                </ul>
+            </div>
+        </div>
+    
+        <!-- Main Content -->
+        <div class="main-content" id="main-content">
+            <!-- Header -->
+            <div class="admin-header">
+                <button id="toggle-sidebar" class="toggle-sidebar">
+                    <i class="fas fa-bars"></i>
+                </button>
+                
+                <div class="header-search">
+                    <input type="text" placeholder="Buscar...">
+                    <i class="fas fa-search"></i>
+                </div>
+                
+                <div class="header-user">
+                    <div class="notifications">
+                        <button class="notification-btn" id="notification-btn">
+                            <i class="far fa-bell"></i>
+                            <div class="badge">3</div>
+                        </button>
+                        <div class="notification-dropdown" id="notification-dropdown" hidden>
+                            <div class="notification-header">
+                                <h3>Notificações</h3>
+                                <button class="mark-all-read">Marcar todas como lidas</button>
+                            </div>
+                            <ul class="notification-list">
+                                <li class="notification-item unread">
+                                    <div class="notification-icon alert">
+                                        <i class="fas fa-calendar-alt"></i>
+                                    </div>
+                                    <div class="notification-content">
+                                        <p><strong>Aula de Spinning</strong> - Amanhã às 07:00</p>
+                                        <span class="notification-time">Há 10 minutos</span>
+                                    </div>
+                                </li>
+                                <li class="notification-item unread">
+                                    <div class="notification-icon payment">
+                                        <i class="fas fa-credit-card"></i>
+                                    </div>
+                                    <div class="notification-content">
+                                        <p>Seu pagamento de maio foi confirmado</p>
+                                        <span class="notification-time">Há 3 horas</span>
+                                    </div>
+                                </li>
+                                <li class="notification-item unread">
+                                    <div class="notification-icon user">
+                                        <i class="fas fa-dumbbell"></i>
+                                    </div>
+                                    <div class="notification-content">
+                                        <p>Novo treino disponível! Confira seu treino A</p>
+                                        <span class="notification-time">Há 1 dia</span>
+                                    </div>
+                                </li>
+                            </ul>
+                            <div class="notification-footer">
+                                <a href="#">Ver todas notificações</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="user-profile" id="user-profile">
+                        <img src="../assets/images/user-avatar.jpg" alt="Foto de perfil">
+                        <div class="user-info">
+                            <div class="user-name">João Silva</div>
+                            <div class="user-role">Aluno Premium</div>
+                        </div>
+                        <i class="fas fa-chevron-down"></i>
+                        
+                        <div class="user-dropdown" id="user-dropdown" hidden>
+                            <ul>
+                                <li><a href="perfil.html"><i class="fas fa-user"></i> Meu Perfil</a></li>
+                                <li><a href="#"><i class="fas fa-cog"></i> Configurações</a></li>
+                                <li><a href="../pages/login.html"><i class="fas fa-sign-out-alt"></i> Sair</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Dashboard Content -->
+        <div class="dashboard-content">
+            <div class="page-title">
+                <div>
+                    <h1>Dashboard</h1>
+                    <p>Bem-vindo de volta, João! Aqui está um resumo da sua atividade.</p>
+                </div>
+                <div class="date-filter">
+                    <div class="date-range">
+                        <label>Período:</label>
+                        <select id="date-range-select">
+                            <option value="week">Esta semana</option>
+                            <option value="month" selected>Este mês</option>
+                            <option value="year">Este ano</option>
+                            <option value="custom">Personalizado</option>
+                        </select>
+                    </div>
+                    <div id="custom-date-range" hidden>
+                        <div class="custom-date-range">
+                            <input type="date" id="date-from">
+                            <span>até</span>
+                            <input type="date" id="date-to">
+                            <button class="btn-filter">Filtrar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Stats Cards -->
+            <div class="dashboard-stats">
+                <div class="stat-card">
+                    <div class="stat-icon checkins">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <div class="stat-info">
+                        <div class="stat-value">12</div>
+                        <div class="stat-label">Check-ins este mês</div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon streak">
+                        <i class="fas fa-fire"></i>
+                    </div>
+                    <div class="stat-info">
+                        <div class="stat-value">5 dias</div>
+                        <div class="stat-label">Sequência atual</div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon next-class">
+                        <i class="fas fa-calendar-check"></i>
+                    </div>
+                    <div class="stat-info">
+                        <div class="stat-value">Amanhã, 07:00</div>
+                        <div class="stat-label">Próxima aula: Spinning</div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon payment">
+                        <i class="fas fa-credit-card"></i>
+                    </div>
+                    <div class="stat-info">
+                        <div class="stat-value">Pago</div>
+                        <div class="stat-label">Status da mensalidade</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Charts Row -->
+            <div class="chart-row">
+                <!-- Activity Chart -->
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <div class="chart-title">Frequência de Treinos</div>
+                        <div class="chart-actions">
+                            <button class="chart-period active" data-period="week">Semana</button>
+                            <button class="chart-period" data-period="month">Mês</button>
+                            <button class="chart-period" data-period="year">Ano</button>
+                            <button class="chart-options"><i class="fas fa-ellipsis-v"></i></button>
+                        </div>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="frequencyChart"></canvas>
+                    </div>
+                </div>
+                
+                <!-- Progress Chart -->
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <div class="chart-title">Metas e Objetivos</div>
+                        <div class="chart-actions">
+                            <button class="chart-options"><i class="fas fa-ellipsis-v"></i></button>
+                        </div>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="goalsChart"></canvas>
+                    </div>
+                    <div class="chart-legend">
+                        <div class="legend-item">
+                            <div class="legend-color" style="background-color: #FF4500;"></div>
+                            <div class="legend-label">Meta de treinos: <span class="legend-value">12/20</span></div>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color" style="background-color: #00BFFF;"></div>
+                            <div class="legend-label">Meta de cardio: <span class="legend-value">5/10</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Upcoming Classes -->
+            <div class="table-card">
+                <div class="table-header">
+                    <div class="table-title">Próximas Aulas</div>
+                    <div class="table-actions">
+                        <div class="table-filter">
+                            <select>
+                                <option>Todas as modalidades</option>
+                                <option>Spinning</option>
+                                <option>Yoga</option>
+                                <option>Pilates</option>
+                                <option>Funcional</option>
+                                <option>Zumba</option>
+                            </select>
+                        </div>
+                        <a href="aulas.html" class="view-all">Ver todas</a>
+                    </div>
+                </div>
+                <div class="table-responsive">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Aula</th>
+                                <th>Instrutor</th>
+                                <th>Data</th>
+                                <th>Horário</th>
+                                <th>Sala</th>
+                                <th>Status</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Spinning</td>
+                                <td>Rodrigo Almeida</td>
+                                <td>31/03/2025</td>
+                                <td>07:00 - 07:45</td>
+                                <td>Sala 1</td>
+                                <td><span class="status active">Confirmado</span></td>
+                                <td>
+                                    <button class="action-btn"><i class="fas fa-times"></i> Cancelar</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Yoga</td>
+                                <td>Fernanda Lima</td>
+                                <td>01/04/2025</td>
+                                <td>18:00 - 19:00</td>
+                                <td>Sala 3</td>
+                                <td><span class="status pending">Pendente</span></td>
+                                <td>
+                                    <button class="action-btn"><i class="fas fa-check"></i> Confirmar</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Funcional</td>
+                                <td>André Martins</td>
+                                <td>02/04/2025</td>
+                                <td>19:00 - 19:50</td>
+                                <td>Sala 2</td>
+                                <td><span class="status active">Confirmado</span></td>
+                                <td>
+                                    <button class="action-btn"><i class="fas fa-times"></i> Cancelar</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="table-footer">
+                    <a href="aulas.html" class="btn-primary">Agendar Nova Aula</a>
+                </div>
+            </div>
+
+            <!-- Current Workout -->
+            <div class="table-card">
+                <div class="table-header">
+                    <div class="table-title">Meu Treino Atual - Treino A (Peito e Tríceps)</div>
+                    <div class="table-actions">
+                        <a href="treino.html" class="view-all">Ver todos os treinos</a>
+                    </div>
+                </div>
+                <div class="table-responsive">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Exercício</th>
+                                <th>Séries</th>
+                                <th>Repetições</th>
+                                <th>Carga</th>
+                                <th>Descanso</th>
+                                <th>Completado</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Supino Reto</td>
+                                <td>4</td>
+                                <td>12, 10, 8, 8</td>
+                                <td>20kg, 25kg, 30kg, 30kg</td>
+                                <td>60s</td>
+                                <td>
+                                    <input type="checkbox" checked>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Crucifixo</td>
+                                <td>3</td>
+                                <td>12</td>
+                                <td>10kg</td>
+                                <td>45s</td>
+                                <td>
+                                    <input type="checkbox" checked>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Supino Inclinado</td>
+                                <td>3</td>
+                                <td>10</td>
+                                <td>20kg</td>
+                                <td>60s</td>
+                                <td>
+                                    <input type="checkbox">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Tríceps Corda</td>
+                                <td>3</td>
+                                <td>15</td>
+                                <td>25kg</td>
+                                <td>45s</td>
+                                <td>
+                                    <input type="checkbox">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Tríceps Francês</td>
+                                <td>3</td>
+                                <td>12</td>
+                                <td>10kg</td>
+                                <td>45s</td>
+                                <td>
+                                    <input type="checkbox">
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="table-footer">
+                    <button class="btn-primary"><i class="fas fa-check-circle"></i> Finalizar Treino</button>
+                </div>
+            </div>
+            <!-- Wellness Tips -->
+            <div class="table-card">
+                <div class="table-header">
+                    <div class="table-title">Dicas de Bem-estar</div>
+                </div>
+                <div class="wellness-tips">
+                    <div class="tip-card">
+                        <div class="tip-icon">
+                            <i class="fas fa-apple-alt"></i>
+                        </div>
+                        <div class="tip-content">
+                            <h4>Dica de Nutrição</h4>
+                            <p>Consuma proteínas em todas as refeições para auxiliar na recuperação muscular e manter a saciedade. Boas fontes incluem ovos, frango, peixe, laticínios e leguminosas.</p>
+                        </div>
+                    </div>
+                    <div class="tip-card">
+                        <div class="tip-icon">
+                            <i class="fas fa-bed"></i>
+                        </div>
+                        <div class="tip-content">
+                            <h4>Dica de Recuperação</h4>
+                            <p>Priorize 7-8 horas de sono de qualidade. O sono é essencial para a recuperação muscular, regulação hormonal e melhoria da performance nos treinos.</p>
+                        </div>
+                    </div>
+                    <div class="tip-card">
+                        <div class="tip-icon">
+                            <i class="fas fa-tint"></i>
+                        </div>
+                        <div class="tip-content">
+                            <h4>Dica de Hidratação</h4>
+                            <p>Mantenha-se hidratado! Beba pelo menos 2 litros de água por dia, aumentando essa quantidade em dias de treino intenso.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Scripts -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Toggle Sidebar
+        const toggleSidebar = document.getElementById('toggle-sidebar');
+        const sidebar = document.getElementById('sidebar');
+        const mainContent = document.getElementById('main-content');
+        
+        if (toggleSidebar) {
+            toggleSidebar.addEventListener('click', function() {
+                sidebar.classList.toggle('active');
+                mainContent.classList.toggle('full-width');
+            });
+        }
+        
+        // Toggle Dropdowns
+        const userProfile = document.getElementById('user-profile');
+        const userDropdown = document.getElementById('user-dropdown');
+        
+        if (userProfile && userDropdown) {
+            userProfile.addEventListener('click', function(event) {
+                event.stopPropagation();
+                userDropdown.hidden = !userDropdown.hidden;
+                
+                // Fechar outros dropdowns
+                if (notificationDropdown) {
+                    notificationDropdown.hidden = true;
+                }
+            });
+        }
+        
+        const notificationBtn = document.getElementById('notification-btn');
+        const notificationDropdown = document.getElementById('notification-dropdown');
+        
+        if (notificationBtn && notificationDropdown) {
+            notificationBtn.addEventListener('click', function(event) {
+                event.stopPropagation();
+                notificationDropdown.hidden = !notificationDropdown.hidden;
+                
+                // Fechar outros dropdowns
+                if (userDropdown) {
+                    userDropdown.hidden = true;
+                }
+            });
+        }
+        
+        // Fechar dropdowns ao clicar fora
+        document.addEventListener('click', function() {
+            if (userDropdown) userDropdown.hidden = true;
+            if (notificationDropdown) notificationDropdown.hidden = true;
+        });
+        
+        // Marcar todas notificações como lidas
+        const markAllRead = document.querySelector('.mark-all-read');
+        
+        if (markAllRead) {
+            markAllRead.addEventListener('click', function() {
+                document.querySelectorAll('.notification-item.unread').forEach(item => {
+                    item.classList.remove('unread');
+                });
+                
+                // Atualizar contador
+                const badge = document.querySelector('.notifications .badge');
+                if (badge) {
+                    badge.textContent = '0';
+                    badge.style.display = 'none';
+                }
+            });
+        }
+        
+        // Date range filter
+        const dateRangeSelect = document.getElementById('date-range-select');
+        const customDateRange = document.getElementById('custom-date-range');
+        
+        if (dateRangeSelect && customDateRange) {
+            dateRangeSelect.addEventListener('change', function() {
+                if (this.value === 'custom') {
+                    customDateRange.hidden = false;
+                } else {
+                    customDateRange.hidden = true;
+                }
+            });
+        }
+        
+        // Configurar Chart.js
+        setupCharts();
+    });
+    
+    // Função para configurar os gráficos
+    function setupCharts() {
+        // Gráfico de Frequência
+        const frequencyChartEl = document.getElementById('frequencyChart');
+        
+        if (frequencyChartEl) {
+            const frequencyCtx = frequencyChartEl.getContext('2d');
+            const frequencyChart = new Chart(frequencyCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado', 'Domingo'],
+                    datasets: [{
+                        label: 'Check-ins',
+                        data: [1, 1, 0, 1, 1, 0, 0],
+                        backgroundColor: 'rgba(255, 69, 0, 0.7)',
+                        borderColor: 'rgba(255, 69, 0, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                stepSize: 1
+                            }
+                        }
+                    }
+                }
+            });
+            
+            // Period Selector
+            const periodButtons = document.querySelectorAll('.chart-period');
+            
+            periodButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    // Remove active class from all buttons
+                    periodButtons.forEach(btn => btn.classList.remove('active'));
+                    
+                    // Add active class to clicked button
+                    button.classList.add('active');
+                    
+                    // Update chart data based on selected period
+                    const period = button.getAttribute('data-period');
+                    
+                    let newData;
+                    let newLabels;
+                    
+                    if (period === 'week') {
+                        newData = [1, 1, 0, 1, 1, 0, 0];
+                        newLabels = ['Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado', 'Domingo'];
+                    } else if (period === 'month') {
+                        newData = [3, 4, 2, 3, 0];
+                        newLabels = ['Semana 1', 'Semana 2', 'Semana 3', 'Semana 4', 'Semana 5'];
+                    } else if (period === 'year') {
+                        newData = [12, 15, 18, 8, 10, 12, 15, 10, 8, 10, 12, 0];
+                        newLabels = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'];
+                    }
+                    
+                    frequencyChart.data.datasets[0].data = newData;
+                    frequencyChart.data.labels = newLabels;
+                    frequencyChart.update();
+                });
+            });
+        }
+        
+        // Gráfico de Metas
+        const goalsChartEl = document.getElementById('goalsChart');
+        
+        if (goalsChartEl) {
+            const goalsCtx = goalsChartEl.getContext('2d');
+            const goalsChart = new Chart(goalsCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Treinos Completados', 'Treinos Restantes', 'Cardio Completado', 'Cardio Restante'],
+                    datasets: [{
+                        data: [12, 8, 5, 5],
+                        backgroundColor: [
+                            '#FF4500',
+                            'rgba(255, 69, 0, 0.2)',
+                            '#00BFFF',
+                            'rgba(0, 191, 255, 0.2)'
+                        ],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    cutout: '70%',
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    }
+                }
+            });
+        }
+    }
+</script>
+
+<style>
+    /* Estilos adicionais para a área do aluno */
+    .wellness-tips {
+        padding: 20px;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+    }
+    
+    .tip-card {
+        background-color: var(--background-light);
+        border-radius: 10px;
+        padding: 20px;
+        display: flex;
+        align-items: flex-start;
+        transition: all 0.3s ease;
+    }
+    
+    .tip-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    }
+    
+    .tip-icon {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        background-color: var(--primary-color);
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5rem;
+        margin-right: 15px;
+        flex-shrink: 0;
+    }
+    
+    .tip-content h4 {
+        margin-top: 0;
+        margin-bottom: 10px;
+    }
+    
+    .tip-content p {
+        margin: 0;
+        color: var(--text-light);
+        font-size: 0.9rem;
+    }
+    
+    @media (max-width: 992px) {
+        .wellness-tips {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+</body>
+</html>

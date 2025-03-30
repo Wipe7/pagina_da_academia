@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aulas - Área do Aluno | FitLife Academia</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/responsive.css">
+    <link rel="stylesheet" href="../assets/css/admin.css">
+    <link rel="stylesheet" href="../assets/css/aulas.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Estilos específicos para a página de aulas na área do aluno */
+        .calendar-legend {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+        }
+        
+        .legend-color {
+            width: 15px;
+            height: 15px;
+            border-radius: 3px;
+            margin-right: 8px;
+        }
+        
+        .legend-color.spinning {
+            background-color: rgba(0, 191, 255, 0.2);
+            border-left: 4px solid #00BFFF;
+        }
+        
+        .legend-color.yoga {
+            background-color: rgba(102, 16, 242, 0.2);
+            border-left: 4px solid #6610F2;
+        }
+        
+        .legend-color.pilates {
+            background-color: rgba(40, 167, 69, 0.2);
+            border-left: 4px solid #28A745;
+        }
+        
+        .legend-color.functional {
+            background-color: rgba(255, 193, 7, 0.2);
+            border-left: 4px solid #FFC107;
+        }
+        
+        .legend-color.zumba {
+            background-color: rgba(220, 53, 69, 0.2);
+            border-left: 4px solid #DC3545;
+        }
+        
+        .legend-color.booked {
+            background-color: rgba(255, 69, 0, 0.2);
+            border-left: 4px solid #FF4500;
+        }
+        
+        .booked-class {
+            border-color: var(--primary-color) !important;
+            background-color: rgba(255, 69, 0, 0.1) !important;
+        }
+        
+        .booked-class::after {
+            content: '✓ Agendada';
+            display: block;
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            font-size: 0.7rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            background-color: rgba(255, 255, 255, 0.7);
+            padding: 2px 5px;
+            border-radius: 3px;
+        }
+        
+        .class-full {
+            opacity: 0.6;
+            cursor: not-allowed !important;
+        }
+        
+        .class-full::after {
+            content: 'Turma cheia';
+            display: block;
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            font-size: 0.7rem;
+            font-weight: bold;
+            color: var(--danger-color);
+            background-color: rgba(255, 255, 255, 0.7);
+            padding: 2px 5px;
+            border-radius: 3px;
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-container">
+        <!-- Sidebar -->
+        <div class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <img src="../assets/images/logo.svg" alt="FitLife">
+                <span>FitLife</span>
+            </div>
+            <div class="sidebar-menu">
+                <div class="menu-label">MENU PRINCIPAL</div>
+                <ul>
+                    <li><a href="dashboard.html"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                    <li><a href="treino.html"><i class="fas fa-dumbbell"></i> Meus Treinos</a></li>
+                    <li><a href="aulas.html" class="active"><i class="fas fa-calendar-alt"></i> Aulas</a></li>
+                    <li><a href="evolucao.html"><i class="fas fa-chart-line"></i> Evolução</a></li>
+                    <li><a href="avaliacao.html"><i class="fas fa-clipboard-list"></i> Avaliações</a></li>
+                    <li><a href="pagamentos.html"><i class="fas fa-credit-card"></i> Pagamentos</a></li>
+                </ul>
+                
+                <div class="menu-label">CONTA</div>
+                <ul>
+                    <li><a href="perfil.html"><i class="fas fa-user"></i> Meu Perfil</a></li>
+                    <li><a href="../pages/login.html"><i class="fas fa-sign-out-alt"></i> Sair</a></li>
+                </ul>
+            </div>
+        </div>
+    
+        <!-- Main Content -->
+        <div class="main-content" id="main-content">
+            <!-- Header -->
+            <div class="admin-header">
+                <button id="toggle-sidebar" class="toggle-sidebar">
+                    <i class="fas fa-bars"></i>
+                </button>
+                
+                <div class="header-search">
+                    <input type="text" placeholder="Buscar...">
+                    <i class="fas fa-search"></i>
+                </div>
+                
+                <div class="header-user">
+                    <div class="notifications">
+                        <button class="notification-btn" id="notification-btn">
+                            <i class="far fa-bell"></i>
+                            <div class="badge">3</div>
+                        </button>
+                        <div class="notification-dropdown" id="notification-dropdown" hidden>
+                            <div class="notification-header">
+                                <h3>Notificações</h3>
+                                <button class="mark-all-read">Marcar todas como lidas</button>
+                            </div>
+                            <ul class="notification-list">
+                                <li class="notification-item unread">
+                                    <div class="notification-icon alert">
+                                        <i class="fas fa-calendar-alt"></i>
+                                    </div>
+                                    <div class="notification-content">
+                                        <p><strong>Aula de Spinning</strong> - Amanhã às 07:00</p>
+                                        <span class="notification-time">Há 10 minutos</span>
+                                    </div>
+                                </li>
+                                <li class="notification-item unread">
+                                    <div class="notification-icon payment">
+                                        <i class="fas fa-credit-card"></i>
+                                    </div>
+                                    <div class="notification-content">
+                                        <p>Seu pagamento de maio foi confirmado</p>
+                                        <span class="notification-time">Há 3 horas</span>
+                                    </div>
+                                </li>
+                                <li class="notification-item unread">
+                                    <div class="notification-icon user">
+                                        <i class="fas fa-dumbbell"></i>
+                                    </div>
+                                    <div class="notification-content">
+                                        <p>Novo treino disponível! Confira seu treino A</p>
+                                        <span class="notification-time">Há 1 dia</span>
+                                    </div>
+                                </li>
+                            </ul>
+                            <div class="notification-footer">
+                                <a href="#">Ver todas notificações</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="user-profile" id="user-profile">
+                        <img src="../assets/images/user-avatar.jpg" alt="Foto de perfil">
+                        <div class="user-info">
+                            <div class="user-name">João Silva</div>
+                            <div class="user-role">Aluno Premium</div>
+                        </div>
+                        <i class="fas fa-chevron-down"></i>
+                        
+                        <div class="user-dropdown" id="user-dropdown" hidden>
+                            <ul>
+                                <li><a href="perfil.html"><i class="fas fa-user"></i> Meu Perfil</a></li>
+                                <li><a href="#"><i class="fas fa-cog"></i> Configurações</a></li>
+                                <li><a href="../pages/login.html"><i class="fas fa-sign-out-alt"></i> Sair</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Classes Content -->
+        <div class="dashboard-content">
+            <div class="page-header">
+                <div class="page-title">
+                    <h1>Aulas</h1>
+                    <p>Agende suas aulas coletivas e acompanhe suas reservas.</p>
+                </div>
+                <div class="page-actions">
+                    <div class="view-toggle">
+                        <button class="view-btn active" data-view="calendar">
+                            <i class="fas fa-calendar-alt"></i> Calendário
+                        </button>
+                        <button class="view-btn" data-view="list">
+                            <i class="fas fa-list"></i> Lista
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Filter Bar -->
+            <div class="filter-bar">
+                <div class="filter-group">
+                    <label for="class-filter">Modalidade:</label>
+                    <select id="class-filter">
+                        <option value="">Todas</option>
+                        <option value="spinning">Spinning</option>
+                        <option value="yoga">Yoga</option>
+                        <option value="pilates">Pilates</option>
+                        <option value="functional">Funcional</option>
+                        <option value="zumba">Zumba</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="instructor-filter">Instrutor:</label>
+                    <select id="instructor-filter">
+                        <option value="">Todos</option>
+                        <option value="rodrigo">Rodrigo Almeida</option>
+                        <option value="carla">Carla Sousa</option>
+                        <option value="fernanda">Fernanda Lima</option>
+                        <option value="andre">André Martins</option>
+                        <option value="paula">Paula Santos</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="room-filter">Sala:</label>
+                    <select id="room-filter">
+                        <option value="">Todas</option>
+                        <option value="1">Sala 1</option>
+                        <option value="2">Sala 2</option>
+                        <option value="3">Sala 3</option>
+                        <option value="4">Sala 4</option>
+                    </select>
+                </div>
+                <div class="date-controls">
+                    <button class="date-nav-btn" id="prev-date">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <button class="date-nav-btn" id="today-date">
+                        Hoje
+                    </button>
+                    <div class="current-date" id="current-date">Março 2025</div>
+                    <button class="date-nav-btn" id="next-date">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Calendar Legend -->
+            <div class="calendar-legend">
+                <div class="legend-item">
+                    <div class="legend-color spinning"></div>
+                    <span>Spinning</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color yoga"></div>
+                    <span>Yoga</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color pilates"></div>
+                    <span>Pilates</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color functional"></div>
+                    <span>Funcional</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color zumba"></div>
+                    <span>Zumba</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color booked"></div>
+                    <span>Aulas Agendadas</span>
+                </div>
+            </div>
+
+            <!-- Calendar View -->
+            <div id="calendar-view">
+                <div class="calendar">
+                    <div class="calendar-header">
+                        <div class="time-column">Horário</div>
+                        <div class="day-column">Segunda<br>31/03</div>
+                        <div class="day-column">Terça<br>01/04</div>
+                        <div class="day-column">Quarta<br>02/04</div>
+                        <div class="day-column">Quinta<br>03/04</div>
+                        <div class="day-column">Sexta<br>04/04</div>
+                        <div class="day-column">Sábado<br>05/04</div>
+                        <div class="day-column">Domingo<br>06/04</div>
+                    </div>
+                    <div class="calendar-body">
+                        <!-- Linha 06:00 -->
+                        <div class="calendar-row">
+                            <div class="time-column">06:00</div>
+                            <div class="day-column">
+                                <div class="class-card spinning booked">
+                                    <div class="class-header">
+                                        <div class="class-time">06:00 - 06:45</div>
+                                        <div class="class-actions">
+                                            <button class="action-btn" title="Cancelar Reserva"><i class="fas fa-times"></i></button>
+                                        </div>
+                                    </div>
+                                    <h3 class="class-name">Spinning</h3>
+                                    <div class="class-info">
+                                        <span>Rodrigo</span>
+                                        <span>Sala 1</span>
+                                    </div>
+                                    <div class="class-capacity">
+                                        <div class="progress-bar">
+                                            <div class="progress" style="width: 75%;"></div>
+                                        </div>
+                                        <div class="capacity-text">15/20 vagas</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="day-column">
+                                <!-- Sem aula agendada neste horário -->
+                            </div>
+                            <div class="day-column">
+                                <div class="class-card functional">
+                                    <div class="class-header">
+                                        <div class="class-time">06:00 - 06:50</div>
+                                        <div class="class-actions">
+                                            <button class="action-btn" title="Agendar Aula"><i class="fas fa-plus"></i></button>
+                                        </div>
+                                    </div>
+                                    <h3 class="class-name">Funcional</h3>
+                                    <div class="class-info">
+                                        <span>André</span>
+                                        <span>Sala 2</span>
+                                    </div>
+                                    <div class="class-capacity">
+                                        <div class="progress-bar">
+                                            <div class="progress" style="width: 60%;"></div>
+                                        </div>
+                                        <div class="capacity-text">9/15 vagas</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="day-column">
+                                <!-- Sem aula agendada neste horário -->
+                            </div>
+                            <div class="day-column">
+                                <div class="class-card spinning">
+                                    <div class="class-header">
+                                        <div class="class-time">06:00 - 06:45</div>
+                                        <div class="class-actions">
+                                            <button class="action-btn" title="Agendar Aula"><i class="fas fa-plus"></i></button>
+                                        </div>
+                                    </div>
+                                    <h3 class="class-name">Spinning</h3>
+                                    <div class="class-info">
+                                        <span>Marcos</span>
+                                        <span>Sala 1</span>
+                                    </div>
+                                    <div class="class-capacity">
+                                        <div class="progress-bar">
+                                            <div class="progress" style="width: 45%;"></div>
+                                        </div>
+                                        <div class="capacity-text">9/20 vagas</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="day-column">
+                                <!-- Sem aula agendada neste horário -->
+                            </div>
+                            <div class="day-column">
+                                <!-- Sem aula agendada neste horário -->
+                            </div>
+                        </div>
+
+                        <!-- Linha 07:00 -->
+                        <div class="calendar-row">
+                            <div class="time-column">07:00</div>
+                            <div class="day-column">
+                                <!-- Sem aula agendada neste horário -->
+                            </div>
+                            <div class="day-column">
+                                <div class="class-card yoga">
+                                    <div class="class-header">
+                                        <div class="class-time">07:00 - 08:00</div>
+                                        <div class="class-actions">
+                                            <button class="action-btn" title="Agendar Aula"><i class="fas fa-plus"></i></button>
+                                        </div>
+                                    </div>
+                                    <h3 class="class-name">Yoga</h3>
+                                    <div class="class-info">
+                                        <span>Fernanda</span>
+                                        <span>Sala 3</span>
+                                    </div>
+                                    <div class="class-capacity">
+                                        <div class="progress-bar">
+                                            <div class="progress" style="width: 80%;"></div>
+                                        </div>
+                                        <div class="capacity-text">8/10 vagas</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="day-column">
+                                <div class="class-card pilates class-full">
+                                    <div class="class-header">
+                                        <div class="class-time">07:00 - 08:00</div>
+                                        <div class="class-actions">
+                                            <button class="action-btn" disabled title="Turma Completa"><i class="fas fa-ban"></i></button>
+                                        </div>
+                                    </div>
+                                    <h3 class="class-name">Pilates</h3>
+                                    <div class="class-info">
+                                        <span>Carla</span>
+                                        <span>Sala 2</span>
+                                    </div>
+                                    <div class="class-capacity">
+                                        <div class="progress-bar">
+                                            <div class="progress" style="width: 100%;"></div>
+                                        </div>
+                                        <div class="capacity-text">12/12 vagas</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="day-column">
+                                <!-- Sem aula agendada neste horário -->
+                            </div>
+                            <div class="day-column">
+                                <div class="class-card functional">
+                                    <div class="class-header">
+                                        <div class="class-time">07:00 - 07:50</div>
+                                        <div class="class-actions">
+                                            <button class="action-btn" title="Agendar Aula"><i class="fas fa-plus"></i></button>
+                                        </div>
+                                    </div>
+                                    <h3 class="class-name">Funcional</h3>
+                                    <div class="class-info">
+                                        <span>André</span>
+                                        <span>Sala 4</span>
+                                    </div>
+                                    <div class="class-capacity">
+                                        <div class="progress-bar">
+                                            <div class="progress" style="width: 33%;"></div>
+                                        </div>
+                                        <div class="capacity-text">5/15 vagas</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="day-column">
+                                <!-- Sem aula agendada neste horário -->
+                            </div>
+                            <div class="day-column">
+                                <!-- Sem aula agendada neste horário -->
+                            </div>
+                        </div>
+
+                        <!-- Continuam mais linhas para outros horários -->
+                        <!-- Linha 18:00 -->
+                        <div class="calendar-row">
+                            <div class="time-column">18:00</div>
+                            <div class="day-column">
+                                <div class="class-card zumba">
+                                    <div class="class-header">
+                                        <div class="class-time">18:00 - 19:00</div>
+                                        <div class="class-actions">
+                                            <button class="action-btn" title="Agendar Aula"><i class="fas fa-plus"></i></button>
+                                        </div>
+                                    </div>
+                                    <h3 class="class-name">Zumba</h3>
+                                    <div class="class-info">
+                                        <span>Paula</span>
+                                        <span>Sala 1</span>
+                                    </div>
+                                    <div class="class-capacity">
+                                        <div class="progress-bar">
+                                            <div class="progress" style="width: 72%;"></div>
+                                        </div>
+                                        <div class="capacity-text">18/25 vagas</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="day-column">
+                                <div class="class-card yoga booked">
+                                    <div class="class-header">
+                                        <div class="class-time">18:00 - 19:00</div>
+                                        <div class="class-actions">
+                                            <button class="action-btn" title="Cancelar Reserva"><i class="fas fa-times"></i></button>
+                                        </div>
+                                    </div>
+                                    <h3 class="class-name">Yoga</h3>
+                                    <div class="class-info">
+                                        <span>Fernanda</span>
+                                        <span>Sala 3</span>
+                                    </div>
+                                    <div class="class-capacity">
+                                        <div class="progress-bar">
+                                            <div class="progress" style="width: 70%;"></div>
+                                        </div>
+                                        <div class="capacity-text">7/10 vagas</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="day-column">
+                                <!-- Sem aula agendada neste horário -->
+                            </div>
+                            <div class="day-column">
+                                <!-- Mais aulas seriam adicionadas aqui -->
+                            </div>
+                            <div class="day-column">
+                                <!-- Mais aulas seriam adicionadas aqui -->
+                            </div>
+                            <div class="day-column">
+                                <!-- Mais aulas seriam adicionadas aqui -->
+                            </div>
+                            <div class="day-column">
+                                <!-- Mais aulas seriam adicionadas aqui -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- List View -->
+            <div id="list-view" style="display: none;">
+                <div class="table-card">
+                    <div class="table-header">
+                        <div class="table-title">Aulas Disponíveis</div>
+                        <div class="table-actions">
+                            <div class="table-filter">
+                                <select>
+                                    <option>Próxima semana</option>
+                                    <option selected>Esta semana</option>
+                                    <option>Hoje</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Aula</th>
+                                    <th>Instrutor</th>
+                                    <th>Data</th>
+                                    <th>Horário</th>
+                                    <th>Sala</th>
+                                    <th>Vagas</th>
+                                    <th>Status</th>
+                                    <th>Ação</th>
+                                </tr>
+                            </thead>
+                            <tbody>
