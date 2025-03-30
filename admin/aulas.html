@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Gerenciamento de aulas da FitLife Academia">
+    <title>Aulas - FitLife Academia</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/responsive.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/admin.css">
+    <link rel="stylesheet" href="css/aulas.css">
+</head>
+<body>
+    <div class="admin-container">
+        <!-- Sidebar (igual em todas as páginas) -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <img src="../assets/images/logo.svg" alt="FitLife Academia">
+                <span>FitLife</span>
+            </div>
+            
+            <div class="sidebar-menu">
+                <div class="menu-label">Menu Principal</div>
+                <ul>
+                    <li>
+                        <a href="dashboard.html">
+                            <i class="fas fa-tachometer-alt" aria-hidden="true"></i> 
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="membros.html">
+                            <i class="fas fa-users" aria-hidden="true"></i> 
+                            <span>Membros</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="aulas.html" class="active" aria-current="page">
+                            <i class="fas fa-dumbbell" aria-hidden="true"></i> 
+                            <span>Aulas</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="instrutores.html">
+                            <i class="fas fa-user-tie" aria-hidden="true"></i> 
+                            <span>Instrutores</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="financeiro.html">
+                            <i class="fas fa-money-bill-wave" aria-hidden="true"></i> 
+                            <span>Financeiro</span>
+                        </a>
+                    </li>
+                </ul>
+                
+                <div class="menu-label">Configurações</div>
+                <ul>
+                    <li>
+                        <a href="perfil.html">
+                            <i class="fas fa-user-circle" aria-hidden="true"></i> 
+                            <span>Perfil</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="configuracoes.html">
+                            <i class="fas fa-cog" aria-hidden="true"></i> 
+                            <span>Configurações</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="../index.html">
+                            <i class="fas fa-sign-out-alt" aria-hidden="true"></i> 
+                            <span>Sair</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </aside>
+        <!-- Main Content -->
+        <div class="main-content" id="main-content">
+            <!-- Admin Header (igual em todas as páginas) -->
+            <header class="admin-header">
+                <button class="toggle-sidebar" id="toggle-sidebar" aria-label="Alternar menu lateral">
+                    <i class="fas fa-bars" aria-hidden="true"></i>
+                </button>
+                
+                <div class="header-search">
+                    <i class="fas fa-search" aria-hidden="true"></i>
+                    <input type="text" id="search-input" placeholder="Buscar aulas..." aria-label="Buscar no sistema">
+                    <div class="search-results" id="search-results" role="listbox" hidden></div>
+                </div>
+                
+                <div class="header-user">
+                    <div class="notifications">
+                        <button class="notification-btn" id="notification-btn" aria-label="Notificações">
+                            <i class="fas fa-bell" aria-hidden="true"></i>
+                            <span class="badge">3</span>
+                        </button>
+                        <div class="notification-dropdown" id="notification-dropdown" hidden>
+                            <!-- Conteúdo do dropdown de notificações -->
+                        </div>
+                    </div>
+                    
+                    <div class="user-profile" id="user-profile">
+                        <img src="../assets/images/admin-avatar.jpg" alt="Foto de perfil do administrador">
+                        <div class="user-info">
+                            <div class="user-name">Carlos Silva</div>
+                            <div class="user-role">Administrador</div>
+                        </div>
+                        <i class="fas fa-chevron-down" aria-hidden="true"></i>
+                    </div>
+                </div>
+            </header>
+            
+            <!-- Conteúdo da página de aulas -->
+            <div class="page-content">
+                <div class="page-header">
+                    <div class="page-title">
+                        <h1>Aulas</h1>
+                        <p>Gerencie o calendário de aulas da academia.</p>
+                    </div>
+                    
+                    <div class="page-actions">
+                        <div class="view-toggle">
+                            <button class="view-btn active" data-view="calendar" aria-label="Visualização de calendário">
+                                <i class="fas fa-calendar-alt" aria-hidden="true"></i>
+                                <span>Calendário</span>
+                            </button>
+                            <button class="view-btn" data-view="list" aria-label="Visualização de lista">
+                                <i class="fas fa-list" aria-hidden="true"></i>
+                                <span>Lista</span>
+                            </button>
+                        </div>
+                        <button class="btn-primary" id="add-class-btn" data-modal="add-class-modal">
+                            <i class="fas fa-plus" aria-hidden="true"></i>
+                            <span>Nova Aula</span>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Barra de filtros -->
+                <div class="filter-bar">
+                    <div class="filter-group">
+                        <label for="class-filter">Modalidade:</label>
+                        <select id="class-filter">
+                            <option value="all">Todas</option>
+                            <option value="spinning">Spinning</option>
+                            <option value="pilates">Pilates</option>
+                            <option value="functional">Funcional</option>
+                            <option value="yoga">Yoga</option>
+                            <option value="zumba">Zumba</option>
+                        </select>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label for="instructor-filter">Instrutor:</label>
+                        <select id="instructor-filter">
+                            <option value="all">Todos</option>
+                            <option value="1">Rodrigo Almeida</option>
+                            <option value="2">Carla Sousa</option>
+                            <option value="3">André Martins</option>
+                            <option value="4">Fernanda Lima</option>
+                        </select>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label for="room-filter">Sala:</label>
+                        <select id="room-filter">
+                            <option value="all">Todas</option>
+                            <option value="1">Sala 1</option>
+                            <option value="2">Sala 2</option>
+                            <option value="3">Sala 3</option>
+                            <option value="4">Sala 4</option>
+                        </select>
+                    </div>
+                    
+                    <div class="date-controls">
+                        <button class="date-nav-btn" id="prev-date" aria-label="Data anterior">
+                            <i class="fas fa-chevron-left" aria-hidden="true"></i>
+                        </button>
+                        <div class="current-date" id="current-date">
+                            Março 2025
+                        </div>
+                        <button class="date-nav-btn" id="next-date" aria-label="Próxima data">
+                            <i class="fas fa-chevron-right" aria-hidden="true"></i>
+                        </button>
+                        <button class="date-nav-btn" id="today-date" aria-label="Ir para hoje">
+                            Hoje
+                        </button>
+                    </div>
+                </div>
+                <!-- Visualização de Calendário -->
+                <div class="view-section" id="calendar-view">
+                    <!-- Calendário semanal -->
+                    <div class="calendar">
+                        <div class="calendar-header">
+                            <div class="time-column">Horário</div>
+                            <div class="day-column">Segunda</div>
+                            <div class="day-column">Terça</div>
+                            <div class="day-column">Quarta</div>
+                            <div class="day-column">Quinta</div>
+                            <div class="day-column">Sexta</div>
+                            <div class="day-column">Sábado</div>
+                            <div class="day-column">Domingo</div>
+                        </div>
+                        
+                        <div class="calendar-body">
+                            <!-- Linha de horário: 06:00 -->
+                            <div class="calendar-row">
+                                <div class="time-column">06:00</div>
+                                <div class="day-column">
+                                    <div class="class-card spinning">
+                                        <div class="class-header">
+                                            <span class="class-time">06:00 - 06:45</span>
+                                            <div class="class-actions">
+                                                <button class="action-btn" aria-label="Editar aula">
+                                                    <i class="fas fa-edit" aria-hidden="true"></i>
+                                                </button>
+                                                <button class="action-btn" aria-label="Excluir aula">
+                                                    <i class="fas fa-trash-alt" aria-hidden="true"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <h4 class="class-name">Spinning</h4>
+                                        <div class="class-info">
+                                            <span class="class-instructor">Rodrigo Almeida</span>
+                                            <span class="class-room">Sala 1</span>
+                                        </div>
+                                        <div class="class-capacity">
+                                            <div class="progress-bar">
+                                                <div class="progress" style="width: 75%"></div>
+                                            </div>
+                                            <span class="capacity-text">15/20</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="day-column">
+                                    <!-- Sem aula -->
+                                </div>
+                                <div class="day-column">
+                                    <div class="class-card yoga">
+                                        <div class="class-header">
+                                            <span class="class-time">06:00 - 07:15</span>
+                                            <div class="class-actions">
+                                                <button class="action-btn" aria-label="Editar aula">
+                                                    <i class="fas fa-edit" aria-hidden="true"></i>
+                                                </button>
+                                                <button class="action-btn" aria-label="Excluir aula">
+                                                    <i class="fas fa-trash-alt" aria-hidden="true"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <h4 class="class-name">Yoga</h4>
+                                        <div class="class-info">
+                                            <span class="class-instructor">Fernanda Lima</span>
+                                            <span class="class-room">Sala 3</span>
+                                        </div>
+                                        <div class="class-capacity">
+                                            <div class="progress-bar">
+                                                <div class="progress" style="width: 80%"></div>
+                                            </div>
+                                            <span class="capacity-text">8/10</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="day-column">
+                                    <!-- Sem aula -->
+                                </div>
+                                <div class="day-column">
+                                    <div class="class-card functional">
+                                        <div class="class-header">
+                                            <span class="class-time">06:00 - 06:50</span>
+                                            <div class="class-actions">
+                                                <button class="action-btn" aria-label="Editar aula">
+                                                    <i class="fas fa-edit" aria-hidden="true"></i>
+                                                </button>
+                                                <button class="action-btn" aria-label="Excluir aula">
+                                                    <i class="fas fa-trash-alt" aria-hidden="true"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <h4 class="class-name">Funcional</h4>
+                                        <div class="class-info">
+                                            <span class="class-instructor">André Martins</span>
+                                            <span class="class-room">Sala 2</span>
+                                        </div>
+                                        <div class="class-capacity">
+                                            <div class="progress-bar">
+                                                <div class="progress" style="width: 60%"></div>
+                                            </div>
+                                            <span class="capacity-text">9/15</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="day-column">
+                                    <!-- Sem aula -->
+                                </div>
+                                <div class="day-column">
+                                    <!-- Sem aula -->
+                                </div>
+                            </div>
+                            
+                            <!-- Linha de horário: 07:00 -->
+                            <div class="calendar-row">
+                                <div class="time-column">07:00</div>
+                                <div class="day-column">
+                                    <!-- Sem aula -->
+                                </div>
+                                <div class="day-column">
+                                    <div class="class-card pilates">
+                                        <div class="class-header">
+                                            <span class="class-time">07:00 - 08:00</span>
+                                            <div class="class-actions">
+                                                <button class="action-btn" aria-label="Editar aula">
+                                                    <i class="fas fa-edit" aria-hidden="true"></i>
+                                                </button>
+                                                <button class="action-btn" aria-label="Excluir aula">
+                                                    <i class="fas fa-trash-alt" aria-hidden="true"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <h4 class="class-name">Pilates</h4>
+                                        <div class="class-info">
+                                            <span class="class-instructor">Carla Sousa</span>
+                                            <span class="class-room">Sala 3</span>
+                                        </div>
+                                        <div class="class-capacity">
+                                            <div class="progress-bar">
+                                                <div class="progress" style="width: 67%"></div>
+                                            </div>
+                                            <span class="capacity-text">8/12</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="day-column">
+                                    <!-- Sem aula -->
+                                </div>
+                                <div class="day-column">
+                                    <div class="class-card zumba">
+                                        <div class="class-header">
+                                            <span class="class-time">07:00 - 08:00</span>
+                                            <div class="class-actions">
+                                                <button class="action-btn" aria-label="Editar aula">
+                                                    <i class="fas fa-edit" aria-hidden="true"></i>
+                                                </button>
+                                                <button class="action-btn" aria-label="Excluir aula">
+                                                    <i class="fas fa-trash-alt" aria-hidden="true"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <h4 class="class-name">Zumba</h4>
+                                        <div class="class-info">
+                                            <span class="class-instructor">Paula Santos</span>
+                                            <span class="class-room">Sala 1</span>
+                                        </div>
+                                        <div class="class-capacity">
+                                            <div class="progress-bar">
+                                                <div class="progress" style="width: 90%"></div>
+                                            </div>
+                                            <span class="capacity-text">18/20</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="day-column">
+                                    <!-- Sem aula -->
+                                </div>
+                                <div class="day-column">
+                                    <div class="class-card spinning">
+                                        <div class="class-header">
+                                            <span class="class-time">07:00 - 07:45</span>
+                                            <div class="class-actions">
+                                                <button class="action-btn" aria-label="Editar aula">
+                                                    <i class="fas fa-edit" aria-hidden="true"></i>
+                                                </button>
+                                                <button class="action-btn" aria-label="Excluir aula">
+                                                    <i class="fas fa-trash-alt" aria-hidden="true"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <h4 class="class-name">Spinning</h4>
+                                        <div class="class-info">
+                                            <span class="class-instructor">Rodrigo Almeida</span>
+                                            <span class="class-room">Sala 1</span>
+                                        </div>
+                                        <div class="class-capacity">
+                                            <div class="progress-bar">
+                                                <div class="progress" style="width: 50%"></div>
+                                            </div>
+                                            <span class="capacity-text">10/20</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="day-column">
+                                    <!-- Sem aula -->
+                                </div>
+                            </div>
+                            
+                            <!-- Mais linhas de horário iriam aqui... -->
+                        </div>
+                    </div>
+                </div>
+                <!-- Visualização de Lista -->
+                <div class="view-section" id="list-view" style="display: none;">
+                    <div class="table-card">
+                        <div class="table-options">
+                            <div class="table-length">
+                                <label for="table-length-select">Mostrar:</label>
+                                <select id="table-length-select">
+                                    <option value="10">10</option>
+                                    <option value="25" selected>25</option>
+                                    <option value="50">50</option>
+                                    <option value="100">100</option>
+                                </select>
+                                <span>registros</span>
+                            </div>
+                            
+                            <div class="bulk-actions">
+                                <select id="bulk-action-select" disabled>
+                                    <option value="">Ações em massa</option>
+                                    <option value="cancel">Cancelar aulas</option>
+                                    <option value="export">Exportar selecionados</option>
+                                    <option value="email">Notificar inscritos</option>
+                                </select>
+                                <button class="btn-apply" disabled>Aplicar</button>
+                            </div>
+                        </div>
+                        
+                        <div class="table-responsive">
+                            <table class="data-table classes-table" aria-label="Tabela de aulas">
+                                <thead>
+                                    <tr>
+                                        <th scope="col" class="checkbox-column">
+                                            <input type="checkbox" id="select-all" aria-label="Selecionar todas as aulas">
+                                        </th>
+                                        <th scope="col" class="sortable" data-sort="class">Aula <i class="fas fa-sort"></i></th>
+                                        <th scope="col" class="sortable" data-sort="instructor">Instrutor <i class="fas fa-sort"></i></th>
+                                        <th scope="col" class="sortable" data-sort="date">Data <i class="fas fa-sort"></i></th>
+                                        <th scope="col" class="sortable" data-sort="time">Horário <i class="fas fa-sort"></i></th>
+                                        <th scope="col" class="sortable" data-sort="duration">Duração <i class="fas fa-sort"></i></th>
+                                        <th scope="col" class="sortable" data-sort="room">Sala <i class="fas fa-sort"></i></th>
+                                        <th scope="col" class="sortable" data-sort="capacity">Inscritos <i class="fas fa-sort"></i></th>
+                                        <th scope="col">Ações</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- Linha 1 -->
+                                    <tr>
+                                        <td class="checkbox-column">
+                                            <input type="checkbox" class="row-checkbox" aria-label="Selecionar aula de Spinning">
+                                        </td>
+                                        <td data-label="Aula">
+                                            <div class="class-badge spinning">Spinning</div>
+                                        </td>
+                                        <td data-label="Instrutor">Rodrigo Almeida</td>
+                                        <td data-label="Data">29/03/2025</td>
+                                        <td data-label="Horário">06:00</td>
+                                        <td data-label="Duração">45 min</td>
+                                        <td data-label="Sala">Sala 1</td>
+                                        <td data-label="Inscritos">
+                                            <div class="progress-bar">
+                                                <div class="progress" style="width: 75%"></div>
+                                                <span>15/20</span>
+                                            </div>
+                                        </td>
+                                        <td data-label="Ações" class="actions-column">
+                                            <button class="action-btn" aria-label="Ver participantes" data-class-id="1" data-action="view-participants">
+                                                <i class="fas fa-users" aria-hidden="true"></i>
+                                            </button>
+                                            <button class="action-btn" aria-label="Editar aula" data-class-id="1" data-action="edit">
+                                                <i class="fas fa-edit" aria-hidden="true"></i>
+                                            </button>
+                                            <div class="action-menu">
+                                                <button class="action-btn menu-toggle" aria-label="Mais opções">
+                                                    <i class="fas fa-ellipsis-v" aria-hidden="true"></i>
+                                                </button>
+                                                <div class="action-dropdown" hidden>
+                                                    <a href="#notificar" data-class-id="1" data-action="notify">
+                                                        <i class="fas fa-bell" aria-hidden="true"></i> Notificar alunos
+                                                    </a>
+                                                    <a href="#duplicar" data-class-id="1" data-action="duplicate">
+                                                        <i class="fas fa-copy" aria-hidden="true"></i> Duplicar aula
+                                                    </a>
+                                                    <a href="#cancelar" class="text-danger" data-class-id="1" data-action="cancel">
+                                                        <i class="fas fa-ban" aria-hidden="true"></i> Cancelar aula
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    
+                                    <!-- Mais linhas seriam adicionadas aqui... -->
+                                </tbody>
+                            </table>
+                        </div>
+                        
+                        <!-- Paginação -->
+                        <div class="table-footer">
+                            <div class="table-info">
+                                Mostrando 1 a 25 de 36 registros
+                            </div>
+                            <div class="pagination">
+                                <button class="pagination-btn" disabled aria-label="Página anterior">
+                                    <i class="fas fa-chevron-left" aria-hidden="true"></i>
+                                </button>
+                                <button class="pagination-btn active" aria-label="Página 1">1</button>
+                                <button class="pagination-btn" aria-label="Página 2">2</button>
+                                <button class="pagination-btn" aria-label="Próxima página">
+                                    <i class="fas fa-chevron-right" aria-hidden="true"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Modal para adicionar nova aula -->
+    <div class="modal" id="add-class-modal">
+        <div class="modal-backdrop"></div>
+        <div class="modal-container">
+            <div class="modal-header">
+                <h2>Adicionar Nova Aula</h2>
+                <button class="modal-close" aria-label="Fechar modal">
+                    <i class="fas fa-times" aria-hidden="true"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="add-class-form">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="class-type">Modalidade*</label>
+                            <select id="class-type" name="type" required>
+                                <option value="">Selecione a modalidade</option>
+                                <option value="spinning">Spinning</option>
+                                <option value="pilates">Pilates</option>
+                                <option value="functional">Funcional</option>
+                                <option value="yoga">Yoga</option>
+                                <option value="zumba">Zumba</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="class-instructor">Instrutor*</label>
+                            <select id="class-instructor" name="instructor" required>
+                                <option value="">Selecione o instrutor</option>
+                                <option value="1">Rodrigo Almeida</option>
+                                <option value="2">Carla Sousa</option>
+                                <option value="3">André Martins</option>
+                                <option value="4">Fernanda Lima</option>
+                                <option value="5">Paula Santos</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="class-date">Data*</label>
+                            <input type="date" id="class-date" name="date" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="class-time">Horário de Início*</label>
+                            <input type="time" id="class-time" name="time" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="class-duration">Duração (minutos)*</label>
+                            <input type="number" id="class-duration" name="duration" min="15" max="120" step="5" value="60" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="class-room">Sala*</label>
+                            <select id="class-room" name="room" required>
+                                <option value="">Selecione a sala</option>
+                                <option value="1">Sala 1</option>
+                                <option value="2">Sala 2</option>
+                                <option value="3">Sala 3</option>
+                                <option value="4">Sala 4</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="class-capacity">Capacidade*</label>
+                            <input type="number" id="class-capacity" name="capacity" min="1" max="50" value="20" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="class-description">Descrição</label>
+                            <textarea id="class-description" name="description" rows="3"></textarea>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="class-level">Nível</label>
+                            <select id="class-level" name="level">
+                                <option value="all">Todos os níveis</option>
+                                <option value="beginner">Iniciante</option>
+                                <option value="intermediate">Intermediário</option>
+                                <option value="advanced">Avançado</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="class-recurring">Aula Recorrente</label>
+                            <div class="toggle-switch">
+                                <input type="checkbox" id="class-recurring" name="recurring">
+                                <label for="class-recurring"></label>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group recurring-options" style="display: none;">
+                            <label>Repetir nos dias:</label>
+                            <div class="weekday-selector">
+                                <div class="weekday-option">
+                                    <input type="checkbox" id="monday" name="weekdays[]" value="monday">
+                                    <label for="monday">Seg</label>
+                                </div>
+                                <div class="weekday-option">
+                                    <input type="checkbox" id="tuesday" name="weekdays[]" value="tuesday">
+                                    <label for="tuesday">Ter</label>
+                                </div>
+                                <div class="weekday-option">
+                                    <input type="checkbox" id="wednesday" name="weekdays[]" value="wednesday">
+                                    <label for="wednesday">Qua</label>
+                                </div>
+                                <div class="weekday-option">
+                                    <input type="checkbox" id="thursday" name="weekdays[]" value="thursday">
+                                    <label for="thursday">Qui</label>
+                                </div>
+                                <div class="weekday-option">
+                                    <input type="checkbox" id="friday" name="weekdays[]" value="friday">
+                                    <label for="friday">Sex</label>
+                                </div>
+                                <div class="weekday-option">
+                                    <input type="checkbox" id="saturday" name="weekdays[]" value="saturday">
+                                    <label for="saturday">Sáb</label>
+                                </div>
+                                <div class="weekday-option">
+                                    <input type="checkbox" id="sunday" name="weekdays[]" value="sunday">
+                                    <label for="sunday">Dom</label>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group recurring-options" style="display: none;">
+                            <label for="end-date">Até</label>
+                            <input type="date" id="end-date" name="end_date">
+                        </div>
+                    </div>
+                    
+                    <div class="form-footer">
+                        <button type="button" class="btn-cancel" id="cancel-add-class">Cancelar</button>
+                        <button type="submit" class="btn-primary">Salvar Aula</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Modal para visualizar participantes -->
+    <div class="modal" id="participants-modal">
+        <div class="modal-backdrop"></div>
+        <div class="modal-container">
+            <div class="modal-header">
+                <h2>Participantes da Aula: <span id="class-title">Spinning</span></h2>
+                <button class="modal-close" aria-label="Fechar modal">
+                    <i class="fas fa-times" aria-hidden="true"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="class-meta">
+                    <div class="meta-item">
+                        <span class="meta-label">Instrutor:</span>
+                        <span class="meta-value" id="modal-instructor">Rodrigo Almeida</span>
+                    </div>
+                    <div class="meta-item">
+                        <span class="meta-label">Data:</span>
+                        <span class="meta-value" id="modal-date">29/03/2025</span>
+                    </div>
+                    <div class="meta-item">
+                        <span class="meta-label">Horário:</span>
+                        <span class="meta-value" id="modal-time">06:00 - 06:45</span>
+                    </div>
+                    <div class="meta-item">
+                        <span class="meta-label">Sala:</span>
+                        <span class="meta-value" id="modal-room">Sala 1</span>
+                    </div>
+                    <div class="meta-item">
+                        <span class="meta-label">Capacidade:</span>
+                        <span class="meta-value" id="modal-capacity">15/20</span>
+                    </div>
+                </div>
+                
+                <div class="search-participants">
+                    <input type="text" placeholder="Buscar participante..." aria-label="Buscar participante">
+                    <button aria-label="Buscar"><i class="fas fa-search" aria-hidden="true"></i></button>
+                </div>
+                
+                <div class="participants-list">
+                    <table class="data-table" aria-label="Lista de participantes">
+                        <thead>
+                            <tr>
+                                <th scope="col">Nome</th>
+                                <th scope="col">Email</th>
+                                <th scope="col">Telefone</th>
+                                <th scope="col">Status</th>
+                                <th scope="col">Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td data-label="Nome">Ana Carolina Silva</td>
+                                <td data-label="Email">ana.silva@email.com</td>
+                                <td data-label="Telefone">(11) 98765-4321</td>
+                                <td data-label="Status"><span class="status active">Confirmado</span></td>
+                                <td data-label="Ações">
+                                    <button class="action-btn" aria-label="Remover Ana Carolina Silva da aula">
+                                        <i class="fas fa-user-minus" aria-hidden="true"></i>
+                                    </button>
+                                    <button class="action-btn" aria-label="Enviar lembrete para Ana Carolina Silva">
+                                        <i class="fas fa-bell" aria-hidden="true"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            <!-- Mais participantes aqui -->
+                        </tbody>
+                    </table>
+                </div>
+                
+                <h3 class="section-title">Adicionar Participante</h3>
+                <div class="add-participant-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="participant-search">Buscar membro</label>
+                            <input type="text" id="participant-search" placeholder="Nome ou email...">
+                            <div class="search-results" hidden></div>
+                        </div>
+                        <button class="btn-primary">Adicionar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Scripts -->
+    <script src="js/admin.js"></script>
+    <script src="js/classes.js"></script>
+</body>
+</html>

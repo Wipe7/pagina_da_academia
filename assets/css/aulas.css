@@ -1,0 +1,522 @@
+/* Estilos específicos para a página de aulas */
+
+/* Cabeçalho da página */
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.page-title h1 {
+    font-size: 1.8rem;
+    margin: 0 0 5px 0;
+}
+
+.page-title p {
+    color: var(--text-light);
+    margin: 0;
+}
+
+.page-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.view-toggle {
+    display: flex;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.view-btn {
+    background: none;
+    border: none;
+    padding: 8px 15px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    color: var(--text-color);
+    transition: var(--transition);
+}
+
+.view-btn i {
+    margin-right: 5px;
+}
+
+.view-btn.active {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+/* Barra de filtros */
+.filter-bar {
+    background-color: white;
+    border-radius: 10px;
+    padding: 15px;
+    margin-bottom: 20px;
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: var(--box-shadow);
+}
+
+.filter-group {
+    display: flex;
+    align-items: center;
+    min-width: 180px;
+}
+
+.filter-group label {
+    margin-right: 10px;
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+.filter-group select {
+    flex: 1;
+    padding: 8px 10px;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    font-family: 'Poppins', sans-serif;
+    transition: var(--transition);
+}
+
+.filter-group select:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 2px rgba(255, 69, 0, 0.2);
+}
+
+.date-controls {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.date-nav-btn {
+    background: none;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.date-nav-btn:hover {
+    background-color: var(--background-light);
+}
+
+#today-date {
+    width: auto;
+    padding: 0 10px;
+}
+
+.current-date {
+    font-weight: 600;
+    min-width: 120px;
+    text-align: center;
+}
+/* Estilos do calendário */
+.calendar {
+    background-color: white;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: var(--box-shadow);
+}
+
+.calendar-header {
+    display: grid;
+    grid-template-columns: 80px repeat(7, 1fr);
+    background-color: var(--primary-color);
+    color: white;
+    font-weight: 600;
+}
+
+.calendar-header .time-column,
+.calendar-header .day-column {
+    padding: 15px;
+    text-align: center;
+    border-right: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.calendar-body {
+    max-height: 600px;
+    overflow-y: auto;
+}
+
+.calendar-row {
+    display: grid;
+    grid-template-columns: 80px repeat(7, 1fr);
+    border-bottom: 1px solid var(--border-color);
+    min-height: 120px;
+}
+
+.calendar-row:last-child {
+    border-bottom: none;
+}
+
+.time-column {
+    background-color: var(--background-light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    border-right: 1px solid var(--border-color);
+}
+
+.day-column {
+    border-right: 1px solid var(--border-color);
+    padding: 10px;
+    position: relative;
+}
+
+.day-column:last-child {
+    border-right: none;
+}
+
+/* Estilos dos cards de aula */
+.class-card {
+    background-color: rgba(255, 69, 0, 0.1);
+    border-left: 4px solid var(--primary-color);
+    border-radius: 5px;
+    padding: 10px;
+    height: 100%;
+    transition: var(--transition);
+    cursor: pointer;
+}
+
+.class-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.class-card.spinning {
+    background-color: rgba(0, 191, 255, 0.1);
+    border-left-color: #00BFFF;
+}
+
+.class-card.yoga {
+    background-color: rgba(102, 16, 242, 0.1);
+    border-left-color: #6610F2;
+}
+
+.class-card.pilates {
+    background-color: rgba(40, 167, 69, 0.1);
+    border-left-color: #28A745;
+}
+
+.class-card.functional {
+    background-color: rgba(255, 193, 7, 0.1);
+    border-left-color: #FFC107;
+}
+
+.class-card.zumba {
+    background-color: rgba(220, 53, 69, 0.1);
+    border-left-color: #DC3545;
+}
+
+.class-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 5px;
+}
+
+.class-time {
+    font-size: 0.8rem;
+    color: var(--text-light);
+}
+
+.class-actions {
+    display: flex;
+    gap: 5px;
+    visibility: hidden;
+    opacity: 0;
+    transition: var(--transition);
+}
+
+.class-card:hover .class-actions {
+    visibility: visible;
+    opacity: 1;
+}
+
+.class-actions .action-btn {
+    padding: 2px;
+    font-size: 0.8rem;
+}
+
+.class-name {
+    font-weight: 600;
+    margin: 0 0 5px 0;
+}
+
+.class-info {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.8rem;
+    margin-bottom: 8px;
+}
+
+.class-instructor {
+    color: var(--text-color);
+}
+
+.class-room {
+    color: var(--text-light);
+}
+
+.class-capacity {
+    font-size: 0.8rem;
+}
+
+.class-capacity .progress-bar {
+    height: 5px;
+    margin-bottom: 3px;
+}
+
+.capacity-text {
+    color: var(--text-light);
+    font-size: 0.75rem;
+}
+/* Estilos da visualização em lista */
+.class-badge {
+    display: inline-block;
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: white;
+    background-color: var(--primary-color);
+}
+
+.class-badge.spinning {
+    background-color: #00BFFF;
+}
+
+.class-badge.yoga {
+    background-color: #6610F2;
+}
+
+.class-badge.pilates {
+    background-color: #28A745;
+}
+
+.class-badge.functional {
+    background-color: #FFC107;
+    color: #212529;
+}
+
+.class-badge.zumba {
+    background-color: #DC3545;
+}
+
+/* Estilos do modal de participantes */
+.class-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-bottom: 20px;
+    background-color: var(--background-light);
+    padding: 15px;
+    border-radius: 5px;
+}
+
+.meta-item {
+    display: flex;
+    align-items: center;
+}
+
+.meta-label {
+    font-weight: 600;
+    margin-right: 5px;
+}
+
+.search-participants {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.search-participants input {
+    width: 100%;
+    padding: 10px 40px 10px 15px;
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+    font-family: 'Poppins', sans-serif;
+}
+
+.search-participants button {
+    position: absolute;
+    right: 5px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--text-light);
+}
+
+.section-title {
+    font-size: 1.1rem;
+    margin: 20px 0 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.add-participant-form {
+    margin-bottom: 20px;
+}
+
+.form-row {
+    display: flex;
+    gap: 10px;
+    align-items: flex-end;
+}
+
+.form-row .form-group {
+    flex: 1;
+    margin-bottom: 0;
+}
+
+/* Estilos para o modal de adicionar aula */
+.weekday-selector {
+    display: flex;
+    gap: 5px;
+    flex-wrap: wrap;
+}
+
+.weekday-option {
+    position: relative;
+}
+
+.weekday-option input[type="checkbox"] {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.weekday-option label {
+    display: block;
+    padding: 8px 10px;
+    background-color: var(--background-light);
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    cursor: pointer;
+    transition: var(--transition);
+    text-align: center;
+    min-width: 40px;
+}
+
+.weekday-option input[type="checkbox"]:checked + label {
+    background-color: var(--primary-color);
+    color: white;
+    border-color: var(--primary-color);
+}
+
+.toggle-switch {
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 24px;
+}
+
+.toggle-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.toggle-switch label {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    border-radius: 24px;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.toggle-switch label::before {
+    position: absolute;
+    content: "";
+    height: 16px;
+    width: 16px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    border-radius: 50%;
+    transition: var(--transition);
+}
+
+.toggle-switch input:checked + label {
+    background-color: var(--primary-color);
+}
+
+.toggle-switch input:checked + label::before {
+    transform: translateX(26px);
+}
+
+/* Estilos responsivos */
+@media (max-width: 1200px) {
+    .calendar-header, .calendar-row {
+        grid-template-columns: 60px repeat(7, 1fr);
+    }
+}
+
+@media (max-width: 992px) {
+    .class-info, .class-capacity {
+        font-size: 0.7rem;
+    }
+    
+    .class-name {
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .calendar-header, .calendar-row {
+        grid-template-columns: 50px repeat(3, 1fr);
+    }
+    
+    .calendar-header .day-column:nth-child(n+5),
+    .calendar-row .day-column:nth-child(n+5) {
+        display: none;
+    }
+    
+    .date-controls {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .form-row {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .form-row .btn-primary {
+        width: 100%;
+    }
+}
+
+@media (max-width: 576px) {
+    .calendar-header, .calendar-row {
+        grid-template-columns: 40px repeat(1, 1fr);
+    }
+    
+    .calendar-header .day-column:nth-child(n+3),
+    .calendar-row .day-column:nth-child(n+3) {
+        display: none;
+    }
+}

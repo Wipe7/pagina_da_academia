@@ -1,0 +1,857 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Gerenciamento de instrutores da FitLife Academia">
+    <title>Instrutores - FitLife Academia</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/responsive.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/admin.css">
+    <style>
+        /* Estilos específicos para a página de instrutores */
+        .instructor-card {
+            background-color: var(--white);
+            border-radius: 10px;
+            box-shadow: var(--box-shadow);
+            overflow: hidden;
+            transition: var(--transition);
+        }
+        
+        .instructor-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .instructor-header {
+            position: relative;
+        }
+        
+        .instructor-cover {
+            height: 100px;
+            background-color: var(--primary-color);
+        }
+        
+        .instructor-avatar {
+            position: absolute;
+            bottom: -40px;
+            left: 20px;
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            border: 3px solid var(--white);
+            object-fit: cover;
+            background-color: var(--white);
+        }
+        
+        .instructor-content {
+            padding: 50px 20px 20px;
+        }
+        
+        .instructor-name {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        
+        .instructor-specialties {
+            color: var(--text-light);
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+        }
+        
+        .instructor-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+        }
+        
+        .info-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .info-value {
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+        
+        .info-label {
+            color: var(--text-light);
+            font-size: 0.8rem;
+        }
+        
+        .instructor-actions {
+            display: flex;
+            justify-content: space-between;
+            border-top: 1px solid var(--border-color);
+            padding-top: 15px;
+        }
+        
+        .instructor-status {
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        
+        .instructor-status.active {
+            background-color: rgba(40, 167, 69, 0.1);
+            color: var(--success-color);
+        }
+        
+        .instructor-status.inactive {
+            background-color: rgba(220, 53, 69, 0.1);
+            color: var(--danger-color);
+        }
+        
+        .instructor-status.vacation {
+            background-color: rgba(255, 193, 7, 0.1);
+            color: var(--warning-color);
+        }
+        
+        .instructor-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .stats-cards {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .specialty-badge {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            margin-right: 5px;
+            margin-bottom: 5px;
+            background-color: rgba(0, 191, 255, 0.1);
+            color: var(--accent-color);
+        }
+        
+        /* Formulário de instrutores */
+        .instructor-form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+        
+        .form-group.span-2 {
+            grid-column: span 2;
+        }
+        
+        .specialty-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 5px;
+        }
+        
+        .specialty-option {
+            display: inline-flex;
+            align-items: center;
+        }
+        
+        .specialty-option label {
+            margin-left: 5px;
+            font-weight: normal;
+        }
+        
+        /* Responsividade */
+        @media (max-width: 992px) {
+            .instructor-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .stats-cards {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .instructor-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .instructor-form-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .form-group.span-2 {
+                grid-column: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-container">
+        <!-- Sidebar (igual em todas as páginas) -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <img src="../assets/images/logo.svg" alt="FitLife Academia">
+                <span>FitLife</span>
+            </div>
+            
+            <div class="sidebar-menu">
+                <div class="menu-label">Menu Principal</div>
+                <ul>
+                    <li>
+                        <a href="dashboard.html">
+                            <i class="fas fa-tachometer-alt" aria-hidden="true"></i> 
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="membros.html">
+                            <i class="fas fa-users" aria-hidden="true"></i> 
+                            <span>Membros</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="aulas.html">
+                            <i class="fas fa-dumbbell" aria-hidden="true"></i> 
+                            <span>Aulas</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="instrutores.html" class="active" aria-current="page">
+                            <i class="fas fa-user-tie" aria-hidden="true"></i> 
+                            <span>Instrutores</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="financeiro.html">
+                            <i class="fas fa-money-bill-wave" aria-hidden="true"></i> 
+                            <span>Financeiro</span>
+                        </a>
+                    </li>
+                </ul>
+                
+                <div class="menu-label">Configurações</div>
+                <ul>
+                    <li>
+                        <a href="perfil.html">
+                            <i class="fas fa-user-circle" aria-hidden="true"></i> 
+                            <span>Perfil</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="configuracoes.html">
+                            <i class="fas fa-cog" aria-hidden="true"></i> 
+                            <span>Configurações</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="../index.html">
+                            <i class="fas fa-sign-out-alt" aria-hidden="true"></i> 
+                            <span>Sair</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </aside>
+        
+        <!-- Main Content -->
+        <div class="main-content" id="main-content">
+            <!-- Admin Header (igual em todas as páginas) -->
+            <header class="admin-header">
+                <button class="toggle-sidebar" id="toggle-sidebar" aria-label="Alternar menu lateral">
+                    <i class="fas fa-bars" aria-hidden="true"></i>
+                </button>
+                
+                <div class="header-search">
+                    <i class="fas fa-search" aria-hidden="true"></i>
+                    <input type="text" id="search-input" placeholder="Buscar instrutores..." aria-label="Buscar no sistema">
+                    <div class="search-results" id="search-results" role="listbox" hidden></div>
+                </div>
+                
+                <div class="header-user">
+                    <div class="notifications">
+                        <button class="notification-btn" id="notification-btn" aria-label="Notificações">
+                            <i class="fas fa-bell" aria-hidden="true"></i>
+                            <span class="badge">3</span>
+                        </button>
+                        <div class="notification-dropdown" id="notification-dropdown" hidden>
+                            <!-- Conteúdo do dropdown de notificações -->
+                        </div>
+                    </div>
+                    
+                    <div class="user-profile" id="user-profile">
+                        <img src="../assets/images/admin-avatar.jpg" alt="Foto de perfil do administrador">
+                        <div class="user-info">
+                            <div class="user-name">Carlos Silva</div>
+                            <div class="user-role">Administrador</div>
+                        </div>
+                        <i class="fas fa-chevron-down" aria-hidden="true"></i>
+                        
+                        <div class="user-dropdown" id="user-dropdown" hidden>
+                            <!-- Conteúdo do dropdown de usuário -->
+                        </div>
+                    </div>
+                </div>
+            </header>
+            <!-- Conteúdo da página de instrutores -->
+            <div class="page-content">
+                <div class="page-header">
+                    <div class="page-title">
+                        <h1>Instrutores</h1>
+                        <p>Gerencie os profissionais da academia.</p>
+                    </div>
+                    
+                    <div class="page-actions">
+                        <button class="btn-export" aria-label="Exportar dados">
+                            <i class="fas fa-file-export" aria-hidden="true"></i>
+                            <span>Exportar</span>
+                        </button>
+                        <button class="btn-import" aria-label="Importar dados">
+                            <i class="fas fa-file-import" aria-hidden="true"></i>
+                            <span>Importar</span>
+                        </button>
+                        <button class="btn-primary" id="add-instructor-btn" data-modal="add-instructor-modal">
+                            <i class="fas fa-plus" aria-hidden="true"></i>
+                            <span>Novo Instrutor</span>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Cards estatísticos -->
+                <div class="stats-cards">
+                    <div class="stat-card" tabindex="0">
+                        <div class="stat-icon users">
+                            <i class="fas fa-user-tie" aria-hidden="true"></i>
+                        </div>
+                        <div class="stat-info">
+                            <div class="stat-value">12</div>
+                            <div class="stat-label">Total de Instrutores</div>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card" tabindex="0">
+                        <div class="stat-icon classes">
+                            <i class="fas fa-calendar-check" aria-hidden="true"></i>
+                        </div>
+                        <div class="stat-info">
+                            <div class="stat-value">68</div>
+                            <div class="stat-label">Aulas esta semana</div>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card" tabindex="0">
+                        <div class="stat-icon revenue">
+                            <i class="fas fa-star" aria-hidden="true"></i>
+                        </div>
+                        <div class="stat-info">
+                            <div class="stat-value">4.8</div>
+                            <div class="stat-label">Avaliação média</div>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card" tabindex="0">
+                        <div class="stat-icon attendance">
+                            <i class="fas fa-user-plus" aria-hidden="true"></i>
+                        </div>
+                        <div class="stat-info">
+                            <div class="stat-value">2</div>
+                            <div class="stat-label">Vagas abertas</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Barra de filtros -->
+                <div class="filter-bar">
+                    <div class="filter-group">
+                        <label for="status-filter">Status:</label>
+                        <select id="status-filter">
+                            <option value="all">Todos</option>
+                            <option value="active">Ativo</option>
+                            <option value="vacation">Férias</option>
+                            <option value="inactive">Inativo</option>
+                        </select>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label for="specialty-filter">Especialidade:</label>
+                        <select id="specialty-filter">
+                            <option value="all">Todas</option>
+                            <option value="musculacao">Musculação</option>
+                            <option value="spinning">Spinning</option>
+                            <option value="pilates">Pilates</option>
+                            <option value="funcional">Funcional</option>
+                            <option value="yoga">Yoga</option>
+                            <option value="zumba">Zumba</option>
+                        </select>
+                    </div>
+                    
+                    <div class="filter-group filter-search">
+                        <input type="text" placeholder="Buscar por nome..." aria-label="Buscar instrutores">
+                        <button aria-label="Buscar">
+                            <i class="fas fa-search" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                </div>
+                <!-- Grid de instrutores -->
+                <div class="instructor-grid">
+                    <!-- Instrutor 1 -->
+                    <div class="instructor-card">
+                        <div class="instructor-header">
+                            <div class="instructor-cover"></div>
+                            <img src="../assets/images/team-1.jpg" alt="" class="instructor-avatar">
+                        </div>
+                        <div class="instructor-content">
+                            <h3 class="instructor-name">Rodrigo Almeida</h3>
+                            <div class="instructor-specialties">
+                                <span class="specialty-badge">Spinning</span>
+                                <span class="specialty-badge">Funcional</span>
+                            </div>
+                            <div class="instructor-info">
+                                <div class="info-item">
+                                    <span class="info-value">12</span>
+                                    <span class="info-label">Aulas</span>
+                                </div>
+                                <div class="info-item">
+                                    <span class="info-value">240</span>
+                                    <span class="info-label">Alunos</span>
+                                </div>
+                                <div class="info-item">
+                                    <span class="info-value">4.9</span>
+                                    <span class="info-label">Avaliação</span>
+                                </div>
+                            </div>
+                            <div class="instructor-actions">
+                                <span class="instructor-status active">Ativo</span>
+                                <div>
+                                    <button class="action-btn" aria-label="Ver detalhes de Rodrigo Almeida" data-instructor-id="1" data-action="view">
+                                        <i class="fas fa-eye" aria-hidden="true"></i>
+                                    </button>
+                                    <button class="action-btn" aria-label="Editar dados de Rodrigo Almeida" data-instructor-id="1" data-action="edit">
+                                        <i class="fas fa-edit" aria-hidden="true"></i>
+                                    </button>
+                                    <div class="action-menu">
+                                        <button class="action-btn menu-toggle" aria-label="Mais opções">
+                                            <i class="fas fa-ellipsis-v" aria-hidden="true"></i>
+                                        </button>
+                                        <div class="action-dropdown" hidden>
+                                            <a href="#agenda" data-instructor-id="1" data-action="schedule">
+                                                <i class="fas fa-calendar-alt" aria-hidden="true"></i> Ver agenda
+                                            </a>
+                                            <a href="#ferias" data-instructor-id="1" data-action="vacation">
+                                                <i class="fas fa-umbrella-beach" aria-hidden="true"></i> Registrar férias
+                                            </a>
+                                            <a href="#desativar" data-instructor-id="1" data-action="deactivate" class="text-danger">
+                                                <i class="fas fa-user-slash" aria-hidden="true"></i> Desativar
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Instrutor 2 -->
+                    <div class="instructor-card">
+                        <div class="instructor-header">
+                            <div class="instructor-cover"></div>
+                            <img src="../assets/images/team-2.jpg" alt="" class="instructor-avatar">
+                        </div>
+                        <div class="instructor-content">
+                            <h3 class="instructor-name">Carla Sousa</h3>
+                            <div class="instructor-specialties">
+                                <span class="specialty-badge">Pilates</span>
+                                <span class="specialty-badge">Yoga</span>
+                            </div>
+                            <div class="instructor-info">
+                                <div class="info-item">
+                                    <span class="info-value">8</span>
+                                    <span class="info-label">Aulas</span>
+                                </div>
+                                <div class="info-item">
+                                    <span class="info-value">120</span>
+                                    <span class="info-label">Alunos</span>
+                                </div>
+                                <div class="info-item">
+                                    <span class="info-value">4.8</span>
+                                    <span class="info-label">Avaliação</span>
+                                </div>
+                            </div>
+                            <div class="instructor-actions">
+                                <span class="instructor-status vacation">Férias</span>
+                                <div>
+                                    <button class="action-btn" aria-label="Ver detalhes de Carla Sousa" data-instructor-id="2" data-action="view">
+                                        <i class="fas fa-eye" aria-hidden="true"></i>
+                                    </button>
+                                    <button class="action-btn" aria-label="Editar dados de Carla Sousa" data-instructor-id="2" data-action="edit">
+                                        <i class="fas fa-edit" aria-hidden="true"></i>
+                                    </button>
+                                    <div class="action-menu">
+                                        <button class="action-btn menu-toggle" aria-label="Mais opções">
+                                            <i class="fas fa-ellipsis-v" aria-hidden="true"></i>
+                                        </button>
+                                        <div class="action-dropdown" hidden>
+                                            <a href="#agenda" data-instructor-id="2" data-action="schedule">
+                                                <i class="fas fa-calendar-alt" aria-hidden="true"></i> Ver agenda
+                                            </a>
+                                            <a href="#retorno" data-instructor-id="2" data-action="return">
+                                                <i class="fas fa-user-check" aria-hidden="true"></i> Registrar retorno
+                                            </a>
+                                            <a href="#desativar" data-instructor-id="2" data-action="deactivate" class="text-danger">
+                                                <i class="fas fa-user-slash" aria-hidden="true"></i> Desativar
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Instrutor 3 -->
+                    <div class="instructor-card">
+                        <div class="instructor-header">
+                            <div class="instructor-cover"></div>
+                            <img src="../assets/images/team-3.jpg" alt="" class="instructor-avatar">
+                        </div>
+                        <div class="instructor-content">
+                            <h3 class="instructor-name">André Martins</h3>
+                            <div class="instructor-specialties">
+                                <span class="specialty-badge">Musculação</span>
+                                <span class="specialty-badge">Funcional</span>
+                                <span class="specialty-badge">CrossFit</span>
+                            </div>
+                            <div class="instructor-info">
+                                <div class="info-item">
+                                    <span class="info-value">15</span>
+                                    <span class="info-label">Aulas</span>
+                                </div>
+                                <div class="info-item">
+                                    <span class="info-value">200</span>
+                                    <span class="info-label">Alunos</span>
+                                </div>
+                                <div class="info-item">
+                                    <span class="info-value">4.7</span>
+                                    <span class="info-label">Avaliação</span>
+                                </div>
+                            </div>
+                            <div class="instructor-actions">
+                                <span class="instructor-status active">Ativo</span>
+                                <div>
+                                    <button class="action-btn" aria-label="Ver detalhes de André Martins" data-instructor-id="3" data-action="view">
+                                        <i class="fas fa-eye" aria-hidden="true"></i>
+                                    </button>
+                                    <button class="action-btn" aria-label="Editar dados de André Martins" data-instructor-id="3" data-action="edit">
+                                        <i class="fas fa-edit" aria-hidden="true"></i>
+                                    </button>
+                                    <div class="action-menu">
+                                        <button class="action-btn menu-toggle" aria-label="Mais opções">
+                                            <i class="fas fa-ellipsis-v" aria-hidden="true"></i>
+                                        </button>
+                                        <div class="action-dropdown" hidden>
+                                            <a href="#agenda" data-instructor-id="3" data-action="schedule">
+                                                <i class="fas fa-calendar-alt" aria-hidden="true"></i> Ver agenda
+                                            </a>
+                                            <a href="#ferias" data-instructor-id="3" data-action="vacation">
+                                                <i class="fas fa-umbrella-beach" aria-hidden="true"></i> Registrar férias
+                                            </a>
+                                            <a href="#desativar" data-instructor-id="3" data-action="deactivate" class="text-danger">
+                                                <i class="fas fa-user-slash" aria-hidden="true"></i> Desativar
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Instrutor 4 -->
+                    <div class="instructor-card">
+                        <div class="instructor-header">
+                            <div class="instructor-cover"></div>
+                            <img src="../assets/images/team-4.jpg" alt="" class="instructor-avatar">
+                        </div>
+                        <div class="instructor-content">
+                            <h3 class="instructor-name">Fernanda Lima</h3>
+                            <div class="instructor-specialties">
+                                <span class="specialty-badge">Zumba</span>
+                                <span class="specialty-badge">Dança</span>
+                            </div>
+                            <div class="instructor-info">
+                                <div class="info-item">
+                                    <span class="info-value">10</span>
+                                    <span class="info-label">Aulas</span>
+                                </div>
+                                <div class="info-item">
+                                    <span class="info-value">180</span>
+                                    <span class="info-label">Alunos</span>
+                                </div>
+                                <div class="info-item">
+                                    <span class="info-value">4.9</span>
+                                    <span class="info-label">Avaliação</span>
+                                </div>
+                            </div>
+                            <div class="instructor-actions">
+                                <span class="instructor-status active">Ativo</span>
+                                <div>
+                                    <button class="action-btn" aria-label="Ver detalhes de Fernanda Lima" data-instructor-id="4" data-action="view">
+                                        <i class="fas fa-eye" aria-hidden="true"></i>
+                                    </button>
+                                    <button class="action-btn" aria-label="Editar dados de Fernanda Lima" data-instructor-id="4" data-action="edit">
+                                        <i class="fas fa-edit" aria-hidden="true"></i>
+                                    </button>
+                                    <div class="action-menu">
+                                        <button class="action-btn menu-toggle" aria-label="Mais opções">
+                                            <i class="fas fa-ellipsis-v" aria-hidden="true"></i>
+                                        </button>
+                                        <div class="action-dropdown" hidden>
+                                            <a href="#agenda" data-instructor-id="4" data-action="schedule">
+                                                <i class="fas fa-calendar-alt" aria-hidden="true"></i> Ver agenda
+                                            </a>
+                                            <a href="#ferias" data-instructor-id="4" data-action="vacation">
+                                                <i class="fas fa-umbrella-beach" aria-hidden="true"></i> Registrar férias
+                                            </a>
+                                            <a href="#desativar" data-instructor-id="4" data-action="deactivate" class="text-danger">
+                                                <i class="fas fa-user-slash" aria-hidden="true"></i> Desativar
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Instrutor 4 -->
+                    <div class="instructor-card">
+                        <div class="instructor-header">
+                            <div class="instructor-cover"></div>
+                            <img src="../assets/images/team-4.jpg" alt="" class="instructor-avatar">
+                        </div>
+                        <div class="instructor-content">
+                            <h3 class="instructor-name">Fernanda Lima</h3>
+                            <div class="instructor-specialties">
+                                <span class="specialty-badge">Zumba</span>
+                                <span class="specialty-badge">Dança</span>
+                            </div>
+                            <div class="instructor-info">
+                                <div class="info-item">
+                                    <span class="info-value">10</span>
+                                    <span class="info-label">Aulas</span>
+                                </div>
+                                <div class="info-item">
+                                    <span class="info-value">180</span>
+                                    <span class="info-label">Alunos</span>
+                                </div>
+                                <div class="info-item">
+                                    <span class="info-value">4.9</span>
+                                    <span class="info-label">Avaliação</span>
+                                </div>
+                            </div>
+                            <div class="instructor-actions">
+                                <span class="instructor-status active">Ativo</span>
+                                <div>
+                                    <button class="action-btn" aria-label="Ver detalhes de Fernanda Lima" data-instructor-id="4" data-action="view">
+                                        <i class="fas fa-eye" aria-hidden="true"></i>
+                                    </button>
+                                    <button class="action-btn" aria-label="Editar dados de Fernanda Lima" data-instructor-id="4" data-action="edit">
+                                        <i class="fas fa-edit" aria-hidden="true"></i>
+                                    </button>
+                                    <div class="action-menu">
+                                        <button class="action-btn menu-toggle" aria-label="Mais opções">
+                                            <i class="fas fa-ellipsis-v" aria-hidden="true"></i>
+                                        </button>
+                                        <div class="action-dropdown" hidden>
+                                            <a href="#agenda" data-instructor-id="4" data-action="schedule">
+                                                <i class="fas fa-calendar-alt" aria-hidden="true"></i> Ver agenda
+                                            </a>
+                                            <a href="#ferias" data-instructor-id="4" data-action="vacation">
+                                                <i class="fas fa-umbrella-beach" aria-hidden="true"></i> Registrar férias
+                                            </a>
+                                            <a href="#desativar" data-instructor-id="4" data-action="deactivate" class="text-danger">
+                                                <i class="fas fa-user-slash" aria-hidden="true"></i> Desativar
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Instrutor 5 -->
+                    <div class="instructor-card">
+                        <div class="instructor-header">
+                            <div class="instructor-cover"></div>
+                            <img src="../assets/images/team-5.jpg" alt="" class="instructor-avatar">
+                        </div>
+                        <div class="instructor-content">
+                            <h3 class="instructor-name">Ricardo Mendes</h3>
+                            <div class="instructor-specialties">
+                                <span class="specialty-badge">Nutrição</span>
+                                <span class="specialty-badge">Avaliação Física</span>
+                            </div>
+                            <div class="instructor-info">
+                                <div class="info-item">
+                                    <span class="info-value">0</span>
+                                    <span class="info-label">Aulas</span>
+                                </div>
+                                <div class="info-item">
+                                    <span class="info-value">45</span>
+                                    <span class="info-label">Consultas</span>
+                                </div>
+                                <div class="info-item">
+                                    <span class="info-value">4.6</span>
+                                    <span class="info-label">Avaliação</span>
+                                </div>
+                            </div>
+                            <div class="instructor-actions">
+                                <span class="instructor-status inactive">Inativo</span>
+                                <div>
+                                    <button class="action-btn" aria-label="Ver detalhes de Ricardo Mendes" data-instructor-id="5" data-action="view">
+                                        <i class="fas fa-eye" aria-hidden="true"></i>
+                                    </button>
+                                    <button class="action-btn" aria-label="Editar dados de Ricardo Mendes" data-instructor-id="5" data-action="edit">
+                                        <i class="fas fa-edit" aria-hidden="true"></i>
+                                    </button>
+                                    <div class="action-menu">
+                                        <button class="action-btn menu-toggle" aria-label="Mais opções">
+                                            <i class="fas fa-ellipsis-v" aria-hidden="true"></i>
+                                        </button>
+                                        <div class="action-dropdown" hidden>
+                                            <a href="#agenda" data-instructor-id="5" data-action="schedule">
+                                                <i class="fas fa-calendar-alt" aria-hidden="true"></i> Ver agenda
+                                            </a>
+                                            <a href="#ativar" data-instructor-id="5" data-action="activate" class="text-success">
+                                                <i class="fas fa-user-check" aria-hidden="true"></i> Ativar
+                                            </a>
+                                            <a href="#remover" data-instructor-id="5" data-action="remove" class="text-danger">
+                                                <i class="fas fa-trash-alt" aria-hidden="true"></i> Remover
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Modal para adicionar novo instrutor -->
+    <div class="modal" id="add-instructor-modal">
+        <div class="modal-backdrop"></div>
+        <div class="modal-container">
+            <div class="modal-header">
+                <h2>Adicionar Novo Instrutor</h2>
+                <button class="modal-close" aria-label="Fechar modal">
+                    <i class="fas fa-times" aria-hidden="true"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="add-instructor-form">
+                    <div class="instructor-form-grid">
+                        <div class="form-group">
+                            <label for="instructor-name">Nome Completo*</label>
+                            <input type="text" id="instructor-name" name="name" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="instructor-email">Email*</label>
+                            <input type="email" id="instructor-email" name="email" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="instructor-phone">Telefone*</label>
+                            <input type="tel" id="instructor-phone" name="phone" placeholder="(00) 00000-0000" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="instructor-birth">Data de Nascimento*</label>
+                            <input type="date" id="instructor-birth" name="birth" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="instructor-cpf">CPF*</label>
+                            <input type="text" id="instructor-cpf" name="cpf" placeholder="000.000.000-00" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="instructor-cref">CREF (Registro Profissional)*</label>
+                            <input type="text" id="instructor-cref" name="cref" placeholder="000000-G/SP" required>
+                        </div>
+                        
+                        <div class="form-group span-2">
+                            <label>Especialidades*</label>
+                            <div class="specialty-options">
+                                <div class="specialty-option">
+                                    <input type="checkbox" id="specialty-musculacao" name="specialties[]" value="musculacao">
+                                    <label for="specialty-musculacao">Musculação</label>
+                                </div>
+                                <div class="specialty-option">
+                                    <input type="checkbox" id="specialty-spinning" name="specialties[]" value="spinning">
+                                    <label for="specialty-spinning">Spinning</label>
+                                </div>
+                                <div class="specialty-option">
+                                    <input type="checkbox" id="specialty-pilates" name="specialties[]" value="pilates">
+                                    <label for="specialty-pilates">Pilates</label>
+                                </div>
+                                <div class="specialty-option">
+                                    <input type="checkbox" id="specialty-funcional" name="specialties[]" value="funcional">
+                                    <label for="specialty-funcional">Funcional</label>
+                                </div>
+                                <div class="specialty-option">
+                                    <input type="checkbox" id="specialty-yoga" name="specialties[]" value="yoga">
+                                    <label for="specialty-yoga">Yoga</label>
+                                </div>
+                                <div class="specialty-option">
+                                    <input type="checkbox" id="specialty-zumba" name="specialties[]" value="zumba">
+                                    <label for="specialty-zumba">Zumba</label>
+                                </div>
+                                <div class="specialty-option">
+                                    <input type="checkbox" id="specialty-crossfit" name="specialties[]" value="crossfit">
+                                    <label for="specialty-crossfit">CrossFit</label>
+                                </div>
+                                <div class="specialty-option">
+                                    <input type="checkbox" id="specialty-nutrição" name="specialties[]" value="nutrição">
+                                    <label for="specialty-nutrição">Nutrição</label>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="instructor-status">Status*</label>
+                            <select id="instructor-status" name="status" required>
+                                <option value="active">Ativo</option>
+                                <option value="inactive">Inativo</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="instructor-photo">Foto</label>
+                            <input type="file" id="instructor-photo" name="photo" accept="image/*">
+                        </div>
+                        
+                        <div class="form-group span-2">
+                            <label for="instructor-bio">Biografia</label>
+                            <textarea id="instructor-bio" name="bio" rows="3"></textarea>
+                        </div>
+                    </div>
+                    
+                    <div class="form-footer">
+                        <button type="button" class="btn-cancel" id="cancel-add-instructor">Cancelar</button>
+                        <button type="submit" class="btn-primary">Salvar Instrutor</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Modal de visualização do instrutor -->
+    <div class="modal" id="view-instructor-modal">
+        <!-- Conteúdo será carregado dinamicamente via JavaScript -->
+    </div>
+    
+    <!-- Scripts -->
+    <script src="js/admin.js"></script>
+    <script src="js/instructors.js"></script>
+</body>
+</html>

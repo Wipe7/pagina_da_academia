@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Gerenciamento de perfil do administrador da FitLife Academia">
+    <title>Perfil - FitLife Academia</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/responsive.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/admin.css">
+    <link rel="stylesheet" href="css/perfil.css">
+</head>
+<body>
+    <div class="admin-container">
+        <!-- Sidebar (igual em todas as páginas) -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <img src="../assets/images/logo.svg" alt="FitLife Academia">
+                <span>FitLife</span>
+            </div>
+            
+            <div class="sidebar-menu">
+                <div class="menu-label">Menu Principal</div>
+                <ul>
+                    <li>
+                        <a href="dashboard.html">
+                            <i class="fas fa-tachometer-alt" aria-hidden="true"></i> 
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="membros.html">
+                            <i class="fas fa-users" aria-hidden="true"></i> 
+                            <span>Membros</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="aulas.html">
+                            <i class="fas fa-dumbbell" aria-hidden="true"></i> 
+                            <span>Aulas</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="instrutores.html">
+                            <i class="fas fa-user-tie" aria-hidden="true"></i> 
+                            <span>Instrutores</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="financeiro.html">
+                            <i class="fas fa-money-bill-wave" aria-hidden="true"></i> 
+                            <span>Financeiro</span>
+                        </a>
+                    </li>
+                </ul>
+                
+                <div class="menu-label">Configurações</div>
+                <ul>
+                    <li>
+                        <a href="perfil.html" class="active" aria-current="page">
+                            <i class="fas fa-user-circle" aria-hidden="true"></i> 
+                            <span>Perfil</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="configuracoes.html">
+                            <i class="fas fa-cog" aria-hidden="true"></i> 
+                            <span>Configurações</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="../index.html">
+                            <i class="fas fa-sign-out-alt" aria-hidden="true"></i> 
+                            <span>Sair</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </aside>
+        
+        <!-- Main Content -->
+        <div class="main-content" id="main-content">
+            <!-- Admin Header (igual em todas as páginas) -->
+            <header class="admin-header">
+                <button class="toggle-sidebar" id="toggle-sidebar" aria-label="Alternar menu lateral">
+                    <i class="fas fa-bars" aria-hidden="true"></i>
+                </button>
+                
+                <div class="header-search">
+                    <i class="fas fa-search" aria-hidden="true"></i>
+                    <input type="text" id="search-input" placeholder="Buscar..." aria-label="Buscar no sistema">
+                    <div class="search-results" id="search-results" role="listbox" hidden></div>
+                </div>
+                
+                <div class="header-user">
+                    <div class="notifications">
+                        <button class="notification-btn" id="notification-btn" aria-label="Notificações">
+                            <i class="fas fa-bell" aria-hidden="true"></i>
+                            <span class="badge">3</span>
+                        </button>
+                        <div class="notification-dropdown" id="notification-dropdown" hidden>
+                            <!-- Conteúdo do dropdown de notificações -->
+                        </div>
+                    </div>
+                    
+                    <div class="user-profile" id="user-profile">
+                        <img src="../assets/images/admin-avatar.jpg" alt="Foto de perfil do administrador">
+                        <div class="user-info">
+                            <div class="user-name">Carlos Silva</div>
+                            <div class="user-role">Administrador</div>
+                        </div>
+                        <i class="fas fa-chevron-down" aria-hidden="true"></i>
+                    </div>
+                </div>
+            </header>
+            
+            <!-- Conteúdo da página de perfil -->
+            <div class="page-content">
+                <div class="page-header">
+                    <div class="page-title">
+                        <h1>Meu Perfil</h1>
+                        <p>Gerencie suas informações pessoais e preferências.</p>
+                    </div>
+                </div>
+                
+                <div class="profile-container">
+                    <!-- Informações básicas -->
+                    <div class="profile-card">
+                        <div class="profile-header">
+                            <h2>Informações Pessoais</h2>
+                            <button class="btn-edit" id="edit-profile-btn">
+                                <i class="fas fa-edit" aria-hidden="true"></i> Editar
+                            </button>
+                        </div>
+                        <div class="profile-body">
+                            <div class="profile-avatar">
+                                <img src="../assets/images/admin-avatar.jpg" alt="Foto de perfil do administrador">
+                                <div class="avatar-edit">
+                                    <label for="avatar-upload">
+                                        <i class="fas fa-camera" aria-hidden="true"></i>
+                                    </label>
+                                    <input type="file" id="avatar-upload" accept="image/*" hidden>
+                                </div>
+                            </div>
+                            
+                            <div class="profile-details">
+                                <div class="profile-field">
+                                    <label>Nome Completo</label>
+                                    <p>Carlos Eduardo Silva</p>
+                                </div>
+                                <div class="profile-field">
+                                    <label>E-mail</label>
+                                    <p>carlos.silva@fitlifeacademia.com.br</p>
+                                </div>
+                                <div class="profile-field">
+                                    <label>Telefone</label>
+                                    <p>(11) 98765-4321</p>
+                                </div>
+                                <div class="profile-field">
+                                    <label>Cargo</label>
+                                    <p>Administrador</p>
+                                </div>
+                                <div class="profile-field">
+                                    <label>Data de Admissão</label>
+                                    <p>15/01/2020</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Segurança -->
+                    <div class="profile-card">
+                        <div class="profile-header">
+                            <h2>Segurança</h2>
+                        </div>
+                        <div class="profile-body">
+                            <div class="profile-form">
+                                <form id="password-form">
+                                    <h3>Alterar Senha</h3>
+                                    <div class="form-group">
+                                        <label for="current-password">Senha Atual</label>
+                                        <input type="password" id="current-password" name="current_password" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="new-password">Nova Senha</label>
+                                        <input type="password" id="new-password" name="new_password" required>
+                                        <div class="password-strength" id="password-strength">
+                                            <div class="strength-bar">
+                                                <div class="strength-level" style="width: 0%"></div>
+                                            </div>
+                                            <span class="strength-text">Força da senha</span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="confirm-password">Confirmar Nova Senha</label>
+                                        <input type="password" id="confirm-password" name="confirm_password" required>
+                                    </div>
+                                    <button type="submit" class="btn-primary">Alterar Senha</button>
+                                </form>
+                                
+                                <div class="divider"></div>
+                                
+                                <div class="two-factor">
+                                    <h3>Autenticação de Dois Fatores</h3>
+                                    <p>Aumente a segurança da sua conta ativando a autenticação de dois fatores.</p>
+                                    <div class="toggle-container">
+                                        <span>Autenticação de Dois Fatores</span>
+                                        <div class="toggle-switch">
+                                            <input type="checkbox" id="two-factor-toggle">
+                                            <label for="two-factor-toggle"></label>
+                                        </div>
+                                    </div>
+                                    <div class="two-factor-setup" id="two-factor-setup" style="display: none;">
+                                        <div class="qrcode-container">
+                                            <img src="../assets/images/qrcode-example.png" alt="QR Code para autenticação de dois fatores">
+                                        </div>
+                                        <p>Escaneie o código QR com seu aplicativo de autenticação (como Google Authenticator ou Authy).</p>
+                                        <div class="form-group">
+                                            <label for="verification-code">Código de Verificação</label>
+                                            <input type="text" id="verification-code" maxlength="6" placeholder="000000">
+                                        </div>
+                                        <button class="btn-primary" id="verify-2fa-btn">Verificar e Ativar</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Notificações -->
+                    <div class="profile-card">
+                        <div class="profile-header">
+                            <h2>Preferências de Notificação</h2>
+                        </div>
+                        <div class="profile-body">
+                            <form id="notification-form">
+                                <div class="notification-option">
+                                    <div class="notification-text">
+                                        <h3>E-mail</h3>
+                                        <p>Receber notificações por e-mail</p>
+                                    </div>
+                                    <div class="toggle-switch">
+                                        <input type="checkbox" id="email-notification" name="email_notification" checked>
+                                        <label for="email-notification"></label>
+                                    </div>
+                                </div>
+                                
+                                <div class="notification-option">
+                                    <div class="notification-text">
+                                        <h3>Sistema</h3>
+                                        <p>Mostrar notificações no painel administrativo</p>
+                                    </div>
+                                    <div class="toggle-switch">
+                                        <input type="checkbox" id="system-notification" name="system_notification" checked>
+                                        <label for="system-notification"></label>
+                                    </div>
+                                </div>
+                                
+                                <div class="notification-option">
+                                    <div class="notification-text">
+                                        <h3>Resumo Diário</h3>
+                                        <p>Receber um resumo diário das atividades</p>
+                                    </div>
+                                    <div class="toggle-switch">
+                                        <input type="checkbox" id="daily-summary" name="daily_summary">
+                                        <label for="daily-summary"></label>
+                                    </div>
+                                </div>
+                                
+                                <div class="notification-option">
+                                    <div class="notification-text">
+                                        <h3>Novos Membros</h3>
+                                        <p>Ser notificado quando novos membros se registrarem</p>
+                                    </div>
+                                    <div class="toggle-switch">
+                                        <input type="checkbox" id="new-members" name="new_members" checked>
+                                        <label for="new-members"></label>
+                                    </div>
+                                </div>
+                                
+                                <button type="submit" class="btn-primary">Salvar Preferências</button>
+                            </form>
+                        </div>
+                    </div>
+                    
+                    <!-- Sessões Ativas -->
+                    <div class="profile-card">
+                        <div class="profile-header">
+                            <h2>Sessões Ativas</h2>
+                        </div>
+                        <div class="profile-body">
+                            <div class="sessions-list">
+                                <div class="session-item current">
+                                    <div class="session-info">
+                                        <div class="session-device">
+                                            <i class="fas fa-laptop" aria-hidden="true"></i>
+                                            <span>Windows 11 - Chrome</span>
+                                        </div>
+                                        <div class="session-details">
+                                            <span class="session-location">São Paulo, Brasil</span>
+                                            <span class="session-time">Ativa agora</span>
+                                            <span class="session-ip">IP: 187.32.45.123</span>
+                                        </div>
+                                    </div>
+                                    <div class="session-actions">
+                                        <span class="session-current">Sessão Atual</span>
+                                    </div>
+                                </div>
+                                
+                                <div class="session-item">
+                                    <div class="session-info">
+                                        <div class="session-device">
+                                            <i class="fas fa-mobile-alt" aria-hidden="true"></i>
+                                            <span>iPhone 13 - Safari</span>
+                                        </div>
+                                        <div class="session-details">
+                                            <span class="session-location">São Paulo, Brasil</span>
+                                            <span class="session-time">Última atividade: 2 horas atrás</span>
+                                            <span class="session-ip">IP: 187.32.45.178</span>
+                                        </div>
+                                    </div>
+                                    <div class="session-actions">
+                                        <button class="btn-terminate">Encerrar</button>
+                                    </div>
+                                </div>
+                                
+                                <div class="session-item">
+                                    <div class="session-info">
+                                        <div class="session-device">
+                                            <i class="fas fa-tablet-alt" aria-hidden="true"></i>
+                                            <span>iPad - Safari</span>
+                                        </div>
+                                        <div class="session-details">
+                                            <span class="session-location">Rio de Janeiro, Brasil</span>
+                                            <span class="session-time">Última atividade: 1 dia atrás</span>
+                                            <span class="session-ip">IP: 200.178.45.90</span>
+                                        </div>
+                                    </div>
+                                    <div class="session-actions">
+                                        <button class="btn-terminate">Encerrar</button>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <button class="btn-danger btn-terminate-all">Encerrar Todas as Outras Sessões</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Modal de edição de perfil -->
+    <div class="modal" id="edit-profile-modal">
+        <div class="modal-backdrop"></div>
+        <div class="modal-container">
+            <div class="modal-header">
+                <h2>Editar Perfil</h2>
+                <button class="modal-close" aria-label="Fechar modal">
+                    <i class="fas fa-times" aria-hidden="true"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="edit-profile-form">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="edit-name">Nome Completo</label>
+                            <input type="text" id="edit-name" name="name" value="Carlos Eduardo Silva" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="edit-email">E-mail</label>
+                            <input type="email" id="edit-email" name="email" value="carlos.silva@fitlifeacademia.com.br" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="edit-phone">Telefone</label>
+                            <input type="tel" id="edit-phone" name="phone" value="(11) 98765-4321">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="edit-bio">Biografia</label>
+                            <textarea id="edit-bio" name="bio" rows="4">Administrador da FitLife Academia desde 2020, com mais de 10 anos de experiência em gestão de academias.</textarea>
+                        </div>
+                    </div>
+                    
+                    <div class="form-footer">
+                        <button type="button" class="btn-cancel" id="cancel-edit-profile">Cancelar</button>
+                        <button type="submit" class="btn-primary">Salvar Alterações</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Scripts -->
+    <script src="js/admin.js"></script>
+    <script src="js/profile.js"></script>
+</body>
+</html>

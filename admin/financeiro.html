@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Gerenciamento financeiro da FitLife Academia">
+    <title>Financeiro - FitLife Academia</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/responsive.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/admin.css">
+    <style>
+        /* Estilos específicos para a página financeira */
+        .financial-tabs {
+            display: flex;
+            margin-bottom: 30px;
+            background-color: var(--white);
+            border-radius: 50px;
+            padding: 5px;
+            box-shadow: var(--box-shadow);
+        }
+        
+        .financial-tab {
+            flex: 1;
+            text-align: center;
+            padding: 12px 20px;
+            border-radius: 50px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .financial-tab:hover {
+            background-color: rgba(0, 0, 0, 0.05);
+        }
+        
+        .financial-tab.active {
+            background-color: var(--primary-color);
+            color: var(--white);
+        }
+        
+        .financial-section {
+            display: none;
+        }
+        
+        .financial-section.active {
+            display: block;
+        }
+        
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .summary-large-card {
+            grid-column: span 2;
+        }
+        
+        .summary-card {
+            background-color: var(--white);
+            border-radius: 10px;
+            box-shadow: var(--box-shadow);
+            padding: 20px;
+        }
+        
+        .summary-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .summary-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+        
+        .summary-period {
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+        
+        .balance {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        
+        .balance-value {
+            display: flex;
+            align-items: baseline;
+        }
+        
+        .currency {
+            font-size: 1rem;
+            margin-right: 5px;
+        }
+        
+        .balance-trend {
+            font-size: 1rem;
+            font-weight: 500;
+            padding: 3px 8px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .balance-trend.up {
+            background-color: rgba(40, 167, 69, 0.1);
+            color: var(--success-color);
+        }
+        
+        .balance-trend.down {
+            background-color: rgba(220, 53, 69, 0.1);
+            color: var(--danger-color);
+        }
+        
+        .balance-trend i {
+            margin-right: 5px;
+        }
+        
+        .balance-info {
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+        
+        .summary-data {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .data-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .data-row:last-child {
+            border-bottom: none;
+        }
+        
+        .data-label {
+            font-weight: 500;
+        }
+        
+        .data-value {
+            font-weight: 600;
+        }
+        
+        .data-value.positive {
+            color: var(--success-color);
+        }
+        
+        .data-value.negative {
+            color: var(--danger-color);
+        }
+        
+        .chart-container {
+            height: 250px;
+            margin-top: 20px;
+            position: relative;
+        }
+        
+        .transaction-filters {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 20px;
+            align-items: center;
+        }
+        
+        .filter-group {
+            display: flex;
+            align-items: center;
+        }
+        
+        .filter-group label {
+            margin-right: 10px;
+            font-weight: 500;
+        }
+        
+        .filter-group select,
+        .filter-group input {
+            padding: 8px 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 5px;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        .filter-search {
+            margin-left: auto;
+            position: relative;
+            min-width: 200px;
+        }
+        
+        .filter-search input {
+            width: 100%;
+            padding-right: 40px;
+        }
+        
+        .filter-search button {
+            position: absolute;
+            right: 0;
+            top: 0;
+            height: 100%;
+            width: 40px;
+            background: none;
+            border: none;
+            color: var(--text-light);
+            cursor: pointer;
+        }
+        
+        .transaction-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        
+        .transaction-table th,
+        .transaction-table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .transaction-table th {
+            font-weight: 600;
+            color: var(--text-light);
+        }
+        
+        .transaction-table td {
+            vertical-align: middle;
+        }
+        
+        .transaction-table tr:hover td {
+            background-color: rgba(0, 0, 0, 0.02);
+        }
+        
+        .transaction-table tr:last-child td {
+            border-bottom: none;
+        }
+        
+        .transaction-id {
+            font-family: monospace;
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+        
+        .transaction-description {
+            font-weight: 500;
+        }
+        
+        .transaction-category {
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            display: inline-block;
+        }
+        
+        .category-membership {
+            background-color: rgba(0, 191, 255, 0.1);
+            color: var(--accent-color);
+        }
+        
+        .category-service {
+            background-color: rgba(255, 69, 0, 0.1);
+            color: var(--primary-color);
+        }
+        
+        .category-product {
+            background-color: rgba(40, 167, 69, 0.1);
+            color: var(--success-color);
+        }
+        
+        .category-expense {
+            background-color: rgba(220, 53, 69, 0.1);
+            color: var(--danger-color);
+        }
+        
+        .transaction-amount {
+            font-weight: 600;
+            text-align: right;
+        }
+        
+        .transaction-amount.income {
+            color: var(--success-color);
+        }
+        
+        .transaction-amount.expense {
+            color: var(--danger-color);
+        }
+        
+        .transaction-status {
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-align: center;
+        }
+        
+        .transaction-status.paid {
+            background-color: rgba(40, 167, 69, 0.1);
+            color: var(--success-color);
+        }
+        
+        .transaction-status.pending {
+            background-color: rgba(255, 193, 7, 0.1);
+            color: var(--warning-color);
+        }
+        
+        .transaction-status.cancelled {
+            background-color: rgba(220, 53, 69, 0.1);
+            color: var(--danger-color);
+        }
+        
+        .action-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 5px;
+        }
+        
+        .invoice-form {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+        
+        .form-group.span-2 {
+            grid-column: span 2;
+        }
+        
+        .invoice-items {
+            grid-column: span 2;
+            margin-bottom: 20px;
+        }
+        
+        .invoice-item {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 10px;
+            align-items: flex-end;
+        }
+        
+        .invoice-item .item-description {
+            flex: 3;
+        }
+        
+        .invoice-item .item-quantity,
+        .invoice-item .item-price {
+            flex: 1;
+        }
+        
+        .invoice-item .item-total {
+            flex: 1;
+            font-weight: 600;
+        }
+        
+        .invoice-item .item-actions {
+            display: flex;
+            align-items: center;
+        }
+        
+        .add-item-btn {
+            margin-bottom: 20px;
+        }
+        
+        .invoice-summary {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 10px;
+            margin-top: 20px;
+            border-top: 1px solid var(--border-color);
+            padding-top: 20px;
+            grid-column: span 2;
+        }
+        
+        .invoice-summary .summary-row {
+            display: flex;
+            justify-content: space-between;
+            width: 300px;
+        }
+        
+        .invoice-summary .summary-total {
+            font-weight: 700;
+            font-size: 1.2rem;
+        }
+        
+        @media (max-width: 992px) {
+            .summary-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .summary-large-card {
+                grid-column: auto;
+            }
+            
+            .invoice-form {
+                grid-template-columns: 1fr;
+            }
+            
+            .form-group.span-2 {
+                grid-column: auto;
+            }
+            
+            .invoice-item {
+                flex-wrap: wrap;
+            }
+            
+            .invoice-item .item-description {
+                flex: 1 0 100%;
+            }
+        }
+    </style>
+</head>
